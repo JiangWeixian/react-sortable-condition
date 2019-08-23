@@ -6,8 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "update": "npm update && npm update --save-dev",
-    "build": "cross-env NODE_ENV=production gulp compile"
+    "clean": "npx rimraf es && npx rimraf lib",
+    "build": "npm run clean && cross-env NODE_ENV=production gulp compile"
   },
+  "files": [
+    "es",
+    "lib"
+  ],
   "keywords": [
     "react",
     "tree",
