@@ -4,6 +4,7 @@ import 'react-sortable-tree/style.css' // This only needs to be imported once in
 
 import { DragStateData, MoveStateData } from './typings'
 import { conditions2trees } from './utils/conditions2trees'
+import { isDragNormal } from './utils/isDragNormal'
 
 export type SortableConditionProps = {
   onDragStateChanged?(value: DragStateData): void
@@ -24,11 +25,20 @@ export const SortableCondition = (props: SortableConditionProps) => {
       },
     ]),
   )
+  const handleMoveNode = useCallback(
+    (value: MoveStateData) => {
+      console.log(value)
+      if (isDragNormal(value.node)) {
+        console.log(true)
+      }
+    },
+    [props.onMoveNode],
+  )
   return (
     <div style={{ height: '400px' }}>
       <SortableTree
         onDragStateChanged={props.onDragStateChanged}
-        onMoveNode={value => console.log(value)}
+        onMoveNode={handleMoveNode}
         treeData={treeData}
         onChange={treeData => {
           console.log(treeData)
