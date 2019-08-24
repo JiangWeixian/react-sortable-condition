@@ -13,10 +13,10 @@ export const getDrageTreedata = ({
   path = [],
 }: {
   item: ConditionTreeItem
-  title: 'and' | 'or'
-  treeData: ConditionTreeItem[]
-  siblingItems: ConditionTreeItem[]
-  path: NextPath
+  title?: 'and' | 'or'
+  treeData?: ConditionTreeItem[]
+  siblingItems?: ConditionTreeItem[]
+  path?: NextPath
 }) => {
   if (item.type === 'normal') {
     if (isAllNormalItems(siblingItems)) {
