@@ -1,4 +1,5 @@
 {
+  "name": "react-sortable-condition-example",
   "private": true,
   "scripts": {
     "start": "umi dev",
