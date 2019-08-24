@@ -42,13 +42,14 @@ export const SortableCondition = (props: SortableConditionProps) => {
       //   value.nextPath,
       // )
       console.log(value)
-      const nextTreeData = getDrageTreedata(
-        value.node,
-        'and',
-        value.treeData,
-        value.nextParentNode!.children,
-        value.nextPath,
-      )
+      const nextTreeData = getDrageTreedata({
+        item: value.node,
+        parentItem: value.nextParentNode,
+        title: 'and',
+        treeData: value.treeData,
+        siblingItems: value.nextParentNode!.children,
+        path: value.nextPath,
+      })
       setTreeData(nextTreeData)
     },
     [props.onMoveNode],
