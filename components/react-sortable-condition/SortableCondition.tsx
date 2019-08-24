@@ -4,7 +4,7 @@ import 'react-sortable-tree/style.css' // This only needs to be imported once in
 
 import { DragStateData, MoveStateData } from './typings'
 import { conditions2trees } from './utils/conditions2trees'
-import { isDragNormal } from './utils/isDragNormal'
+import { getDrageTreedata } from './utils/getDragTreedata'
 
 export type SortableConditionProps = {
   onDragStateChanged?(value: DragStateData): void
@@ -14,23 +14,42 @@ export type SortableConditionProps = {
 export const SortableCondition = (props: SortableConditionProps) => {
   const [treeData, setTreeData] = useState<TreeItem[]>(
     conditions2trees([
-      { title: 'and1', type: 'and', children: [{ title: 'Egg', type: 'normal' }] },
       {
-        title: 'and2',
+        title: 'root',
         type: 'and',
+        expanded: true,
         children: [
-          { title: 'Sharks1', type: 'normal', subtitle: 'sharks-sub' },
-          { title: 'Sharks2', type: 'normal' },
+          { title: 'and1', type: 'and', children: [{ title: 'Egg', type: 'normal' }] },
+          {
+            title: 'and2',
+            type: 'and',
+            expanded: true,
+            children: [
+              { title: 'Sharks1', type: 'normal', subtitle: 'sharks-sub' },
+              { title: 'Sharks2', type: 'normal' },
+            ],
+          },
         ],
       },
     ]),
   )
   const handleMoveNode = useCallback(
     (value: MoveStateData) => {
+      // handleDrag(
+      //   value.node,
+      //   'and',
+      //   value.treeData,
+      //   value.nextPath,
+      // )
       console.log(value)
-      if (isDragNormal(value.node)) {
-        console.log(true)
-      }
+      const nextTreeData = getDrageTreedata(
+        value.node,
+        'and',
+        value.treeData,
+        value.nextParentNode!.children,
+        value.nextPath,
+      )
+      setTreeData(nextTreeData)
     },
     [props.onMoveNode],
   )
@@ -42,7 +61,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
         treeData={treeData}
         onChange={treeData => {
           console.log(treeData)
-          setTreeData(treeData)
+          // setTreeData(treeData)
         }}
       />
     </div>

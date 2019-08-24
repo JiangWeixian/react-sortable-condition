@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { ConditionItem } from './typings'
 import styles from './style/SortableCondition.styl'
@@ -11,10 +11,12 @@ type Props = {
 }
 
 export const Condition = (props: Props) => {
+  const [count, setCount] = useState(0) // for test
   return (
-    <div data-role="and-condition-item" className={styles.and}>
+    <div data-role="and-condition-item" className={styles.and} onClick={() => setCount(1)}>
       <div data-role="content" onClick={props.onClick}>
         <p>{props.value.title ? props.value.title : props.value.type}</p>
+        <span>{count}</span>
         {props.value.subtitle ? <p>{props.value.subtitle}</p> : null}
       </div>
       <div data-role="btns" className={styles.btns}>

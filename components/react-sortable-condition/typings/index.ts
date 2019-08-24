@@ -28,6 +28,7 @@ export type MoveStateData = {
   nextParentNode: ConditionTreeItem | null
   treeData: ConditionTreeItem[]
   node: ConditionTreeItem
+  nextPath: number[]
 } & NodeData &
   FullTree &
   OnMovePreviousAndNextLocation
