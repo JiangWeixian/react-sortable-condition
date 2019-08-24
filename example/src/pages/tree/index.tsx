@@ -1,15 +1,18 @@
-import React, { Component } from 'react';
-import SortableTree, { TreeItem } from 'react-sortable-tree';
-import 'react-sortable-tree/style.css'; // This only needs to be imported once in your app
+import React, { Component } from 'react'
+import SortableTree, { TreeItem } from 'react-sortable-tree'
+import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
 type State = {
-  treeData: TreeItem;
-};
+  treeData: TreeItem
+}
 
 export default class Tree extends Component<{}, State> {
   state = {
-    treeData: [{ title: 'Chicken', children: [{ title: 'Egg' }] }],
-  };
+    treeData: [
+      { title: 'Chicken', children: [{ title: 'Egg' }] },
+      { title: 'Zoo', children: [{ title: 'Sharks1' }, { title: 'Sharks2' }] },
+    ],
+  }
 
   render() {
     return (
@@ -19,6 +22,6 @@ export default class Tree extends Component<{}, State> {
           onChange={treeData => this.setState({ treeData })}
         />
       </div>
-    );
+    )
   }
 }

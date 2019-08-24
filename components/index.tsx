@@ -1,3 +1,3 @@
-import Demo from './react-sortable-condition'
+import SortableCondition from './react-sortable-condition'
 
-export { Demo }
+export { SortableCondition }
