@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react'
-import SortableTree, { TreeItem } from 'react-sortable-tree'
+import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
-import { DragStateData, MoveStateData } from './typings'
+import { DragStateData, MoveStateData, ConditionTreeItem } from './typings'
 import { conditions2trees } from './utils/conditions2trees'
 import { getDrageTreedata } from './utils/getDragTreedata'
 
@@ -12,7 +12,7 @@ export type SortableConditionProps = {
 }
 
 export const SortableCondition = (props: SortableConditionProps) => {
-  const [treeData, setTreeData] = useState<TreeItem[]>(
+  const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     conditions2trees([
       {
         title: 'root',
@@ -35,24 +35,18 @@ export const SortableCondition = (props: SortableConditionProps) => {
   )
   const handleMoveNode = useCallback(
     (value: MoveStateData) => {
-      // handleDrag(
-      //   value.node,
-      //   'and',
-      //   value.treeData,
-      //   value.nextPath,
-      // )
-      console.log(value)
       const nextTreeData = getDrageTreedata({
         item: value.node,
         parentItem: value.nextParentNode,
         title: 'and',
+        prevTreeData: treeData,
         treeData: value.treeData,
         siblingItems: value.nextParentNode!.children,
         path: value.nextPath,
       })
       setTreeData(nextTreeData)
     },
-    [props.onMoveNode],
+    [props.onMoveNode, treeData],
   )
   return (
     <div style={{ height: '400px' }}>
@@ -61,7 +55,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
         onMoveNode={handleMoveNode}
         treeData={treeData}
         onChange={treeData => {
-          console.log(treeData)
+          // console.log(treeData)
           // setTreeData(treeData)
         }}
       />

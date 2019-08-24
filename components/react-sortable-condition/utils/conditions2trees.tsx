@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { TreeItem } from 'react-sortable-tree'
 import { ConditionTreeItem } from '../typings'
 
 import { Condition, ConditionProps } from '../Condition'
@@ -10,7 +9,7 @@ const defaultTrees: ConditionTreeItem[] = []
 export const conditions2trees = (
   conditions?: ConditionTreeItem[],
   configs: ConditionProps = {},
-): TreeItem[] => {
+): ConditionTreeItem[] => {
   const trees = defaultTrees
   if (!conditions) {
     return trees

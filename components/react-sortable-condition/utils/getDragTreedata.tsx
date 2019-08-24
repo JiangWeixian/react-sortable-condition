@@ -6,6 +6,17 @@ import { Condition } from '../Condition'
 import { isAllNormalItems } from './isAllNormalItems'
 import { isAllConditionItems } from './isAllConditionItems'
 
+const isForbiddenDrag = (parentItem: ConditionTreeItem | null): boolean => {
+  // normal item children must be empty
+  if (!parentItem) {
+    return true
+  }
+  if (parentItem.type === 'normal') {
+    return true
+  }
+  return false
+}
+
 export const getDrageTreedata = ({
   item,
   parentItem,
@@ -18,11 +29,15 @@ export const getDrageTreedata = ({
   item: ConditionTreeItem
   parentItem: ConditionTreeItem | null
   title?: 'and' | 'or'
-  prevTreeData?: ConditionTreeItem[]
+  prevTreeData: ConditionTreeItem[]
   treeData?: ConditionTreeItem[]
   siblingItems?: ConditionTreeItem[]
   path?: NextPath
-}) => {
+}): ConditionTreeItem[] => {
+  if (isForbiddenDrag(parentItem)) {
+    console.log(parentItem, prevTreeData)
+    return prevTreeData
+  }
   if (item.type === 'normal') {
     if (isAllNormalItems(siblingItems)) {
       return treeData
@@ -36,7 +51,7 @@ export const getDrageTreedata = ({
         title: <Condition value={{ ...item, title, type: 'and' }} />,
         children: [item],
       },
-    })
+    }) as ConditionTreeItem[]
   }
   if (item.type === 'and' || item.type === 'or') {
     if (isAllConditionItems(siblingItems)) {
@@ -46,7 +61,7 @@ export const getDrageTreedata = ({
       return prevTreeData
     }
     if (!parentItem) {
-      return
+      return treeData
     }
     const currentIndex = path[path.length - 1]
     const parentPath = path.slice(0, path.length - 1)
@@ -62,7 +77,7 @@ export const getDrageTreedata = ({
         children: siblingItems,
       },
       getNodeKey: data => data.treeIndex,
-    })
+    }) as ConditionTreeItem[]
   }
   return treeData
 }
