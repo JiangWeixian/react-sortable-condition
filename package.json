@@ -2,7 +2,8 @@
   "name": "react-sortable-condition",
   "version": "0.0.1",
   "description": "a sortable condition tree",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "update": "npm update && npm update --save-dev",
@@ -13,6 +14,7 @@
     "es",
     "lib"
   ],
+  "typings": "lib/index.d.ts",
   "keywords": [
     "react",
     "tree",

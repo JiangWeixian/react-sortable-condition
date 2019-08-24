@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-sortable-condition": ".."
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",
@@ -33,11 +34,16 @@
     "umi": "^2.7.0",
     "umi-plugin-react": "^1.8.0",
     "umi-types": "^0.3.0"
-    
-    },
+  },
   "lint-staged": {
-    "*.{ts,tsx}": ["tslint --fix", "git add"],
-    "*.{js,jsx}": ["eslint --fix", "git add"]
+    "*.{ts,tsx}": [
+      "tslint --fix",
+      "git add"
+    ],
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "engines": {
     "node": ">=8.0.0"
