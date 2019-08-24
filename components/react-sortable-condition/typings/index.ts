@@ -1,4 +1,10 @@
-import { TreeItem } from 'react-sortable-tree'
+import {
+  TreeItem,
+  OnDragStateChangedData,
+  NodeData,
+  FullTree,
+  OnMovePreviousAndNextLocation,
+} from 'react-sortable-tree'
 
 export interface ConditionItem extends TreeItem {
   type: 'and' | 'or'
@@ -13,3 +19,14 @@ export interface NormalItem extends TreeItem {
 export type ConditionTreeItem = ConditionItem | NormalItem
 
 export type Validation = [boolean | undefined, string]
+
+export type DragStateData = {
+  draggedNode: ConditionTreeItem
+} & OnDragStateChangedData
+
+export type MoveStateData = {
+  nextParentNode: ConditionTreeItem | null
+  treeData: ConditionTreeItem[]
+} & NodeData &
+  FullTree &
+  OnMovePreviousAndNextLocation
