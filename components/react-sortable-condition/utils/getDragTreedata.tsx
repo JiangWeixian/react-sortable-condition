@@ -35,7 +35,6 @@ export const getDrageTreedata = ({
   path?: NextPath
 }): ConditionTreeItem[] => {
   if (isForbiddenDrag(parentItem)) {
-    console.log(parentItem, prevTreeData)
     return prevTreeData
   }
   if (item.type === 'normal') {
@@ -48,7 +47,7 @@ export const getDrageTreedata = ({
       getNodeKey: data => data.treeIndex,
       newNode: {
         type: 'and',
-        title: <Condition value={{ ...item, title, type: 'and' }} />,
+        title: <Condition value={{ ...item, title, type: 'and' }} type="and" />,
         children: [item],
       },
     }) as ConditionTreeItem[]
