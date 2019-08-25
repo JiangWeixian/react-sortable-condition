@@ -57,6 +57,7 @@ export const getDrageTreedata = ({
             path={props.path}
             conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
             conditionOnAdd={conditionConfigs.conditionOnAdd}
+            conditionOnReduce={conditionConfigs.conditionOnReduce}
           />
         ),
         children: [item],

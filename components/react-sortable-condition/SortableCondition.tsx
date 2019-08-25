@@ -122,9 +122,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
         treeData: value.treeData,
         siblingItems: value.nextParentNode!.children,
         path: value.nextPath,
-        conditionConfigs: {
-          conditionTypeOnChange: handleConditionTypeChange,
-        },
+        conditionConfigs,
       })
       setTreeData(nextTreeData)
     },
@@ -136,14 +134,6 @@ export const SortableCondition = (props: SortableConditionProps) => {
         onDragStateChanged={props.onDragStateChanged}
         onMoveNode={handleMoveNode}
         treeData={treeData}
-        generateNodeProps={rowInfo => ({
-          buttons: [
-            <a className="Delete" onClick={() => console.log(rowInfo)}>
-              click
-            </a>,
-            <a className="Delete">click</a>,
-          ],
-        })}
         onVisibilityToggle={handleVisibleChange}
         onChange={treeData => {
           // console.log(treeData)

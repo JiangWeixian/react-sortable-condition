@@ -52,7 +52,7 @@ export const getCountTreeData = ({
   if (!item) {
     return treeData
   }
-  // handle add condition
+  // handle condition
   if (item.node.type === 'and' || item.node.type === 'or') {
     if (type === 'add') {
       const items: ConditionItem[] = [
@@ -85,6 +85,7 @@ export const getCountTreeData = ({
         getNodeKey: data => data.treeIndex,
       }) as ConditionTreeItem[]
     }
+    // handle pattern
   } else if (item.node.type === 'normal') {
     if (type === 'add') {
       const items: PatternItem[] = [
