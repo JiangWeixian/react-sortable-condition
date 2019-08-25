@@ -14,7 +14,28 @@ import { insertItems } from './insertItems'
 import { Condition } from '../Condition'
 import { Pattern } from '../Pattern'
 
+const isForbiddenCount = ({
+  path = [],
+  type = 'add',
+  treeData,
+}: {
+  path: NextPath
+  type: 'add' | 'reduce'
+  treeData: ConditionTreeItem[]
+}) => {
+  if (path.length === 0 || treeData.length === 0) {
+    return true
+  }
+  if (path.length <= 1 && type === 'reduce') {
+    return true
+  }
+  return false
+}
+
 const getParentItem = (treeData: ConditionTreeItem[], path: NextPath): ConditionTreeItem | null => {
+  if (path.length <= 1) {
+    return null
+  }
   const parentPath = path.slice(0, path.length - 1)
   const parentItem = getNodeAtPath({
     treeData,
@@ -37,12 +58,45 @@ export const getCountTreeData = ({
   patternConfigs: PatternConfigs
   type?: 'add' | 'reduce'
 }) => {
-  if (path.length === 0 || treeData.length === 0) {
+  if (isForbiddenCount({ path, treeData, type })) {
     return treeData
   }
   const parentItem = getParentItem(treeData, path)
+  // handle click root item
   if (!parentItem) {
-    return treeData
+    const child: ConditionTreeItem[] = [
+      {
+        type: 'and',
+        title: (props: ConditionNodeData) => (
+          <Condition
+            value={{ title: 'add', type: 'and' }}
+            path={props.path}
+            type={props.node.type}
+            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
+            conditionOnAdd={conditionConfigs.conditionOnAdd}
+            conditionOnReduce={conditionConfigs.conditionOnReduce}
+          />
+        ),
+        expanded: true,
+      },
+    ]
+    return [
+      {
+        type: 'and',
+        title: (props: ConditionNodeData) => (
+          <Condition
+            value={{ title: 'add', type: 'and' }}
+            path={props.path}
+            type={props.node.type}
+            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
+            conditionOnAdd={conditionConfigs.conditionOnAdd}
+            conditionOnReduce={conditionConfigs.conditionOnReduce}
+          />
+        ),
+        children: child.concat(treeData),
+        expanded: true,
+      },
+    ] as ConditionTreeItem[]
   }
   const item = getNodeAtPath({
     treeData,
