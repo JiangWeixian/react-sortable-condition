@@ -44,4 +44,15 @@ export type ConditionType = 'and' | 'or'
 
 export type NormalType = 'normal'
 
-export type ConditionItemChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
+export type ConditionTypeChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
+
+export type ConfigConditionProps = {
+  onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
+  onAdd?: Function
+  onDelete?: Function
+  value: ConditionItem
+}
+
+export type ConditionConfigs = ConfigConditionProps & {
+  conditionTypeOnChange?: ConditionTypeChangeCallback
+}

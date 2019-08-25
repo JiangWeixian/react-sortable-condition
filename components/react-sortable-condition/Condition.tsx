@@ -1,25 +1,28 @@
 import React, { useCallback } from 'react'
 
-import { ConditionItem, NextPath, ConditionType, ConditionTypeChangeCallback } from './typings'
+import {
+  ConditionItem,
+  NextPath,
+  ConditionType,
+  ConditionTypeChangeCallback,
+  ConfigConditionProps,
+} from './typings'
 import styles from './style/SortableCondition.styl'
 
-type Props = {
-  onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
-  onAdd?: Function
-  onDelete?: Function
+type Props = ConfigConditionProps & {
   value: ConditionItem
   path?: NextPath
   type: ConditionType
-  onChange?: ConditionTypeChangeCallback
+  onTypeChange?: ConditionTypeChangeCallback
 }
 
 export const Condition = (props: Props) => {
   const handleChangeConditionType = useCallback(() => {
-    if (!props.onChange) {
+    if (!props.onTypeChange) {
       return
     }
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
-    props.onChange(props.path || [], { type: nextType })
+    props.onTypeChange(props.path || [], { type: nextType })
   }, [props.type || 'and', props.path])
   return (
     <div
@@ -43,7 +46,7 @@ export const Condition = (props: Props) => {
   )
 }
 
-export type ConditionProps = Omit<Props, 'value' | 'type' | 'onChange' | 'path'>
+export type ConditionProps = ConfigConditionProps
 
 export const ConfigCondition = (props: ConditionProps) => {
   return <span>{props}</span>

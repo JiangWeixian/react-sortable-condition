@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import SortableTree, { changeNodeAtPath, getNodeAtPath } from 'react-sortable-tree'
+import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
 import { DragStateData, MoveStateData, ConditionTreeItem, NextPath, ConditionType } from './typings'
@@ -61,6 +61,9 @@ export const SortableCondition = (props: SortableConditionProps) => {
         treeData: value.treeData,
         siblingItems: value.nextParentNode!.children,
         path: value.nextPath,
+        conditionConfigs: {
+          conditionTypeOnChange: handleConditionTypeChange,
+        },
       })
       setTreeData(nextTreeData)
     },

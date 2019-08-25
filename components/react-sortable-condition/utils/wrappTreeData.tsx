@@ -1,12 +1,10 @@
 import React from 'react'
 
-import { ConditionTreeItem, ConditionNodeData, ConditionTypeChangeCallback } from '../typings'
+import { ConditionTreeItem, ConditionNodeData, ConditionConfigs } from '../typings'
 
-import { Condition, ConditionProps } from '../Condition'
+import { Condition } from '../Condition'
 
 const defaultTrees: ConditionTreeItem[] = []
-
-type ConditionConfigs = ConditionProps & { conditionTypeOnChange?: ConditionTypeChangeCallback }
 
 export const wrappTreeData = ({
   value = [],
@@ -24,7 +22,7 @@ export const wrappTreeData = ({
       return {
         title: (props: ConditionNodeData) => (
           <Condition
-            onChange={conditionConfigs.conditionTypeOnChange}
+            onTypeChange={conditionConfigs.conditionTypeOnChange}
             value={item}
             path={props.path}
             type={props.node.type}
