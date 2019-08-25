@@ -131,6 +131,7 @@ export const getCountTreeData = ({
         items,
         parentItem,
         siblingItems: parentItem.children,
+        offset: -1,
       })
     } else {
       return removeNodeAtPath({
@@ -163,6 +164,7 @@ export const getCountTreeData = ({
         items,
         parentItem,
         siblingItems: parentItem.children,
+        offset: -1,
       })
     } else {
       return removeNodeAtPath({

@@ -8,6 +8,7 @@ export const insertItems = ({
   treeData = [],
   parentItem,
   needReplaced = false,
+  offset = 0,
 }: {
   treeData: ConditionTreeItem[]
   path: NextPath
@@ -15,6 +16,7 @@ export const insertItems = ({
   items?: ConditionTreeItem[]
   siblingItems?: ConditionTreeItem[]
   needReplaced?: boolean
+  offset?: number
 }) => {
   if (path.length <= 1) {
     return treeData
@@ -25,7 +27,8 @@ export const insertItems = ({
   const currentIndex = path[path.length - 1]
   const parentPath = path.slice(0, path.length - 1)
   const parentIndex = parentPath[parentPath.length - 1]
-  const insertIndex = currentIndex - parentIndex
+  let insertIndex = currentIndex - parentIndex + offset
+  insertIndex = insertIndex < 0 ? 0 : insertIndex
   if (needReplaced) {
     siblingItems.splice(insertIndex - 1, 1, ...(items || []))
   } else {
