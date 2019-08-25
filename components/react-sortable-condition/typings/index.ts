@@ -4,6 +4,7 @@ import {
   NodeData,
   FullTree,
   OnMovePreviousAndNextLocation,
+  OnVisibilityToggleData,
 } from 'react-sortable-tree'
 
 export interface ConditionItem extends TreeItem {
@@ -19,6 +20,10 @@ export interface NormalItem extends TreeItem {
 export type ConditionTreeItem = ConditionItem | NormalItem
 
 export type Validation = [boolean | undefined, string]
+
+export type VisibilityStateData = OnVisibilityToggleData & {
+  treeData: ConditionTreeItem[]
+}
 
 export type DragStateData = {
   draggedNode: ConditionTreeItem
@@ -45,14 +50,15 @@ export type ConditionType = 'and' | 'or'
 export type NormalType = 'normal'
 
 export type ConditionTypeChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
+export type ConditionAddCallback = (path: NextPath) => void
 
 export type ConfigConditionProps = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
   onAdd?: Function
   onDelete?: Function
-  value: ConditionItem
 }
 
 export type ConditionConfigs = ConfigConditionProps & {
   conditionTypeOnChange?: ConditionTypeChangeCallback
+  conditionOnAdd?: ConditionAddCallback
 }

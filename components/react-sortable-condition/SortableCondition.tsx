@@ -2,10 +2,18 @@ import React, { useState, useCallback } from 'react'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
-import { DragStateData, MoveStateData, ConditionTreeItem, NextPath, ConditionType } from './typings'
+import {
+  DragStateData,
+  MoveStateData,
+  ConditionTreeItem,
+  NextPath,
+  ConditionType,
+  VisibilityStateData,
+} from './typings'
 import { wrappTreeData } from './utils/wrappTreeData'
 import { getDrageTreedata } from './utils/getDragTreedata'
 import { getTypeChangeTreeData } from './utils/getTypeChangeTreeData'
+import { getCountTreeData } from './utils/getCountTreeData'
 
 export type SortableConditionProps = {
   onDragStateChanged?(value: DragStateData): void
@@ -38,6 +46,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
       value: data,
       conditionConfigs: {
         conditionTypeOnChange: handleConditionTypeChange,
+        conditionOnAdd: handleConditionAdd,
       },
     }),
   )
@@ -51,6 +60,18 @@ export const SortableCondition = (props: SortableConditionProps) => {
       return nextTreeData
     })
   }
+  function handleConditionAdd(path: NextPath) {
+    setTreeData(prevTreeData => {
+      const nextTreeData = getCountTreeData({
+        treeData: prevTreeData,
+        path,
+      })
+      return nextTreeData
+    })
+  }
+  const handleVisibleChange = useCallback((value: VisibilityStateData) => {
+    setTreeData(value.treeData)
+  }, [])
   const handleMoveNode = useCallback(
     (value: MoveStateData) => {
       const nextTreeData = getDrageTreedata({
@@ -83,6 +104,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
             <a className="Delete">click</a>,
           ],
         })}
+        onVisibilityToggle={handleVisibleChange}
         onChange={treeData => {
           // console.log(treeData)
           // setTreeData(treeData)
