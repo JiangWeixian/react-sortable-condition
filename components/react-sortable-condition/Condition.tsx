@@ -8,6 +8,7 @@ type Props = {
   onAdd?: Function
   onDelete?: Function
   value: ConditionItem
+  path?: any
 }
 
 export const Condition = (props: Props) => {
