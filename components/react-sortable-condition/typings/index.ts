@@ -7,32 +7,33 @@ import {
   OnVisibilityToggleData,
 } from 'react-sortable-tree'
 
-export interface ConditionItem extends TreeItem {
+export interface ConditionItem<T = any> extends TreeItem {
   type: ConditionType
-  children?: (ConditionItem | PatternItem)[]
+  children?: (ConditionItem<T> | PatternItem<T>)[]
 }
 
-export interface PatternItem extends TreeItem {
+export interface PatternItem<T = any> extends TreeItem {
   type: NormalType
   children?: undefined
+  patterns: T
 }
 
-export type ConditionTreeItem = ConditionItem | PatternItem
+export type ConditionTreeItem<T = any> = ConditionItem<T> | PatternItem<T>
 
 export type Validation = [boolean | undefined, string]
 
-export type VisibilityStateData = OnVisibilityToggleData & {
-  treeData: ConditionTreeItem[]
+export type VisibilityStateData<T = any> = OnVisibilityToggleData & {
+  treeData: ConditionTreeItem<T>[]
 }
 
-export type DragStateData = {
-  draggedNode: ConditionTreeItem
+export type DragStateData<T = any> = {
+  draggedNode: ConditionTreeItem<T>
 } & OnDragStateChangedData
 
-export type MoveStateData = {
-  nextParentNode: ConditionTreeItem | null
-  treeData: ConditionTreeItem[]
-  node: ConditionTreeItem
+export type MoveStateData<T = any> = {
+  nextParentNode: ConditionTreeItem<T> | null
+  treeData: ConditionTreeItem<T>[]
+  node: ConditionTreeItem<T>
   nextPath: number[]
 } & NodeData &
   FullTree &
@@ -40,13 +41,13 @@ export type MoveStateData = {
 
 export type NextPath = number[]
 
-export type ConditionNodeData = NodeData & {
-  node: ConditionItem
+export type ConditionNodeData<T = any> = NodeData & {
+  node: ConditionItem<T>
   path: NextPath
 }
 
-export type PatternNodeData = NodeData & {
-  node: PatternItem
+export type PatternNodeData<T = any> = NodeData & {
+  node: PatternItem<T>
   path: NextPath
 }
 

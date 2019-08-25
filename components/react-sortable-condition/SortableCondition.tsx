@@ -26,12 +26,15 @@ const data: ConditionTreeItem[] = [
     type: 'and',
     expanded: true,
     children: [
-      { title: 'and1', type: 'and', children: [{ title: 'Egg', type: 'normal' }] },
+      { title: 'and1', type: 'and', children: [{ title: 'Egg', type: 'normal', patterns: {} }] },
       {
         title: 'and2',
         type: 'and',
         expanded: true,
-        children: [{ title: 'Sharks1', type: 'normal' }, { title: 'Sharks2', type: 'normal' }],
+        children: [
+          { title: 'Sharks1', type: 'normal', patterns: {} },
+          { title: 'Sharks2', type: 'normal', patterns: {} },
+        ],
       },
     ],
   },
@@ -136,7 +139,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
         treeData={treeData}
         onVisibilityToggle={handleVisibleChange}
         onChange={treeData => {
-          // console.log(treeData)
+          console.log(treeData)
           // setTreeData(treeData)
         }}
       />

@@ -7,7 +7,7 @@ import { isAllNormalItems } from './isAllNormalItems'
 import { isAllConditionItems } from './isAllConditionItems'
 import { insertItems } from './insertItems'
 
-const isForbiddenDrag = (parentItem: ConditionTreeItem | null): boolean => {
+const isForbiddenDrag = (parentItem: ConditionTreeItem<any> | null): boolean => {
   // normal item children must be empty
   if (!parentItem) {
     return true
