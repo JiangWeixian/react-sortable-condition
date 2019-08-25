@@ -13,7 +13,6 @@ type Props = {
 
 export const Condition = (props: Props) => {
   const [count, setCount] = useState(0) // for test
-  console.log(props, count)
   return (
     <div data-role="and-condition-item" className={styles.and} onClick={() => setCount(1)}>
       <div data-role="content" onClick={props.onClick}>
