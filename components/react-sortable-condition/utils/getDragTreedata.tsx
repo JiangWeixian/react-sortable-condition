@@ -5,6 +5,7 @@ import { changeNodeAtPath } from 'react-sortable-tree'
 import { Condition } from '../Condition'
 import { isAllNormalItems } from './isAllNormalItems'
 import { isAllConditionItems } from './isAllConditionItems'
+import { insertItems } from './insertItems'
 
 const isForbiddenDrag = (parentItem: ConditionTreeItem | null): boolean => {
   // normal item children must be empty
@@ -54,7 +55,9 @@ export const getDrageTreedata = ({
             value={{ title, type: 'and' }}
             type={props.node.type}
             path={props.path}
-            onTypeChange={conditionConfigs.conditionTypeOnChange}
+            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
+            conditionOnAdd={conditionConfigs.conditionOnAdd}
+            conditionOnReduce={conditionConfigs.conditionOnReduce}
           />
         ),
         children: [item],
@@ -71,21 +74,14 @@ export const getDrageTreedata = ({
     if (!parentItem) {
       return treeData
     }
-    const currentIndex = path[path.length - 1]
-    const parentPath = path.slice(0, path.length - 1)
-    const parentIndex = parentPath[parentPath.length - 1]
-    const insertIndex = currentIndex - parentIndex
-    siblingItems.splice(insertIndex, 0, ...(item.children || []))
-    siblingItems.splice(insertIndex - 1, 1)
-    return changeNodeAtPath({
+    return insertItems({
       treeData,
-      path: parentPath,
-      newNode: {
-        ...parentItem,
-        children: siblingItems,
-      },
-      getNodeKey: data => data.treeIndex,
-    }) as ConditionTreeItem[]
+      path,
+      siblingItems,
+      items: item.children,
+      parentItem,
+      needReplaced: true,
+    })
   }
   return treeData
 }

@@ -4,41 +4,48 @@ import {
   ConditionItem,
   NextPath,
   ConditionType,
-  ConditionTypeChangeCallback,
   ConfigConditionProps,
+  ConditionConfigs,
 } from './typings'
 import styles from './style/SortableCondition.styl'
 
-type Props = ConfigConditionProps & {
-  value: ConditionItem
+type Props = ConditionConfigs & {
+  type?: ConditionType
   path?: NextPath
-  type: ConditionType
-  onTypeChange?: ConditionTypeChangeCallback
+  value: ConditionItem
 }
 
 export const Condition = (props: Props) => {
   const handleChangeConditionType = useCallback(() => {
-    if (!props.onTypeChange) {
+    if (!props.conditionTypeOnChange) {
       return
     }
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
-    props.onTypeChange(props.path || [], { type: nextType })
+    props.conditionTypeOnChange(props.path || [], { type: nextType })
   }, [props.type || 'and', props.path])
+  const handleAddCondition = useCallback(() => {
+    if (!props.conditionOnAdd) {
+      return
+    }
+    props.conditionOnAdd(props.path || [])
+  }, [props.path])
+  const handleReduceCondition = useCallback(() => {
+    if (!props.conditionOnReduce) {
+      return
+    }
+    props.conditionOnReduce(props.path || [])
+  }, [props.path])
   return (
-    <div
-      data-role="and-condition-item"
-      className={styles.condition}
-      onClick={handleChangeConditionType}
-    >
-      <div data-role="content" onClick={props.onClick}>
+    <div data-role="condition-item" className={styles.condition}>
+      <div data-role="content" onClick={handleChangeConditionType}>
         <p>{props.type}</p>
         {props.value.subtitle ? <p>{props.value.subtitle}</p> : null}
       </div>
       <div data-role="btns" className={styles.btns}>
-        <a data-role="add-btn" className={styles.btn}>
+        <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
           +
         </a>
-        <a data-role="reduce-btn" className={styles.btn}>
+        <a data-role="reduce-btn" className={styles.btn} onClick={handleReduceCondition}>
           -
         </a>
       </div>
