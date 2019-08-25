@@ -1,27 +1,36 @@
 import React from 'react'
 
-import { ConditionTreeItem } from '../typings'
+import { ConditionTreeItem, ConditionNodeData, ConditionConfigs } from '../typings'
 
-import { Condition, ConditionProps } from '../Condition'
-import { NodeData } from 'react-sortable-tree'
+import { Condition } from '../Condition'
 
 const defaultTrees: ConditionTreeItem[] = []
 
-export const wrappTreeData = (
-  conditions?: ConditionTreeItem[],
-  configs: ConditionProps = {},
-): ConditionTreeItem[] => {
+export const wrappTreeData = ({
+  value = [],
+  conditionConfigs = {},
+}: {
+  value: ConditionTreeItem[]
+  conditionConfigs: ConditionConfigs
+}): ConditionTreeItem[] => {
   const trees = defaultTrees
-  if (!conditions) {
+  if (!value) {
     return trees
   }
-  return conditions.map(item => {
+  return value.map(item => {
     if (item.type === 'and' || item.type === 'or') {
       return {
-        title: (props: NodeData) => <Condition value={item} path={props.path} {...configs} />,
+        title: (props: ConditionNodeData) => (
+          <Condition
+            onTypeChange={conditionConfigs.conditionTypeOnChange}
+            value={item}
+            path={props.path}
+            type={props.node.type}
+          />
+        ),
         type: item.type,
         expanded: item.expanded,
-        children: item.children ? wrappTreeData(item.children) : [],
+        children: item.children ? wrappTreeData({ value: item.children, conditionConfigs }) : [],
       }
     }
     return {

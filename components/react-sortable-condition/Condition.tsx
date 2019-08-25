@@ -1,23 +1,37 @@
-import React, { useState } from 'react'
+import React, { useCallback } from 'react'
 
-import { ConditionItem } from './typings'
+import {
+  ConditionItem,
+  NextPath,
+  ConditionType,
+  ConditionTypeChangeCallback,
+  ConfigConditionProps,
+} from './typings'
 import styles from './style/SortableCondition.styl'
 
-type Props = {
-  onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
-  onAdd?: Function
-  onDelete?: Function
+type Props = ConfigConditionProps & {
   value: ConditionItem
-  path?: any
+  path?: NextPath
+  type: ConditionType
+  onTypeChange?: ConditionTypeChangeCallback
 }
 
 export const Condition = (props: Props) => {
-  const [count, setCount] = useState(0) // for test
+  const handleChangeConditionType = useCallback(() => {
+    if (!props.onTypeChange) {
+      return
+    }
+    const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
+    props.onTypeChange(props.path || [], { type: nextType })
+  }, [props.type || 'and', props.path])
   return (
-    <div data-role="and-condition-item" className={styles.and} onClick={() => setCount(1)}>
+    <div
+      data-role="and-condition-item"
+      className={styles.condition}
+      onClick={handleChangeConditionType}
+    >
       <div data-role="content" onClick={props.onClick}>
-        <p>{props.value.title ? props.value.title : props.value.type}</p>
-        <span>{count}</span>
+        <p>{props.type}</p>
         {props.value.subtitle ? <p>{props.value.subtitle}</p> : null}
       </div>
       <div data-role="btns" className={styles.btns}>
@@ -32,7 +46,7 @@ export const Condition = (props: Props) => {
   )
 }
 
-export type ConditionProps = Omit<Props, 'value'>
+export type ConditionProps = ConfigConditionProps
 
 export const ConfigCondition = (props: ConditionProps) => {
   return <span>{props}</span>

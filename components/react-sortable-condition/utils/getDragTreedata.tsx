@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ConditionTreeItem, NextPath } from '../typings'
+import { ConditionTreeItem, NextPath, ConditionNodeData, ConditionConfigs } from '../typings'
 import { changeNodeAtPath } from 'react-sortable-tree'
 import { Condition } from '../Condition'
 import { isAllNormalItems } from './isAllNormalItems'
@@ -25,6 +25,7 @@ export const getDrageTreedata = ({
   treeData = [],
   siblingItems = [],
   path = [],
+  conditionConfigs = {},
 }: {
   item: ConditionTreeItem
   parentItem: ConditionTreeItem | null
@@ -33,9 +34,9 @@ export const getDrageTreedata = ({
   treeData?: ConditionTreeItem[]
   siblingItems?: ConditionTreeItem[]
   path?: NextPath
+  conditionConfigs: ConditionConfigs
 }): ConditionTreeItem[] => {
   if (isForbiddenDrag(parentItem)) {
-    console.log(parentItem, prevTreeData)
     return prevTreeData
   }
   if (item.type === 'normal') {
@@ -48,7 +49,14 @@ export const getDrageTreedata = ({
       getNodeKey: data => data.treeIndex,
       newNode: {
         type: 'and',
-        title: <Condition value={{ ...item, title, type: 'and' }} />,
+        title: (props: ConditionNodeData) => (
+          <Condition
+            value={{ title, type: 'and' }}
+            type={props.node.type}
+            path={props.path}
+            onTypeChange={conditionConfigs.conditionTypeOnChange}
+          />
+        ),
         children: [item],
       },
     }) as ConditionTreeItem[]

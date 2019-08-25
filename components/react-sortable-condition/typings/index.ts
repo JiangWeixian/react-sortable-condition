@@ -7,12 +7,12 @@ import {
 } from 'react-sortable-tree'
 
 export interface ConditionItem extends TreeItem {
-  type: 'and' | 'or'
+  type: ConditionType
   children?: (ConditionItem | NormalItem)[]
 }
 
 export interface NormalItem extends TreeItem {
-  type: 'normal'
+  type: NormalType
   children?: undefined
 }
 
@@ -34,3 +34,25 @@ export type MoveStateData = {
   OnMovePreviousAndNextLocation
 
 export type NextPath = number[]
+
+export type ConditionNodeData = NodeData & {
+  node: ConditionItem
+  path: NextPath
+}
+
+export type ConditionType = 'and' | 'or'
+
+export type NormalType = 'normal'
+
+export type ConditionTypeChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
+
+export type ConfigConditionProps = {
+  onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
+  onAdd?: Function
+  onDelete?: Function
+  value: ConditionItem
+}
+
+export type ConditionConfigs = ConfigConditionProps & {
+  conditionTypeOnChange?: ConditionTypeChangeCallback
+}
