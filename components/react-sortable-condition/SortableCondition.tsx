@@ -3,7 +3,7 @@ import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
 import { DragStateData, MoveStateData, ConditionTreeItem } from './typings'
-import { conditions2trees } from './utils/conditions2trees'
+import { wrappTreeData } from './utils/wrappTreeData'
 import { getDrageTreedata } from './utils/getDragTreedata'
 
 export type SortableConditionProps = {
@@ -13,7 +13,7 @@ export type SortableConditionProps = {
 
 export const SortableCondition = (props: SortableConditionProps) => {
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
-    conditions2trees([
+    wrappTreeData([
       {
         title: 'root',
         type: 'and',
@@ -54,6 +54,14 @@ export const SortableCondition = (props: SortableConditionProps) => {
         onDragStateChanged={props.onDragStateChanged}
         onMoveNode={handleMoveNode}
         treeData={treeData}
+        generateNodeProps={rowInfo => ({
+          buttons: [
+            <a className="Delete" onClick={() => console.log(rowInfo)}>
+              click
+            </a>,
+            <a className="Delete">click</a>,
+          ],
+        })}
         onChange={treeData => {
           // console.log(treeData)
           // setTreeData(treeData)

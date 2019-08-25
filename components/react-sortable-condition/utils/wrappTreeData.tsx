@@ -3,10 +3,11 @@ import React from 'react'
 import { ConditionTreeItem } from '../typings'
 
 import { Condition, ConditionProps } from '../Condition'
+import { NodeData } from 'react-sortable-tree'
 
 const defaultTrees: ConditionTreeItem[] = []
 
-export const conditions2trees = (
+export const wrappTreeData = (
   conditions?: ConditionTreeItem[],
   configs: ConditionProps = {},
 ): ConditionTreeItem[] => {
@@ -17,10 +18,10 @@ export const conditions2trees = (
   return conditions.map(item => {
     if (item.type === 'and' || item.type === 'or') {
       return {
-        title: <Condition value={item} {...configs} />,
+        title: (props: NodeData) => <Condition value={item} path={props.path} {...configs} />,
         type: item.type,
         expanded: item.expanded,
-        children: item.children ? conditions2trees(item.children) : [],
+        children: item.children ? wrappTreeData(item.children) : [],
       }
     }
     return {
