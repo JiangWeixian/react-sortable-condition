@@ -41,13 +41,15 @@ const data: ConditionTreeItem[] = [
 ]
 
 export const SortableCondition = (props: SortableConditionProps) => {
+  const conditionConfigs = {
+    conditionTypeOnChange: handleConditionTypeChange,
+    conditionOnAdd: handleConditionAdd,
+    conditionOnReduce: handleConditionReduce,
+  }
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     wrappTreeData({
       value: data,
-      conditionConfigs: {
-        conditionTypeOnChange: handleConditionTypeChange,
-        conditionOnAdd: handleConditionAdd,
-      },
+      conditionConfigs,
     }),
   )
   function handleConditionTypeChange(path: NextPath, value: { type: ConditionType }) {
@@ -65,6 +67,17 @@ export const SortableCondition = (props: SortableConditionProps) => {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,
         path,
+        conditionConfigs,
+      })
+      return nextTreeData
+    })
+  }
+  function handleConditionReduce(path: NextPath) {
+    setTreeData(prevTreeData => {
+      const nextTreeData = getCountTreeData({
+        treeData: prevTreeData,
+        path,
+        type: 'reduce',
       })
       return nextTreeData
     })

@@ -24,6 +24,7 @@ export const wrappTreeData = ({
           <Condition
             conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
             conditionOnAdd={conditionConfigs.conditionOnAdd}
+            conditionOnReduce={conditionConfigs.conditionOnReduce}
             value={item}
             path={props.path}
             type={props.node.type}

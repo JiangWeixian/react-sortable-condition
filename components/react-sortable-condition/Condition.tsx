@@ -29,6 +29,12 @@ export const Condition = (props: Props) => {
     }
     props.conditionOnAdd(props.path || [])
   }, [props.path])
+  const handleReduceCondition = useCallback(() => {
+    if (!props.conditionOnReduce) {
+      return
+    }
+    props.conditionOnReduce(props.path || [])
+  }, [props.path])
   return (
     <div data-role="and-condition-item" className={styles.condition}>
       <div data-role="content" onClick={handleChangeConditionType}>
@@ -39,7 +45,7 @@ export const Condition = (props: Props) => {
         <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
           +
         </a>
-        <a data-role="reduce-btn" className={styles.btn} onClick={() => props.onDelete!()}>
+        <a data-role="reduce-btn" className={styles.btn} onClick={handleReduceCondition}>
           -
         </a>
       </div>

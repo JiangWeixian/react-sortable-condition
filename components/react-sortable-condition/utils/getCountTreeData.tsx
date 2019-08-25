@@ -6,7 +6,7 @@ import {
   ConditionNodeData,
   ConditionItem,
 } from '../typings'
-import { getNodeAtPath } from 'react-sortable-tree'
+import { getNodeAtPath, removeNodeAtPath } from 'react-sortable-tree'
 import { insertItems } from './insertItems'
 import { Condition } from '../Condition'
 
@@ -24,10 +24,12 @@ export const getCountTreeData = ({
   path = [],
   treeData = [],
   conditionConfigs = {},
+  type = 'add',
 }: {
   path: NextPath
   treeData: ConditionTreeItem[]
   conditionConfigs?: ConditionConfigs
+  type?: 'add' | 'reduce'
 }) => {
   if (path.length === 0 || treeData.length === 0) {
     return treeData
@@ -44,29 +46,39 @@ export const getCountTreeData = ({
   if (!item) {
     return treeData
   }
+  // handle add condition
   if (item.node.type === 'and' || item.node.type === 'or') {
-    const items: ConditionItem[] = [
-      {
-        type: 'and',
-        title: (props: ConditionNodeData) => (
-          <Condition
-            value={{ title: 'and', type: 'and' }}
-            path={props.path}
-            type={props.node.type}
-            conditionOnAdd={conditionConfigs.conditionOnAdd}
-            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-          />
-        ),
-        children: undefined,
-      },
-    ]
-    return insertItems({
-      treeData,
-      path,
-      items,
-      parentItem,
-      siblingItems: parentItem.children,
-    })
+    if (type === 'add') {
+      const items: ConditionItem[] = [
+        {
+          type: 'and',
+          title: (props: ConditionNodeData) => (
+            <Condition
+              value={{ title: 'and', type: 'and' }}
+              path={props.path}
+              type={props.node.type}
+              conditionOnAdd={conditionConfigs.conditionOnAdd}
+              conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
+              conditionOnReduce={conditionConfigs.conditionOnReduce}
+            />
+          ),
+          children: undefined,
+        },
+      ]
+      return insertItems({
+        treeData,
+        path,
+        items,
+        parentItem,
+        siblingItems: parentItem.children,
+      })
+    } else {
+      return removeNodeAtPath({
+        treeData,
+        path,
+        getNodeKey: data => data.treeIndex,
+      }) as ConditionTreeItem[]
+    }
   }
   return treeData
 }

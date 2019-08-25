@@ -61,4 +61,5 @@ export type ConfigConditionProps = {
 export type ConditionConfigs = ConfigConditionProps & {
   conditionTypeOnChange?: ConditionTypeChangeCallback
   conditionOnAdd?: ConditionAddCallback
+  conditionOnReduce?: ConditionAddCallback
 }
