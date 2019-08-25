@@ -31,10 +31,7 @@ const data: ConditionTreeItem[] = [
         title: 'and2',
         type: 'and',
         expanded: true,
-        children: [
-          { title: 'Sharks1', type: 'normal', subtitle: 'sharks-sub' },
-          { title: 'Sharks2', type: 'normal' },
-        ],
+        children: [{ title: 'Sharks1', type: 'normal' }, { title: 'Sharks2', type: 'normal' }],
       },
     ],
   },
@@ -46,10 +43,16 @@ export const SortableCondition = (props: SortableConditionProps) => {
     conditionOnAdd: handleConditionAdd,
     conditionOnReduce: handleConditionReduce,
   }
+  const patternConfigs = {
+    patternOnAdd: handlePatternAdd,
+    patternOnReduce: handlePatternReduce,
+    defaultPattern: 'this is a default Pattern',
+  }
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     wrappTreeData({
       value: data,
       conditionConfigs,
+      patternConfigs,
     }),
   )
   function handleConditionTypeChange(path: NextPath, value: { type: ConditionType }) {
@@ -68,6 +71,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
         treeData: prevTreeData,
         path,
         conditionConfigs,
+        patternConfigs,
       })
       return nextTreeData
     })
@@ -77,6 +81,29 @@ export const SortableCondition = (props: SortableConditionProps) => {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,
         path,
+        type: 'reduce',
+        patternConfigs,
+      })
+      return nextTreeData
+    })
+  }
+  function handlePatternAdd(path: NextPath) {
+    setTreeData(prevTreeData => {
+      const nextTreeData = getCountTreeData({
+        treeData: prevTreeData,
+        path,
+        conditionConfigs,
+        patternConfigs,
+      })
+      return nextTreeData
+    })
+  }
+  function handlePatternReduce(path: NextPath) {
+    setTreeData(prevTreeData => {
+      const nextTreeData = getCountTreeData({
+        treeData: prevTreeData,
+        path,
+        patternConfigs,
         type: 'reduce',
       })
       return nextTreeData

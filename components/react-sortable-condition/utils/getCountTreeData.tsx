@@ -5,10 +5,14 @@ import {
   ConditionConfigs,
   ConditionNodeData,
   ConditionItem,
+  PatternItem,
+  PatternNodeData,
+  PatternConfigs,
 } from '../typings'
 import { getNodeAtPath, removeNodeAtPath } from 'react-sortable-tree'
 import { insertItems } from './insertItems'
 import { Condition } from '../Condition'
+import { Pattern } from '../Pattern'
 
 const getParentItem = (treeData: ConditionTreeItem[], path: NextPath): ConditionTreeItem | null => {
   const parentPath = path.slice(0, path.length - 1)
@@ -25,10 +29,12 @@ export const getCountTreeData = ({
   treeData = [],
   conditionConfigs = {},
   type = 'add',
+  patternConfigs,
 }: {
   path: NextPath
   treeData: ConditionTreeItem[]
   conditionConfigs?: ConditionConfigs
+  patternConfigs: PatternConfigs
   type?: 'add' | 'reduce'
 }) => {
   if (path.length === 0 || treeData.length === 0) {
@@ -78,6 +84,37 @@ export const getCountTreeData = ({
         path,
         getNodeKey: data => data.treeIndex,
       }) as ConditionTreeItem[]
+    }
+  } else if (item.node.type === 'normal') {
+    if (type === 'add') {
+      const items: PatternItem[] = [
+        {
+          type: 'normal',
+          title: (props: PatternNodeData) => (
+            <Pattern
+              value={{ title: patternConfigs.defaultPattern, type: 'normal' }}
+              path={props.path}
+              type="normal"
+              patternOnAdd={patternConfigs.patternOnAdd}
+              patternOnReduce={patternConfigs.patternOnReduce}
+            />
+          ),
+          children: undefined,
+        },
+      ]
+      return insertItems({
+        treeData,
+        path,
+        items,
+        parentItem,
+        siblingItems: parentItem.children,
+      })
+    } else {
+      return removeNodeAtPath({
+        treeData,
+        path,
+        getNodeKey: data => data.treeIndex,
+      }) as PatternItem[]
     }
   }
   return treeData

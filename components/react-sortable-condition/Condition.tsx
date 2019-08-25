@@ -36,7 +36,7 @@ export const Condition = (props: Props) => {
     props.conditionOnReduce(props.path || [])
   }, [props.path])
   return (
-    <div data-role="and-condition-item" className={styles.condition}>
+    <div data-role="condition-item" className={styles.condition}>
       <div data-role="content" onClick={handleChangeConditionType}>
         <p>{props.type}</p>
         {props.value.subtitle ? <p>{props.value.subtitle}</p> : null}
