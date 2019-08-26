@@ -65,8 +65,6 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     wrappTreeData({
       value: props.dataSource || [],
-      conditionConfigs,
-      patternConfigs,
     }),
   )
   function handleConditionTypeChange(path: NextPath, value: { type: ConditionType }) {

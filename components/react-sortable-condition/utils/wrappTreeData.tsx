@@ -15,12 +15,12 @@ const defaultTrees: ConditionTreeItem[] = []
 
 export const wrappTreeData = ({
   value = [],
-  conditionConfigs = {},
-  patternConfigs,
-}: {
+}: // conditionConfigs = {},
+// patternConfigs,
+{
   value: DataItem[]
-  conditionConfigs: ConditionConfigs
-  patternConfigs: PatternConfigs
+  // conditionConfigs: ConditionConfigs
+  // patternConfigs: PatternConfigs
 }): ConditionTreeItem[] => {
   const trees = defaultTrees
   if (!value) {
@@ -29,18 +29,14 @@ export const wrappTreeData = ({
   return value.map(item => {
     if (item.type === 'and' || item.type === 'or') {
       return {
-        title: (props: ConditionNodeData) => (
-          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
-        ),
+        title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
         type: item.type,
         expanded: item.expanded,
-        children: item.children
-          ? wrappTreeData({ value: item.children, conditionConfigs, patternConfigs })
-          : [],
+        children: item.children ? wrappTreeData({ value: item.children }) : [],
       }
     } else if (item.type === 'normal') {
       return createPattern({
-        patternConfigs,
+        patternConfigs: { component: 'this is component' },
         expanded: item.expanded,
       })
     }
