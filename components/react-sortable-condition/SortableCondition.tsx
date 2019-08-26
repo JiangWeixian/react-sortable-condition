@@ -29,14 +29,18 @@ const data: ConditionTreeItem[] = [
     type: 'and',
     expanded: true,
     children: [
-      { title: 'and1', type: 'and', children: [{ title: 'Egg', type: 'normal', patterns: {} }] },
+      {
+        title: 'and1',
+        type: 'and',
+        children: [{ title: 'Egg', type: 'normal', patterns: { a: 2 } }],
+      },
       {
         title: 'and2',
         type: 'and',
         expanded: true,
         children: [
-          { title: 'Sharks1', type: 'normal', patterns: {} },
-          { title: 'Sharks2', type: 'normal', patterns: {} },
+          { title: 'Sharks1', type: 'normal', patterns: { a: 2 } },
+          { title: 'Sharks2', type: 'normal', patterns: { a: 2 } },
         ],
       },
     ],
@@ -62,12 +66,12 @@ export const SortableCondition = (props: SortableConditionProps) => {
   const defaultPatternConfigs = {
     patternOnAdd: handlePatternAdd,
     patternOnReduce: handlePatternReduce,
-    defaultPattern: 'this is a default Pattern',
   }
   const patternConfigs = {
     ...customPatternConfigs,
     ...defaultPatternConfigs,
   }
+  console.log(patternConfigs)
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     wrappTreeData({
       value: data,

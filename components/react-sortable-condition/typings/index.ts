@@ -74,11 +74,11 @@ export type ConfigPatternProps = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
   onAdd?: CountCallback
   onDelete?: CountCallback
-  defaultPattern: React.ReactNode
   children?: React.ReactNode
 }
 
 export type PatternConfigs = ConfigPatternProps & {
   patternOnAdd?: CountCallback
   patternOnReduce?: CountCallback
+  defaultPattern: React.ReactNode
 }

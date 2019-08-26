@@ -55,11 +55,12 @@ export const wrappTreeData = ({
         type: 'normal',
         title: (props: PatternNodeData) => (
           <Pattern
-            value={{ ...item, title: patternConfigs.defaultPattern }}
+            component={patternConfigs.defaultPattern}
             path={props.path}
             patternOnAdd={patternConfigs.patternOnAdd}
             patternOnReduce={patternConfigs.patternOnReduce}
             type="normal"
+            patterns={props.node.patterns}
           />
         ),
       }

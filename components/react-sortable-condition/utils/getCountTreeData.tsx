@@ -154,13 +154,10 @@ export const getCountTreeData = ({
           type: 'normal',
           title: (props: PatternNodeData) => (
             <Pattern
-              value={{
-                title: patternConfigs.defaultPattern,
-                type: 'normal',
-                patterns: props.node.patterns,
-              }}
+              component={patternConfigs.defaultPattern}
               path={props.path}
               type="normal"
+              patterns={props.node.patterns}
               patternOnAdd={patternConfigs.patternOnAdd}
               patternOnReduce={patternConfigs.patternOnReduce}
             />
