@@ -1,4 +1,6 @@
 import React from 'react'
+import { Icon } from 'antd'
+
 import SortableCondition from '../../../../components/react-sortable-condition/index'
 import { ConfigCondition } from '../../../../components/react-sortable-condition/Condition'
 import { ConfigPattern } from '../../../../components/react-sortable-condition/Pattern'
@@ -47,8 +49,10 @@ const Condition = () => {
           onAdd={() => console.log('add')}
           onClick={() => 'click'}
           onDelete={() => console.log('delelte')}
+          addIcon={<Icon type="plus-circle" />}
+          deleteIcon={<Icon type="close-circle" />}
         />
-        <ConfigPattern>
+        <ConfigPattern addIcon={null} deleteIcon={<Icon type="close-circle" />}>
           <TestPattern />
         </ConfigPattern>
       </SortableCondition>

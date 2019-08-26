@@ -52,8 +52,8 @@ export const Pattern = (props: Props) => {
             {props.addIcon ? props.addIcon : <span className={styles.btn_content}>+</span>}
           </a>
         )}
-        {isNull(props.addIcon) ? null : (
-          <a data-role="add-btn" className={styles.btn} onClick={handleDeletePattern}>
+        {isNull(props.deleteIcon) ? null : (
+          <a data-role="delete-btn" className={styles.btn} onClick={handleDeletePattern}>
             {props.deleteIcon ? props.deleteIcon : <span className={styles.btn_content}>-</span>}
           </a>
         )}
