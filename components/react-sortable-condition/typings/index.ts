@@ -118,3 +118,9 @@ export type PatternConfigs = ConfigPatternProps & {
 export type GlobalConfigs = {
   maxDepth?: number
 }
+
+export type Configs = {
+  global: GlobalConfigs
+  pattern: PatternConfigs
+  condition: ConditionConfigs
+}
