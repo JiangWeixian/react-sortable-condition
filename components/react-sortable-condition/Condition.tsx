@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import cx from 'classnames'
 
 import { NextPath, ConditionType, ConfigConditionProps, ConditionConfigs } from './typings'
 import styles from './style/SortableCondition.styl'
@@ -37,8 +38,9 @@ export const Condition = (props: Props) => {
     }
     props.conditionOnDelete(props.path || [])
   }, [props.path])
+  console.log('styles', styles)
   return (
-    <div data-role="condition-item" className={styles.condition}>
+    <div data-role="condition-item" className={cx(props.className, styles.item)}>
       <div data-role="content" onClick={handleChangeConditionType}>
         <p>{props.type}</p>
       </div>

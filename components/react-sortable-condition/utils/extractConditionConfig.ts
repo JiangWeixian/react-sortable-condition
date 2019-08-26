@@ -17,6 +17,7 @@ export const extractConditionConfig = (children?: React.ReactNode): ConfigCondit
         config.onAdd = props.onAdd
         config.onDelete = props.onDelete
         config.onType = props.onType
+        config.className = props.className
       }
     }
   })

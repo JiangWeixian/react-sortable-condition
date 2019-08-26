@@ -83,6 +83,7 @@ export type ConfigConditionProps = {
   onAdd?: CountCallback
   onDelete?: CountCallback
   onType?: ConditionTypeChangeCallback
+  className?: string
 }
 
 export type ConditionConfigs = ConfigConditionProps & {
