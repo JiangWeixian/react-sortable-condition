@@ -6,12 +6,14 @@ import {
   ConditionNodeData,
   ConditionConfigs,
   PatternConfigs,
+  GlobalConfigs,
 } from '../typings'
 import { changeNodeAtPath, getNodeAtPath } from 'react-sortable-tree'
 import { Condition } from '../Condition'
 import { insertItems } from './insertItems'
 import { getParentItem } from './getParentItem'
 import { createPattern } from './factory'
+import { isMaxDepthForbidden } from './isGlobalForbidden'
 
 /**
  * convert action is after drag. silibingitems will only be
@@ -34,12 +36,14 @@ export const getConvertTreedata = ({
   treeData = [],
   path = [],
   conditionConfigs = {},
+  globalConfigs = {},
   patternConfigs,
 }: {
   treeData?: ConditionTreeItem[]
   path?: NextPath
   conditionConfigs: ConditionConfigs
   patternConfigs: PatternConfigs
+  globalConfigs: GlobalConfigs
 }): ConditionTreeItem[] => {
   const parentItem = getParentItem(treeData, path)
   if (isForbiddenConvert(parentItem)) {
@@ -55,7 +59,7 @@ export const getConvertTreedata = ({
   }
   const item = node.node as ConditionTreeItem
   if (item.type === 'normal') {
-    return changeNodeAtPath({
+    const nextTreeData = changeNodeAtPath({
       treeData,
       path,
       getNodeKey: data => data.treeIndex,
@@ -72,6 +76,10 @@ export const getConvertTreedata = ({
         ],
       },
     }) as ConditionTreeItem[]
+    if (isMaxDepthForbidden(nextTreeData, globalConfigs.maxDepth)) {
+      return treeData
+    }
+    return nextTreeData
   }
   if (item.type === 'and' || item.type === 'or') {
     return insertItems({
