@@ -7,14 +7,33 @@ import {
   OnVisibilityToggleData,
 } from 'react-sortable-tree'
 
+export interface ConditionDataItem<T = any> extends TreeItem {
+  type: ConditionType
+  title?: undefined
+  subtitle?: undefined
+  children: (ConditionDataItem<T> | PatternDataItem<T>)[]
+}
+
+export interface PatternDataItem<T = any> extends TreeItem {
+  type: NormalType
+  title?: undefined
+  subtitle?: undefined
+  children?: undefined
+  patterns?: T
+}
+
+export type DataItem<T = any> = ConditionDataItem<T> | PatternDataItem<T>
+
 export interface ConditionItem<T = any> extends TreeItem {
   type: ConditionType
+  subtitle?: undefined
   children: (ConditionItem<T> | PatternItem<T>)[]
 }
 
 export interface PatternItem<T = any> extends TreeItem {
   type: NormalType
   children?: undefined
+  subtitle?: undefined
   patterns?: T
 }
 

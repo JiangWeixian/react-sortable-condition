@@ -1,6 +1,12 @@
 import React from 'react'
 
-import { ConditionTreeItem, ConditionNodeData, ConditionConfigs, PatternConfigs } from '../typings'
+import {
+  ConditionTreeItem,
+  ConditionNodeData,
+  ConditionConfigs,
+  PatternConfigs,
+  DataItem,
+} from '../typings'
 
 import { Condition } from '../Condition'
 import { createPattern } from './factory'
@@ -12,7 +18,7 @@ export const wrappTreeData = ({
   conditionConfigs = {},
   patternConfigs,
 }: {
-  value: ConditionTreeItem[]
+  value: DataItem[]
   conditionConfigs: ConditionConfigs
   patternConfigs: PatternConfigs
 }): ConditionTreeItem[] => {

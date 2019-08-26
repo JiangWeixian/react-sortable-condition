@@ -2,6 +2,25 @@ import React from 'react'
 import SortableCondition from '../../../../components/react-sortable-condition/index'
 import { ConfigCondition } from '../../../../components/react-sortable-condition/Condition'
 import { ConfigPattern } from '../../../../components/react-sortable-condition/Pattern'
+import { DataItem } from '../../../../components/react-sortable-condition/typings'
+
+const data: DataItem[] = [
+  {
+    type: 'and',
+    expanded: true,
+    children: [
+      {
+        type: 'and',
+        children: [{ type: 'normal', patterns: { a: 2 } }],
+      },
+      {
+        type: 'and',
+        expanded: true,
+        children: [{ type: 'normal', patterns: { a: 2 } }, { type: 'normal', patterns: { a: 2 } }],
+      },
+    ],
+  },
+]
 
 const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Function }) => {
   console.log('patterns', patterns)
@@ -16,7 +35,13 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 
 const Condition = () => {
   return (
-    <SortableCondition>
+    <SortableCondition
+      dataSource={data}
+      onChange={v => console.log('change', v)}
+      onDragState={v => console.log('drag', v)}
+      onVisible={v => console.log('visible', v)}
+      onMoveNode={v => console.log('move', v)}
+    >
       <ConfigCondition
         onAdd={() => console.log('add')}
         onClick={() => 'click'}
