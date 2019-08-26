@@ -58,6 +58,9 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     ...customPatternConfigs,
     ...defaultPatternConfigs,
   }
+  const globalConfigs = {
+    maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
+  }
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     wrappTreeData({
       value: props.dataSource || [],
@@ -82,6 +85,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         path,
         conditionConfigs,
         patternConfigs,
+        globalConfigs,
       })
       return nextTreeData
     })
@@ -93,6 +97,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         path,
         type: 'reduce',
         patternConfigs,
+        globalConfigs,
       })
       return nextTreeData
     })
@@ -104,6 +109,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         path,
         conditionConfigs,
         patternConfigs,
+        globalConfigs,
       })
       return nextTreeData
     })
@@ -115,6 +121,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         path,
         patternConfigs,
         type: 'reduce',
+        globalConfigs,
       })
       return nextTreeData
     })
@@ -136,6 +143,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         path,
         conditionConfigs,
         patternConfigs,
+        globalConfigs,
       })
       return nextTreeData
     })

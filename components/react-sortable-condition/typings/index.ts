@@ -114,3 +114,7 @@ export type PatternConfigs = ConfigPatternProps & {
   patternOnConvert?: ConvertCallback
   component: React.ReactNode
 }
+
+export type GlobalConfigs = {
+  maxDepth?: number
+}
