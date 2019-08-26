@@ -37,8 +37,8 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   }, [props.children])
   const defaultConditionConfigs = {
     conditionTypeOnChange: handleConditionTypeChange,
-    conditionOnAdd: handleConditionAdd,
-    conditionOnDelete: handleConditionDelete,
+    conditionOnAdd: handleAdd,
+    conditionOnDelete: handleDelete,
     conditionOnConvert: handleConvert,
   }
   const conditionConfigs = {
@@ -49,8 +49,8 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     return extractPatternConfig(props.children)
   }, [props.children])
   const defaultPatternConfigs = {
-    patternOnAdd: handlePatternAdd,
-    patternOnDelete: handlePatternDelete,
+    patternOnAdd: handleAdd,
+    patternOnDelete: handleDelete,
     patternOnChange: handlePatternChange,
     patternOnConvert: handleConvert,
   }
@@ -78,7 +78,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       return nextTreeData
     })
   }
-  function handleConditionAdd(path: NextPath) {
+  function handleAdd(path: NextPath) {
     setTreeData(prevTreeData => {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,
@@ -90,37 +90,13 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       return nextTreeData
     })
   }
-  function handleConditionDelete(path: NextPath) {
+  function handleDelete(path: NextPath) {
     setTreeData(prevTreeData => {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,
         path,
         type: 'reduce',
         patternConfigs,
-        globalConfigs,
-      })
-      return nextTreeData
-    })
-  }
-  function handlePatternAdd(path: NextPath) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getCountTreeData({
-        treeData: prevTreeData,
-        path,
-        conditionConfigs,
-        patternConfigs,
-        globalConfigs,
-      })
-      return nextTreeData
-    })
-  }
-  function handlePatternDelete(path: NextPath) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getCountTreeData({
-        treeData: prevTreeData,
-        path,
-        patternConfigs,
-        type: 'reduce',
         globalConfigs,
       })
       return nextTreeData
