@@ -39,12 +39,21 @@ export const Condition = (props: Props) => {
     }
     props.conditionOnDelete(props.path || [])
   }, [props.path])
+  const handleConvertCondition = useCallback(() => {
+    if (!props.conditionOnConvert) {
+      return
+    }
+    props.conditionOnConvert(props.path || [])
+  }, [props.path])
   return (
     <div data-role="condition-item" className={cx(props.className, styles.item, styles.condition)}>
       <div data-role="content" onClick={handleChangeConditionType} className={styles.content}>
         <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
+        <a data-role="convert-btn" className={styles.btn} onClick={handleConvertCondition}>
+          <span className={styles.btn_content}>c</span>
+        </a>
         {isNull(props.addIcon) ? null : (
           <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
             {props.addIcon ? props.addIcon : <span className={styles.btn_content}>+</span>}

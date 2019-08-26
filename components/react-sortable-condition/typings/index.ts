@@ -75,6 +75,7 @@ export type ConditionType = 'and' | 'or'
 export type NormalType = 'normal'
 
 export type ConditionTypeChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
+export type ConvertCallback = (path: NextPath) => void
 export type CountCallback = (path: NextPath) => void
 export type PatternChangeCallback<T> = (path: NextPath, value: { patterns?: T }) => void
 export type IconSets = {
@@ -94,6 +95,7 @@ export type ConditionConfigs = ConfigConditionProps & {
   conditionTypeOnChange?: ConditionTypeChangeCallback
   conditionOnAdd?: CountCallback
   conditionOnDelete?: CountCallback
+  conditionOnConvert?: ConvertCallback
 }
 
 export type ConfigPatternProps = {
