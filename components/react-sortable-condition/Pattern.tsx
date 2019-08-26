@@ -32,6 +32,11 @@ export const Pattern = (props: Props) => {
     props.component && React.isValidElement(props.component)
       ? React.cloneElement(props.component, {
           patterns: props.patterns,
+          onChange: ({ patterns }: { patterns: any }) => {
+            if (props.patternOnChange) {
+              props.patternOnChange(props.path || [], { patterns })
+            }
+          },
         })
       : 'this is pattern'
   return (

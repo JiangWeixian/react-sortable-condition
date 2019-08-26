@@ -3,9 +3,15 @@ import SortableCondition from '../../../../components/react-sortable-condition/i
 import { ConfigCondition } from '../../../../components/react-sortable-condition/Condition'
 import { ConfigPattern } from '../../../../components/react-sortable-condition/Pattern'
 
-const TestPattern = ({ patterns }: { patterns?: any }) => {
+const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Function }) => {
   console.log('patterns', patterns)
-  return <span>1</span>
+  const handleClick = () => {
+    console.log('clicked')
+    if (onChange) {
+      onChange({ patterns: 2 })
+    }
+  }
+  return <span onClick={handleClick}>1</span>
 }
 
 const Condition = () => {

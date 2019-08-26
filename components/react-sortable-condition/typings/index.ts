@@ -57,6 +57,7 @@ export type NormalType = 'normal'
 
 export type ConditionTypeChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
 export type CountCallback = (path: NextPath) => void
+export type PatternChangeCallback<T> = (path: NextPath, value: { patterns: T }) => void
 
 export type ConfigConditionProps = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
@@ -76,10 +77,12 @@ export type ConfigPatternProps = {
   onAdd?: CountCallback
   onDelete?: CountCallback
   children?: React.ReactNode
+  onChange?: PatternChangeCallback<any>
 }
 
 export type PatternConfigs = ConfigPatternProps & {
   patternOnAdd?: CountCallback
   patternOnReduce?: CountCallback
+  patternOnChange?: PatternChangeCallback<any>
   component: React.ReactNode
 }
