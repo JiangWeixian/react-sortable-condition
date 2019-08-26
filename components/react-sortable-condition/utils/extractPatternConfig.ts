@@ -15,7 +15,6 @@ export const extractPatternConfig = (children?: React.ReactNode): PatternConfigs
     if (React.isValidElement<ConfigPatternProps>(child)) {
       const props = child.props
       const name = (child.type as any).displayName
-      console.log(child)
       if (name && name === 'Pattern') {
         config.onAdd = props.onAdd
         config.onDelete = props.onDelete

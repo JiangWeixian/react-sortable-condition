@@ -9,7 +9,7 @@ import {
 
 export interface ConditionItem<T = any> extends TreeItem {
   type: ConditionType
-  children?: (ConditionItem<T> | PatternItem<T>)[]
+  children: (ConditionItem<T> | PatternItem<T>)[]
 }
 
 export interface PatternItem<T = any> extends TreeItem {
@@ -80,5 +80,5 @@ export type ConfigPatternProps = {
 export type PatternConfigs = ConfigPatternProps & {
   patternOnAdd?: CountCallback
   patternOnReduce?: CountCallback
-  defaultPattern: React.ReactNode
+  component: React.ReactNode
 }

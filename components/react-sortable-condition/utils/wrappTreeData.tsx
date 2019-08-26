@@ -1,15 +1,9 @@
 import React from 'react'
 
-import {
-  ConditionTreeItem,
-  ConditionNodeData,
-  ConditionConfigs,
-  PatternConfigs,
-  PatternNodeData,
-} from '../typings'
+import { ConditionTreeItem, ConditionNodeData, ConditionConfigs, PatternConfigs } from '../typings'
 
 import { Condition } from '../Condition'
-import { Pattern } from '../Pattern'
+import { createPattern } from './factory'
 
 const defaultTrees: ConditionTreeItem[] = []
 
@@ -39,20 +33,10 @@ export const wrappTreeData = ({
           : [],
       }
     } else if (item.type === 'normal') {
-      return {
-        ...item,
+      return createPattern({
+        patternConfigs,
         expanded: item.expanded,
-        children: undefined,
-        type: 'normal',
-        title: (props: PatternNodeData) => (
-          <Pattern
-            {...patternConfigs}
-            path={props.path}
-            type="normal"
-            patterns={props.node.patterns}
-          />
-        ),
-      }
+      })
     }
     return {
       ...item,

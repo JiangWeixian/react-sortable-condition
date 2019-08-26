@@ -6,13 +6,12 @@ import {
   ConditionNodeData,
   ConditionItem,
   PatternItem,
-  PatternNodeData,
   PatternConfigs,
 } from '../typings'
 import { getNodeAtPath, removeNodeAtPath } from 'react-sortable-tree'
 import { insertItems } from './insertItems'
 import { Condition } from '../Condition'
-import { Pattern } from '../Pattern'
+import { createPattern, createCondition } from './factory'
 
 const isForbiddenCount = ({
   path = [],
@@ -65,13 +64,10 @@ export const getCountTreeData = ({
   // handle click root item
   if (!parentItem) {
     const child: ConditionTreeItem[] = [
-      {
-        type: 'and',
-        title: (props: ConditionNodeData) => (
-          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
-        ),
-        expanded: true,
-      },
+      createCondition({
+        patternConfigs,
+        conditionConfigs,
+      }),
     ]
     return [
       {
@@ -96,13 +92,10 @@ export const getCountTreeData = ({
   if (item.node.type === 'and' || item.node.type === 'or') {
     if (type === 'add') {
       const items: ConditionItem[] = [
-        {
-          type: 'and',
-          title: (props: ConditionNodeData) => (
-            <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
-          ),
-          children: undefined,
-        },
+        createCondition({
+          patternConfigs,
+          conditionConfigs,
+        }),
       ]
       return insertItems({
         treeData,
@@ -123,19 +116,9 @@ export const getCountTreeData = ({
   } else if (item.node.type === 'normal') {
     if (type === 'add') {
       const items: PatternItem[] = [
-        {
-          type: 'normal',
-          title: (props: PatternNodeData) => (
-            <Pattern
-              {...patternConfigs}
-              path={props.path}
-              type="normal"
-              patterns={props.node.patterns}
-            />
-          ),
-          patterns: {},
-          children: undefined,
-        },
+        createPattern({
+          patternConfigs,
+        }),
       ]
       return insertItems({
         treeData,
