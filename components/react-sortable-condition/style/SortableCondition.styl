@@ -1,6 +1,36 @@
-// and-condition-item
-.btns
+// reset original
+.sortableCondition
+  :global
+    .rst__rowLabel
+      width 100%
+      padding 0px
+
+// condition && pattern operations
+.item
+  position relative
   display flex
+  justify-content space-between
+  align-items center
+  width 100%
+  cursor pointer
+
+.item:hover
+  .btns
+    opacity 1
+
+.btns
+  position absolute
+  right 0px
+  transform translateX(100%)
+  display flex
+  align-items center
+  padding-left 8px
+  opacity 0
+  cursor pointer
 
 .btn
-  margin 8px
+  margin 0 8px
+  border 1px solid black
+  border-radius 100%
+  width 21px
+  text-align center

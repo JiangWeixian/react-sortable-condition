@@ -83,6 +83,7 @@ export type ConfigConditionProps = {
   onAdd?: CountCallback
   onDelete?: CountCallback
   onType?: ConditionTypeChangeCallback
+  className?: string
 }
 
 export type ConditionConfigs = ConfigConditionProps & {
@@ -97,6 +98,7 @@ export type ConfigPatternProps = {
   onDelete?: CountCallback
   children?: React.ReactNode
   onChange?: PatternChangeCallback<any>
+  className?: string
 }
 
 export type PatternConfigs = ConfigPatternProps & {
