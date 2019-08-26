@@ -68,16 +68,7 @@ export const getCountTreeData = ({
       {
         type: 'and',
         title: (props: ConditionNodeData) => (
-          <Condition
-            value={{ title: 'add', type: 'and' }}
-            path={props.path}
-            type={props.node.type}
-            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-            conditionOnAdd={conditionConfigs.conditionOnAdd}
-            conditionOnReduce={conditionConfigs.conditionOnReduce}
-            onAdd={conditionConfigs.onAdd}
-            onDelete={conditionConfigs.onDelete}
-          />
+          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
         ),
         expanded: true,
       },
@@ -86,16 +77,7 @@ export const getCountTreeData = ({
       {
         type: 'and',
         title: (props: ConditionNodeData) => (
-          <Condition
-            value={{ title: 'add', type: 'and' }}
-            path={props.path}
-            type={props.node.type}
-            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-            conditionOnAdd={conditionConfigs.conditionOnAdd}
-            conditionOnReduce={conditionConfigs.conditionOnReduce}
-            onAdd={conditionConfigs.onAdd}
-            onDelete={conditionConfigs.onDelete}
-          />
+          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
         ),
         children: child.concat(treeData),
         expanded: true,
@@ -117,16 +99,7 @@ export const getCountTreeData = ({
         {
           type: 'and',
           title: (props: ConditionNodeData) => (
-            <Condition
-              value={{ title: 'and', type: 'and' }}
-              path={props.path}
-              type={props.node.type}
-              conditionOnAdd={conditionConfigs.conditionOnAdd}
-              conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-              conditionOnReduce={conditionConfigs.conditionOnReduce}
-              onAdd={conditionConfigs.onAdd}
-              onDelete={conditionConfigs.onDelete}
-            />
+            <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
           ),
           children: undefined,
         },
@@ -154,12 +127,10 @@ export const getCountTreeData = ({
           type: 'normal',
           title: (props: PatternNodeData) => (
             <Pattern
-              component={patternConfigs.defaultPattern}
+              {...patternConfigs}
               path={props.path}
               type="normal"
               patterns={props.node.patterns}
-              patternOnAdd={patternConfigs.patternOnAdd}
-              patternOnReduce={patternConfigs.patternOnReduce}
             />
           ),
           patterns: {},

@@ -30,16 +30,7 @@ export const wrappTreeData = ({
     if (item.type === 'and' || item.type === 'or') {
       return {
         title: (props: ConditionNodeData) => (
-          <Condition
-            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-            conditionOnAdd={conditionConfigs.conditionOnAdd}
-            conditionOnReduce={conditionConfigs.conditionOnReduce}
-            onAdd={conditionConfigs.onAdd}
-            onDelete={conditionConfigs.onDelete}
-            value={item}
-            path={props.path}
-            type={props.node.type}
-          />
+          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
         ),
         type: item.type,
         expanded: item.expanded,
@@ -55,10 +46,8 @@ export const wrappTreeData = ({
         type: 'normal',
         title: (props: PatternNodeData) => (
           <Pattern
-            component={patternConfigs.defaultPattern}
+            {...patternConfigs}
             path={props.path}
-            patternOnAdd={patternConfigs.patternOnAdd}
-            patternOnReduce={patternConfigs.patternOnReduce}
             type="normal"
             patterns={props.node.patterns}
           />

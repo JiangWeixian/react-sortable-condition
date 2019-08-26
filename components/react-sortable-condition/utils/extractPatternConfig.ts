@@ -3,7 +3,7 @@ import React from 'react'
 import { ConfigPatternProps, PatternConfigs } from '../typings'
 
 const defaultConfig: PatternConfigs = {
-  defaultPattern: 'this is a pattern',
+  component: 'this is a pattern',
 }
 
 export const extractPatternConfig = (children?: React.ReactNode): PatternConfigs => {
@@ -19,7 +19,7 @@ export const extractPatternConfig = (children?: React.ReactNode): PatternConfigs
       if (name && name === 'Pattern') {
         config.onAdd = props.onAdd
         config.onDelete = props.onDelete
-        config.defaultPattern = props.children || config.defaultPattern
+        config.component = props.children || config.component
       }
     }
   })

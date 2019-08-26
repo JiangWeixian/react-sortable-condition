@@ -21,7 +21,6 @@ const isForbiddenDrag = (parentItem: ConditionTreeItem<any> | null): boolean => 
 export const getDrageTreedata = ({
   item,
   parentItem,
-  title = 'and',
   prevTreeData = [],
   treeData = [],
   siblingItems = [],
@@ -30,7 +29,6 @@ export const getDrageTreedata = ({
 }: {
   item: ConditionTreeItem
   parentItem: ConditionTreeItem | null
-  title?: 'and' | 'or'
   prevTreeData: ConditionTreeItem[]
   treeData?: ConditionTreeItem[]
   siblingItems?: ConditionTreeItem[]
@@ -51,16 +49,7 @@ export const getDrageTreedata = ({
       newNode: {
         type: 'and',
         title: (props: ConditionNodeData) => (
-          <Condition
-            value={{ title, type: 'and' }}
-            type={props.node.type}
-            path={props.path}
-            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-            conditionOnAdd={conditionConfigs.conditionOnAdd}
-            conditionOnReduce={conditionConfigs.conditionOnReduce}
-            onAdd={conditionConfigs.conditionOnAdd}
-            onDelete={conditionConfigs.conditionOnAdd}
-          />
+          <Condition {...conditionConfigs} type={props.node.type} path={props.path} />
         ),
         children: [item],
       },

@@ -7,7 +7,6 @@ type Props<T = any> = Omit<PatternConfigs, 'defaultPattern'> & {
   path?: NextPath
   type: NormalType
   patterns: T
-  component?: React.ReactNode
 }
 
 export const Pattern = (props: Props) => {

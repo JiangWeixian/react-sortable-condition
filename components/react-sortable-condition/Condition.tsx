@@ -1,18 +1,11 @@
 import React, { useCallback } from 'react'
 
-import {
-  ConditionItem,
-  NextPath,
-  ConditionType,
-  ConfigConditionProps,
-  ConditionConfigs,
-} from './typings'
+import { NextPath, ConditionType, ConfigConditionProps, ConditionConfigs } from './typings'
 import styles from './style/SortableCondition.styl'
 
-type Props = ConditionConfigs & {
+export type Props = ConditionConfigs & {
   type?: ConditionType
   path?: NextPath
-  value: ConditionItem
 }
 
 export const Condition = (props: Props) => {
@@ -45,7 +38,6 @@ export const Condition = (props: Props) => {
     <div data-role="condition-item" className={styles.condition}>
       <div data-role="content" onClick={handleChangeConditionType}>
         <p>{props.type}</p>
-        {props.value.subtitle ? <p>{props.value.subtitle}</p> : null}
       </div>
       <div data-role="btns" className={styles.btns}>
         <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>

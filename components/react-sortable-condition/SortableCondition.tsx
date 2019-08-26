@@ -141,7 +141,6 @@ export const SortableCondition = (props: SortableConditionProps) => {
       const nextTreeData = getDrageTreedata({
         item: value.node,
         parentItem: value.nextParentNode,
-        title: 'and',
         prevTreeData: treeData,
         treeData: value.treeData,
         siblingItems: value.nextParentNode!.children,
