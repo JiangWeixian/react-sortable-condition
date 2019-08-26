@@ -77,6 +77,10 @@ export type NormalType = 'normal'
 export type ConditionTypeChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
 export type CountCallback = (path: NextPath) => void
 export type PatternChangeCallback<T> = (path: NextPath, value: { patterns?: T }) => void
+export type IconSets = {
+  addIcon?: React.ReactNode | null
+  deleteIcon?: React.ReactNode | null
+}
 
 export type ConfigConditionProps = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
@@ -84,7 +88,7 @@ export type ConfigConditionProps = {
   onDelete?: CountCallback
   onType?: ConditionTypeChangeCallback
   className?: string
-}
+} & IconSets
 
 export type ConditionConfigs = ConfigConditionProps & {
   conditionTypeOnChange?: ConditionTypeChangeCallback
@@ -99,7 +103,7 @@ export type ConfigPatternProps = {
   children?: React.ReactNode
   onChange?: PatternChangeCallback<any>
   className?: string
-}
+} & IconSets
 
 export type PatternConfigs = ConfigPatternProps & {
   patternOnAdd?: CountCallback

@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import cx from 'classnames'
+import isNull from 'lodash.isnull'
 
 import { NextPath, ConditionType, ConfigConditionProps, ConditionConfigs } from './typings'
 import styles from './style/SortableCondition.styl'
@@ -29,7 +30,7 @@ export const Condition = (props: Props) => {
       props.onAdd(props.path || [])
     }
   }, [props.path])
-  const handleReduceCondition = useCallback(() => {
+  const handleDeleteCondition = useCallback(() => {
     if (!props.conditionOnDelete) {
       return
     }
@@ -44,12 +45,16 @@ export const Condition = (props: Props) => {
         <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
-        <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
-          +
-        </a>
-        <a data-role="delete-btn" className={styles.btn} onClick={handleReduceCondition}>
-          -
-        </a>
+        {isNull(props.addIcon) ? null : (
+          <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
+            {props.addIcon ? props.addIcon : <span className={styles.btn_content}>+</span>}
+          </a>
+        )}
+        {isNull(props.deleteIcon) ? null : (
+          <a data-role="delete-btn" className={styles.btn} onClick={handleDeleteCondition}>
+            {props.deleteIcon ? props.deleteIcon : <span className={styles.btn_content}>-</span>}
+          </a>
+        )}
       </div>
     </div>
   )
