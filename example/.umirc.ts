@@ -8,7 +8,7 @@ const config: IConfig = {
     [
       'umi-plugin-react',
       {
-        antd: false,
+        antd: true,
         dva: false,
         dynamicImport: false,
         title: 'example',

@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react'
 import cx from 'classnames'
+import isNull from 'lodash.isnull'
 
 import { ConfigPatternProps, NextPath, PatternConfigs, NormalType } from './typings'
 import styles from './style/SortableCondition.styl'
@@ -20,7 +21,7 @@ export const Pattern = (props: Props) => {
       props.onAdd(props.path || [])
     }
   }, [props.path])
-  const handleReducePattern = useCallback(() => {
+  const handleDeletePattern = useCallback(() => {
     if (!props.patternOnDelete) {
       return
     }
@@ -46,12 +47,16 @@ export const Pattern = (props: Props) => {
         <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
-        <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
-          +
-        </a>
-        <a data-role="delete-btn" className={styles.btn} onClick={handleReducePattern}>
-          -
-        </a>
+        {isNull(props.addIcon) ? null : (
+          <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
+            {props.addIcon ? props.addIcon : <span className={styles.btn_content}>+</span>}
+          </a>
+        )}
+        {isNull(props.deleteIcon) ? null : (
+          <a data-role="delete-btn" className={styles.btn} onClick={handleDeletePattern}>
+            {props.deleteIcon ? props.deleteIcon : <span className={styles.btn_content}>-</span>}
+          </a>
+        )}
       </div>
     </div>
   )

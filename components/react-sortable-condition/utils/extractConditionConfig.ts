@@ -18,6 +18,8 @@ export const extractConditionConfig = (children?: React.ReactNode): ConfigCondit
         config.onDelete = props.onDelete
         config.onType = props.onType
         config.className = props.className
+        config.addIcon = props.addIcon
+        config.deleteIcon = props.deleteIcon
       }
     }
   })

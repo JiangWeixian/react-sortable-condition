@@ -27,6 +27,7 @@ export type SortableConditionProps<T> = {
   onChange?(value: ConditionTreeItem<T>[]): void
   children?: React.ReactNode
   dataSource: DataItem<T>[]
+  maxDepth?: number
 }
 
 export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
@@ -172,6 +173,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       onVisibilityToggle={handleVisibleChange}
       onChange={handleOnChange}
       className={styles.sortableCondition}
+      maxDepth={props.maxDepth ? props.maxDepth + 1 : props.maxDepth}
     />
   )
 }
