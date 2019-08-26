@@ -15,7 +15,7 @@ export interface ConditionItem<T = any> extends TreeItem {
 export interface PatternItem<T = any> extends TreeItem {
   type: NormalType
   children?: undefined
-  patterns: T
+  patterns?: T
 }
 
 export type ConditionTreeItem<T = any> = ConditionItem<T> | PatternItem<T>
@@ -57,7 +57,7 @@ export type NormalType = 'normal'
 
 export type ConditionTypeChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
 export type CountCallback = (path: NextPath) => void
-export type PatternChangeCallback<T> = (path: NextPath, value: { patterns: T }) => void
+export type PatternChangeCallback<T> = (path: NextPath, value: { patterns?: T }) => void
 
 export type ConfigConditionProps = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void

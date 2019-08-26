@@ -6,7 +6,7 @@ import styles from './style/SortableCondition.styl'
 type Props<T = any> = Omit<PatternConfigs, 'defaultPattern'> & {
   path?: NextPath
   type: NormalType
-  patterns: T
+  patterns?: T
 }
 
 export const Pattern = (props: Props) => {

@@ -13,7 +13,7 @@ import { Pattern } from '../Pattern'
 import { Condition } from '../Condition'
 
 export const createPattern = ({
-  patterns = {},
+  patterns = undefined,
   patternConfigs,
   expanded = false,
 }: {

@@ -4,12 +4,12 @@ import { getNodeAtPath, changeNodeAtPath } from 'react-sortable-tree'
 export const getPatternsChangeTreeData = ({
   treeData = [],
   path = [],
-  value = { patterns: {} },
+  value = { patterns: undefined },
 }: {
   treeData: ConditionTreeItem[]
   path: NextPath
   value: {
-    patterns: any
+    patterns?: any
   }
 }) => {
   const item = getNodeAtPath({
