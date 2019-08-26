@@ -15,6 +15,9 @@ export const Condition = (props: Props) => {
     }
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
     props.conditionTypeOnChange(props.path || [], { type: nextType })
+    if (props.onType) {
+      props.onType(props.path || [], { type: nextType })
+    }
   }, [props.type || 'and', props.path])
   const handleAddCondition = useCallback(() => {
     if (!props.conditionOnAdd) {

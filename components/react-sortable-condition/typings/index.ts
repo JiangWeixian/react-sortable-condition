@@ -62,6 +62,7 @@ export type ConfigConditionProps = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
   onAdd?: CountCallback
   onDelete?: CountCallback
+  onType?: ConditionTypeChangeCallback
 }
 
 export type ConditionConfigs = ConfigConditionProps & {
