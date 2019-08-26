@@ -30,6 +30,13 @@ export const Pattern = (props: Props) => {
       props.onDelete(props.path || [])
     }
   }, [props.path])
+  const handleConvert = useCallback(() => {
+    if (!props.patternOnConvert) {
+      return
+    }
+    console.log('convert')
+    props.patternOnConvert(props.path || [])
+  }, [props.path])
   const PatterComponent =
     props.component && React.isValidElement(props.component)
       ? React.cloneElement(props.component, {
@@ -47,6 +54,9 @@ export const Pattern = (props: Props) => {
         <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
+        <a data-role="convert-btn" className={styles.btn} onClick={handleConvert}>
+          <span className={styles.btn_content}>T</span>
+        </a>
         {isNull(props.addIcon) ? null : (
           <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
             {props.addIcon ? props.addIcon : <span className={styles.btn_content}>+</span>}

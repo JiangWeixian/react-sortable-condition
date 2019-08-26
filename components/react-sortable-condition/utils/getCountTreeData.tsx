@@ -12,6 +12,7 @@ import { getNodeAtPath, removeNodeAtPath } from 'react-sortable-tree'
 import { insertItems } from './insertItems'
 import { Condition } from '../Condition'
 import { createPattern, createCondition } from './factory'
+import { getParentItem } from './getParentItem'
 
 const isForbiddenCount = ({
   path = [],
@@ -29,19 +30,6 @@ const isForbiddenCount = ({
     return true
   }
   return false
-}
-
-const getParentItem = (treeData: ConditionTreeItem[], path: NextPath): ConditionTreeItem | null => {
-  if (path.length <= 1) {
-    return null
-  }
-  const parentPath = path.slice(0, path.length - 1)
-  const parentItem = getNodeAtPath({
-    treeData,
-    path: parentPath,
-    getNodeKey: data => data.treeIndex,
-  })
-  return parentItem ? (parentItem.node as ConditionTreeItem) : null
 }
 
 export const getCountTreeData = ({
