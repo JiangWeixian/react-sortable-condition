@@ -9,6 +9,7 @@ import {
   NextPath,
   ConditionType,
   VisibilityStateData,
+  DataItem,
 } from './typings'
 import { wrappTreeData } from './utils/wrappTreeData'
 import { getDrageTreedata } from './utils/getDragTreedata'
@@ -24,7 +25,7 @@ export type SortableConditionProps<T> = {
   onVisible?(value: VisibilityStateData<T>): void
   onChange?(value: ConditionTreeItem<T>[]): void
   children?: React.ReactNode
-  dataSource: ConditionTreeItem<T>[]
+  dataSource: DataItem<T>[]
 }
 
 export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
