@@ -18,37 +18,16 @@ import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
 import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
 
-export type SortableConditionProps = {
-  onDragStateChanged?(value: DragStateData): void
-  onMoveNode?(value: MoveStateData): void
+export type SortableConditionProps<T> = {
+  onDragState?(value: DragStateData<T>): void
+  onMoveNode?(value: MoveStateData<T>): void
+  onVisible?(value: VisibilityStateData<T>): void
+  onChange?(value: ConditionTreeItem<T>[]): void
   children?: React.ReactNode
+  dataSource: ConditionTreeItem<T>[]
 }
 
-const data: ConditionTreeItem[] = [
-  {
-    title: 'root',
-    type: 'and',
-    expanded: true,
-    children: [
-      {
-        title: 'and1',
-        type: 'and',
-        children: [{ title: 'Egg', type: 'normal', patterns: { a: 2 } }],
-      },
-      {
-        title: 'and2',
-        type: 'and',
-        expanded: true,
-        children: [
-          { title: 'Sharks1', type: 'normal', patterns: { a: 2 } },
-          { title: 'Sharks2', type: 'normal', patterns: { a: 2 } },
-        ],
-      },
-    ],
-  },
-]
-
-export const SortableCondition = (props: SortableConditionProps) => {
+export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const customConditionConfigs = useMemo(() => {
     return extractConditionConfig(props.children)
   }, [props.children])
@@ -75,7 +54,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
   }
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     wrappTreeData({
-      value: data,
+      value: props.dataSource || [],
       conditionConfigs,
       patternConfigs,
     }),
@@ -144,9 +123,15 @@ export const SortableCondition = (props: SortableConditionProps) => {
       return nextTreeData
     })
   }
-  const handleVisibleChange = useCallback((value: VisibilityStateData) => {
-    setTreeData(value.treeData)
-  }, [])
+  const handleVisibleChange = useCallback(
+    (value: VisibilityStateData) => {
+      if (props.onVisible) {
+        props.onVisible(value)
+      }
+      setTreeData(value.treeData)
+    },
+    [props.onVisible],
+  )
   const handleMoveNode = useCallback(
     (value: MoveStateData) => {
       const nextTreeData = getDrageTreedata({
@@ -158,21 +143,33 @@ export const SortableCondition = (props: SortableConditionProps) => {
         path: value.nextPath,
         conditionConfigs,
       })
+      if (props.onMoveNode) {
+        props.onMoveNode({
+          ...value,
+          treeData: nextTreeData,
+        })
+      }
       setTreeData(nextTreeData)
     },
     [props.onMoveNode, treeData],
   )
+  const handleOnChange = useCallback(
+    (value: ConditionTreeItem[]) => {
+      // do nothing
+      if (props.onChange) {
+        props.onChange(value)
+      }
+    },
+    [props.onChange],
+  )
   return (
     <div style={{ height: '400px' }}>
       <SortableTree
-        onDragStateChanged={props.onDragStateChanged}
+        onDragStateChanged={props.onDragState}
         onMoveNode={handleMoveNode}
         treeData={treeData}
         onVisibilityToggle={handleVisibleChange}
-        onChange={treeData => {
-          console.log(treeData)
-          // setTreeData(treeData)
-        }}
+        onChange={handleOnChange}
       />
     </div>
   )
