@@ -69,7 +69,7 @@ export type ConfigConditionProps = {
 export type ConditionConfigs = ConfigConditionProps & {
   conditionTypeOnChange?: ConditionTypeChangeCallback
   conditionOnAdd?: CountCallback
-  conditionOnReduce?: CountCallback
+  conditionOnDelete?: CountCallback
 }
 
 export type ConfigPatternProps = {
@@ -82,7 +82,7 @@ export type ConfigPatternProps = {
 
 export type PatternConfigs = ConfigPatternProps & {
   patternOnAdd?: CountCallback
-  patternOnReduce?: CountCallback
+  patternOnDelete?: CountCallback
   patternOnChange?: PatternChangeCallback<any>
   component: React.ReactNode
 }

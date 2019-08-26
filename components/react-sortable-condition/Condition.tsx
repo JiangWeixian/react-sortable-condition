@@ -29,13 +29,13 @@ export const Condition = (props: Props) => {
     }
   }, [props.path])
   const handleReduceCondition = useCallback(() => {
-    if (!props.conditionOnReduce) {
+    if (!props.conditionOnDelete) {
       return
     }
     if (props.onDelete) {
       props.onDelete(props.path || [])
     }
-    props.conditionOnReduce(props.path || [])
+    props.conditionOnDelete(props.path || [])
   }, [props.path])
   return (
     <div data-role="condition-item" className={styles.condition}>

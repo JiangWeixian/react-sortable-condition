@@ -55,7 +55,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
   const defaultConditionConfigs = {
     conditionTypeOnChange: handleConditionTypeChange,
     conditionOnAdd: handleConditionAdd,
-    conditionOnReduce: handleConditionReduce,
+    conditionOnDelete: handleConditionDelete,
   }
   const conditionConfigs = {
     ...customConditionConfigs,
@@ -66,7 +66,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
   }, [props.children])
   const defaultPatternConfigs = {
     patternOnAdd: handlePatternAdd,
-    patternOnReduce: handlePatternReduce,
+    patternOnDelete: handlePatternDelete,
     patternOnChange: handlePatternChange,
   }
   const patternConfigs = {
@@ -101,7 +101,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
       return nextTreeData
     })
   }
-  function handleConditionReduce(path: NextPath) {
+  function handleConditionDelete(path: NextPath) {
     setTreeData(prevTreeData => {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,
@@ -123,7 +123,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
       return nextTreeData
     })
   }
-  function handlePatternReduce(path: NextPath) {
+  function handlePatternDelete(path: NextPath) {
     setTreeData(prevTreeData => {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,

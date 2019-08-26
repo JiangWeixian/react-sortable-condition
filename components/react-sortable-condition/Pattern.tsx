@@ -20,10 +20,10 @@ export const Pattern = (props: Props) => {
     }
   }, [props.path])
   const handleReducePattern = useCallback(() => {
-    if (!props.patternOnReduce) {
+    if (!props.patternOnDelete) {
       return
     }
-    props.patternOnReduce(props.path || [])
+    props.patternOnDelete(props.path || [])
     if (props.onDelete) {
       props.onDelete(props.path || [])
     }
