@@ -140,7 +140,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         parentItem: value.nextParentNode,
         prevTreeData: treeData,
         treeData: value.treeData,
-        siblingItems: value.nextParentNode!.children,
+        siblingItems: value.nextParentNode ? value.nextParentNode.children : [],
         path: value.nextPath,
         conditionConfigs,
       })
