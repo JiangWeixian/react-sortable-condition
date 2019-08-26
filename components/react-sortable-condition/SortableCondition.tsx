@@ -19,6 +19,7 @@ import { getCountTreeData } from './utils/getCountTreeData'
 import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
 import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
+import { getConvertTreedata } from './utils/getConvertTreeData'
 
 export type SortableConditionProps<T> = {
   onDragState?(value: DragStateData<T>): void
@@ -38,6 +39,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     conditionTypeOnChange: handleConditionTypeChange,
     conditionOnAdd: handleConditionAdd,
     conditionOnDelete: handleConditionDelete,
+    conditionOnConvert: handleConvert,
   }
   const conditionConfigs = {
     ...customConditionConfigs,
@@ -50,6 +52,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     patternOnAdd: handlePatternAdd,
     patternOnDelete: handlePatternDelete,
     patternOnChange: handlePatternChange,
+    patternOnConvert: handleConvert,
   }
   const patternConfigs = {
     ...customPatternConfigs,
@@ -122,6 +125,17 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         treeData: prevTreeData,
         path,
         value,
+      })
+      return nextTreeData
+    })
+  }
+  function handleConvert(path: NextPath) {
+    setTreeData(prevTreeData => {
+      const nextTreeData = getConvertTreedata({
+        treeData: prevTreeData,
+        path,
+        conditionConfigs,
+        patternConfigs,
       })
       return nextTreeData
     })

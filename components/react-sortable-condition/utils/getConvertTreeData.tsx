@@ -1,50 +1,85 @@
 import React from 'react'
 
-import { ConditionTreeItem, NextPath, ConditionNodeData, ConditionConfigs } from '../typings'
-import { changeNodeAtPath } from 'react-sortable-tree'
+import {
+  ConditionTreeItem,
+  NextPath,
+  ConditionNodeData,
+  ConditionConfigs,
+  PatternConfigs,
+} from '../typings'
+import { changeNodeAtPath, getNodeAtPath } from 'react-sortable-tree'
 import { Condition } from '../Condition'
-import { isAllNormalItems } from './isAllNormalItems'
-import { isAllConditionItems } from './isAllConditionItems'
 import { insertItems } from './insertItems'
+import { getParentItem } from './getParentItem'
+import { createPattern } from './factory'
 
-const isForbiddenConvert = () => {
-  // item.children should be same type as siblingitems
+/**
+ * convert action is after drag. silibingitems will only be
+ * - all normal
+ * - all condition
+ * is only work in parentItem.singleChildren
+ * @param param parentItem
+ */
+const isForbiddenConvert = (parentItem?: ConditionTreeItem | null) => {
+  if (!parentItem) {
+    return true
+  }
+  if (parentItem.children && parentItem.children.length !== 1) {
+    return true
+  }
+  return false
 }
 
 export const getConvertTreedata = ({
-  item,
-  parentItem,
-  prevTreeData = [],
   treeData = [],
-  siblingItems = [],
   path = [],
   conditionConfigs = {},
+  patternConfigs,
 }: {
-  item: ConditionTreeItem
-  parentItem: ConditionTreeItem | null
-  prevTreeData: ConditionTreeItem[]
   treeData?: ConditionTreeItem[]
-  siblingItems?: ConditionTreeItem[]
   path?: NextPath
   conditionConfigs: ConditionConfigs
+  patternConfigs: PatternConfigs
 }): ConditionTreeItem[] => {
+  const parentItem = getParentItem(treeData, path)
+  if (isForbiddenConvert(parentItem)) {
+    return treeData
+  }
+  const node = getNodeAtPath({
+    treeData,
+    path,
+    getNodeKey: data => data.treeIndex,
+  })
+  if (!node) {
+    return treeData
+  }
+  const item = node.node as ConditionTreeItem
+  if (item.type === 'normal') {
+    return changeNodeAtPath({
+      treeData,
+      path,
+      getNodeKey: data => data.treeIndex,
+      newNode: {
+        type: 'and',
+        title: (props: ConditionNodeData) => (
+          <Condition {...conditionConfigs} type={props.node.type} path={props.path} />
+        ),
+        children: [
+          createPattern({
+            expanded: false,
+            patternConfigs,
+          }),
+        ],
+      },
+    }) as ConditionTreeItem[]
+  }
   if (item.type === 'and' || item.type === 'or') {
-    if (isAllConditionItems(siblingItems)) {
-      return treeData
-    }
-    if (!isAllNormalItems(item.children)) {
-      return prevTreeData
-    }
-    if (!parentItem) {
-      return treeData
-    }
     return insertItems({
       treeData,
       path,
-      siblingItems,
+      siblingItems: [],
       items: item.children,
-      parentItem,
-      needReplaced: true,
+      parentItem: parentItem as ConditionTreeItem,
     })
   }
   return treeData

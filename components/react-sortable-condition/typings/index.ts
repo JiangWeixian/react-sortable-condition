@@ -111,5 +111,6 @@ export type PatternConfigs = ConfigPatternProps & {
   patternOnAdd?: CountCallback
   patternOnDelete?: CountCallback
   patternOnChange?: PatternChangeCallback<any>
+  patternOnConvert?: ConvertCallback
   component: React.ReactNode
 }
