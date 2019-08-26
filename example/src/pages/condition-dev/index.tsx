@@ -44,6 +44,7 @@ const Condition = () => {
         onDragState={v => console.log('drag', v)}
         onVisible={v => console.log('visible', v)}
         onMoveNode={v => console.log('move', v)}
+        maxDepth={3}
       >
         <ConfigCondition
           onAdd={() => console.log('add')}
