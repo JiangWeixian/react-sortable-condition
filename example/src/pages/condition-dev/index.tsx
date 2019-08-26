@@ -35,22 +35,24 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 
 const Condition = () => {
   return (
-    <SortableCondition
-      dataSource={data}
-      onChange={v => console.log('change', v)}
-      onDragState={v => console.log('drag', v)}
-      onVisible={v => console.log('visible', v)}
-      onMoveNode={v => console.log('move', v)}
-    >
-      <ConfigCondition
-        onAdd={() => console.log('add')}
-        onClick={() => 'click'}
-        onDelete={() => console.log('delelte')}
-      />
-      <ConfigPattern>
-        <TestPattern />
-      </ConfigPattern>
-    </SortableCondition>
+    <div style={{ height: '400px' }}>
+      <SortableCondition
+        dataSource={data}
+        onChange={v => console.log('change', v)}
+        onDragState={v => console.log('drag', v)}
+        onVisible={v => console.log('visible', v)}
+        onMoveNode={v => console.log('move', v)}
+      >
+        <ConfigCondition
+          onAdd={() => console.log('add')}
+          onClick={() => 'click'}
+          onDelete={() => console.log('delelte')}
+        />
+        <ConfigPattern>
+          <TestPattern />
+        </ConfigPattern>
+      </SortableCondition>
+    </div>
   )
 }
 

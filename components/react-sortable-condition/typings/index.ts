@@ -98,6 +98,7 @@ export type ConfigPatternProps = {
   onDelete?: CountCallback
   children?: React.ReactNode
   onChange?: PatternChangeCallback<any>
+  className?: string
 }
 
 export type PatternConfigs = ConfigPatternProps & {

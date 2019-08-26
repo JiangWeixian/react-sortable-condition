@@ -38,17 +38,16 @@ export const Condition = (props: Props) => {
     }
     props.conditionOnDelete(props.path || [])
   }, [props.path])
-  console.log('styles', styles)
   return (
-    <div data-role="condition-item" className={cx(props.className, styles.item)}>
-      <div data-role="content" onClick={handleChangeConditionType}>
+    <div data-role="condition-item" className={cx(props.className, styles.item, styles.condition)}>
+      <div data-role="content" onClick={handleChangeConditionType} className={styles.content}>
         <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
         <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
           +
         </a>
-        <a data-role="reduce-btn" className={styles.btn} onClick={handleReduceCondition}>
+        <a data-role="delete-btn" className={styles.btn} onClick={handleReduceCondition}>
           -
         </a>
       </div>

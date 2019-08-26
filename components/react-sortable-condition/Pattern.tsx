@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+import cx from 'classnames'
 
 import { ConfigPatternProps, NextPath, PatternConfigs, NormalType } from './typings'
 import styles from './style/SortableCondition.styl'
@@ -40,15 +41,15 @@ export const Pattern = (props: Props) => {
         })
       : 'this is pattern'
   return (
-    <div data-role="pattern-item" className={styles.pattern}>
-      <div data-role="content" onClick={props.onClick}>
+    <div data-role="pattern-item" className={cx(styles.pattern, styles.item, props.className)}>
+      <div data-role="content" onClick={props.onClick} className={styles.content}>
         <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
         <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
           +
         </a>
-        <a data-role="reduce-btn" className={styles.btn} onClick={handleReducePattern}>
+        <a data-role="delete-btn" className={styles.btn} onClick={handleReducePattern}>
           -
         </a>
       </div>

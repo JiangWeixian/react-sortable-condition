@@ -11,6 +11,7 @@ import {
   VisibilityStateData,
   DataItem,
 } from './typings'
+import styles from './style/SortableCondition.styl'
 import { wrappTreeData } from './utils/wrappTreeData'
 import { getDrageTreedata } from './utils/getDragTreedata'
 import { getTypeChangeTreeData } from './utils/getTypeChangeTreeData'
@@ -164,14 +165,13 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     [props.onChange],
   )
   return (
-    <div style={{ height: '400px' }}>
-      <SortableTree
-        onDragStateChanged={props.onDragState}
-        onMoveNode={handleMoveNode}
-        treeData={treeData}
-        onVisibilityToggle={handleVisibleChange}
-        onChange={handleOnChange}
-      />
-    </div>
+    <SortableTree
+      onDragStateChanged={props.onDragState}
+      onMoveNode={handleMoveNode}
+      treeData={treeData}
+      onVisibilityToggle={handleVisibleChange}
+      onChange={handleOnChange}
+      className={styles.sortableCondition}
+    />
   )
 }
