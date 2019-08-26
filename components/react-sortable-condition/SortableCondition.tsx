@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
@@ -14,10 +14,14 @@ import { wrappTreeData } from './utils/wrappTreeData'
 import { getDrageTreedata } from './utils/getDragTreedata'
 import { getTypeChangeTreeData } from './utils/getTypeChangeTreeData'
 import { getCountTreeData } from './utils/getCountTreeData'
+import { extractConditionConfig } from './utils/extractConditionConfig'
+import { extractPatternConfig } from './utils/extractPatternConfig'
+import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
 
 export type SortableConditionProps = {
   onDragStateChanged?(value: DragStateData): void
   onMoveNode?(value: MoveStateData): void
+  children?: React.ReactNode
 }
 
 const data: ConditionTreeItem[] = [
@@ -26,27 +30,48 @@ const data: ConditionTreeItem[] = [
     type: 'and',
     expanded: true,
     children: [
-      { title: 'and1', type: 'and', children: [{ title: 'Egg', type: 'normal' }] },
+      {
+        title: 'and1',
+        type: 'and',
+        children: [{ title: 'Egg', type: 'normal', patterns: { a: 2 } }],
+      },
       {
         title: 'and2',
         type: 'and',
         expanded: true,
-        children: [{ title: 'Sharks1', type: 'normal' }, { title: 'Sharks2', type: 'normal' }],
+        children: [
+          { title: 'Sharks1', type: 'normal', patterns: { a: 2 } },
+          { title: 'Sharks2', type: 'normal', patterns: { a: 2 } },
+        ],
       },
     ],
   },
 ]
 
 export const SortableCondition = (props: SortableConditionProps) => {
-  const conditionConfigs = {
+  const customConditionConfigs = useMemo(() => {
+    return extractConditionConfig(props.children)
+  }, [props.children])
+  const defaultConditionConfigs = {
     conditionTypeOnChange: handleConditionTypeChange,
     conditionOnAdd: handleConditionAdd,
-    conditionOnReduce: handleConditionReduce,
+    conditionOnDelete: handleConditionDelete,
+  }
+  const conditionConfigs = {
+    ...customConditionConfigs,
+    ...defaultConditionConfigs,
+  }
+  const customPatternConfigs = useMemo(() => {
+    return extractPatternConfig(props.children)
+  }, [props.children])
+  const defaultPatternConfigs = {
+    patternOnAdd: handlePatternAdd,
+    patternOnDelete: handlePatternDelete,
+    patternOnChange: handlePatternChange,
   }
   const patternConfigs = {
-    patternOnAdd: handlePatternAdd,
-    patternOnReduce: handlePatternReduce,
-    defaultPattern: 'this is a default Pattern',
+    ...customPatternConfigs,
+    ...defaultPatternConfigs,
   }
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     wrappTreeData({
@@ -76,7 +101,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
       return nextTreeData
     })
   }
-  function handleConditionReduce(path: NextPath) {
+  function handleConditionDelete(path: NextPath) {
     setTreeData(prevTreeData => {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,
@@ -98,13 +123,23 @@ export const SortableCondition = (props: SortableConditionProps) => {
       return nextTreeData
     })
   }
-  function handlePatternReduce(path: NextPath) {
+  function handlePatternDelete(path: NextPath) {
     setTreeData(prevTreeData => {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,
         path,
         patternConfigs,
         type: 'reduce',
+      })
+      return nextTreeData
+    })
+  }
+  function handlePatternChange(path: NextPath, value: { patterns: any }) {
+    setTreeData(prevTreeData => {
+      const nextTreeData = getPatternsChangeTreeData({
+        treeData: prevTreeData,
+        path,
+        value,
       })
       return nextTreeData
     })
@@ -117,7 +152,6 @@ export const SortableCondition = (props: SortableConditionProps) => {
       const nextTreeData = getDrageTreedata({
         item: value.node,
         parentItem: value.nextParentNode,
-        title: 'and',
         prevTreeData: treeData,
         treeData: value.treeData,
         siblingItems: value.nextParentNode!.children,
@@ -136,7 +170,7 @@ export const SortableCondition = (props: SortableConditionProps) => {
         treeData={treeData}
         onVisibilityToggle={handleVisibleChange}
         onChange={treeData => {
-          // console.log(treeData)
+          console.log(treeData)
           // setTreeData(treeData)
         }}
       />

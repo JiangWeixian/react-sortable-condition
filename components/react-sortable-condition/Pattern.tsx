@@ -1,12 +1,12 @@
 import React, { useCallback } from 'react'
 
-import { PatternItem, ConfigPatternProps, NextPath, PatternConfigs, NormalType } from './typings'
+import { ConfigPatternProps, NextPath, PatternConfigs, NormalType } from './typings'
 import styles from './style/SortableCondition.styl'
 
-type Props = Omit<PatternConfigs, 'defaultPattern'> & {
-  value: PatternItem
+type Props<T = any> = Omit<PatternConfigs, 'defaultPattern'> & {
   path?: NextPath
   type: NormalType
+  patterns?: T
 }
 
 export const Pattern = (props: Props) => {
@@ -15,18 +15,34 @@ export const Pattern = (props: Props) => {
       return
     }
     props.patternOnAdd(props.path || [])
+    if (props.onAdd) {
+      props.onAdd(props.path || [])
+    }
   }, [props.path])
   const handleReducePattern = useCallback(() => {
-    if (!props.patternOnReduce) {
+    if (!props.patternOnDelete) {
       return
     }
-    props.patternOnReduce(props.path || [])
+    props.patternOnDelete(props.path || [])
+    if (props.onDelete) {
+      props.onDelete(props.path || [])
+    }
   }, [props.path])
+  const PatterComponent =
+    props.component && React.isValidElement(props.component)
+      ? React.cloneElement(props.component, {
+          patterns: props.patterns,
+          onChange: ({ patterns }: { patterns: any }) => {
+            if (props.patternOnChange) {
+              props.patternOnChange(props.path || [], { patterns })
+            }
+          },
+        })
+      : 'this is pattern'
   return (
     <div data-role="pattern-item" className={styles.pattern}>
       <div data-role="content" onClick={props.onClick}>
-        <p>{props.value.title}</p>
-        {props.value.subtitle ? <p>{props.value.subtitle}</p> : null}
+        <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
         <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
@@ -45,3 +61,5 @@ export type PatternProps = ConfigPatternProps
 export const ConfigPattern = (props: PatternProps) => {
   return <span>{props}</span>
 }
+
+ConfigPattern.displayName = 'Pattern'

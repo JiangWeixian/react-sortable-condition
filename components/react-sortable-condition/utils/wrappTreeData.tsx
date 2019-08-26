@@ -1,15 +1,9 @@
 import React from 'react'
 
-import {
-  ConditionTreeItem,
-  ConditionNodeData,
-  ConditionConfigs,
-  PatternConfigs,
-  PatternNodeData,
-} from '../typings'
+import { ConditionTreeItem, ConditionNodeData, ConditionConfigs, PatternConfigs } from '../typings'
 
 import { Condition } from '../Condition'
-import { Pattern } from '../Pattern'
+import { createPattern } from './factory'
 
 const defaultTrees: ConditionTreeItem[] = []
 
@@ -30,14 +24,7 @@ export const wrappTreeData = ({
     if (item.type === 'and' || item.type === 'or') {
       return {
         title: (props: ConditionNodeData) => (
-          <Condition
-            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-            conditionOnAdd={conditionConfigs.conditionOnAdd}
-            conditionOnReduce={conditionConfigs.conditionOnReduce}
-            value={item}
-            path={props.path}
-            type={props.node.type}
-          />
+          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
         ),
         type: item.type,
         expanded: item.expanded,
@@ -46,21 +33,10 @@ export const wrappTreeData = ({
           : [],
       }
     } else if (item.type === 'normal') {
-      return {
-        ...item,
+      return createPattern({
+        patternConfigs,
         expanded: item.expanded,
-        children: undefined,
-        type: 'normal',
-        title: (props: PatternNodeData) => (
-          <Pattern
-            value={{ ...item, title: patternConfigs.defaultPattern }}
-            path={props.path}
-            patternOnAdd={patternConfigs.patternOnAdd}
-            patternOnReduce={patternConfigs.patternOnReduce}
-            type="normal"
-          />
-        ),
-      }
+      })
     }
     return {
       ...item,

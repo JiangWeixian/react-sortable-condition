@@ -1,18 +1,11 @@
 import React, { useCallback } from 'react'
 
-import {
-  ConditionItem,
-  NextPath,
-  ConditionType,
-  ConfigConditionProps,
-  ConditionConfigs,
-} from './typings'
+import { NextPath, ConditionType, ConfigConditionProps, ConditionConfigs } from './typings'
 import styles from './style/SortableCondition.styl'
 
-type Props = ConditionConfigs & {
+export type Props = ConditionConfigs & {
   type?: ConditionType
   path?: NextPath
-  value: ConditionItem
 }
 
 export const Condition = (props: Props) => {
@@ -22,24 +15,32 @@ export const Condition = (props: Props) => {
     }
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
     props.conditionTypeOnChange(props.path || [], { type: nextType })
+    if (props.onType) {
+      props.onType(props.path || [], { type: nextType })
+    }
   }, [props.type || 'and', props.path])
   const handleAddCondition = useCallback(() => {
     if (!props.conditionOnAdd) {
       return
     }
     props.conditionOnAdd(props.path || [])
+    if (props.onAdd) {
+      props.onAdd(props.path || [])
+    }
   }, [props.path])
   const handleReduceCondition = useCallback(() => {
-    if (!props.conditionOnReduce) {
+    if (!props.conditionOnDelete) {
       return
     }
-    props.conditionOnReduce(props.path || [])
+    if (props.onDelete) {
+      props.onDelete(props.path || [])
+    }
+    props.conditionOnDelete(props.path || [])
   }, [props.path])
   return (
     <div data-role="condition-item" className={styles.condition}>
       <div data-role="content" onClick={handleChangeConditionType}>
         <p>{props.type}</p>
-        {props.value.subtitle ? <p>{props.value.subtitle}</p> : null}
       </div>
       <div data-role="btns" className={styles.btns}>
         <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
@@ -58,3 +59,5 @@ export type ConditionProps = ConfigConditionProps
 export const ConfigCondition = (props: ConditionProps) => {
   return <span>{props}</span>
 }
+
+ConfigCondition.displayName = 'Condition'

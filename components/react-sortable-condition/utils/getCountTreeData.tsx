@@ -6,13 +6,12 @@ import {
   ConditionNodeData,
   ConditionItem,
   PatternItem,
-  PatternNodeData,
   PatternConfigs,
 } from '../typings'
 import { getNodeAtPath, removeNodeAtPath } from 'react-sortable-tree'
 import { insertItems } from './insertItems'
 import { Condition } from '../Condition'
-import { Pattern } from '../Pattern'
+import { createPattern, createCondition } from './factory'
 
 const isForbiddenCount = ({
   path = [],
@@ -65,33 +64,16 @@ export const getCountTreeData = ({
   // handle click root item
   if (!parentItem) {
     const child: ConditionTreeItem[] = [
-      {
-        type: 'and',
-        title: (props: ConditionNodeData) => (
-          <Condition
-            value={{ title: 'add', type: 'and' }}
-            path={props.path}
-            type={props.node.type}
-            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-            conditionOnAdd={conditionConfigs.conditionOnAdd}
-            conditionOnReduce={conditionConfigs.conditionOnReduce}
-          />
-        ),
-        expanded: true,
-      },
+      createCondition({
+        patternConfigs,
+        conditionConfigs,
+      }),
     ]
     return [
       {
         type: 'and',
         title: (props: ConditionNodeData) => (
-          <Condition
-            value={{ title: 'add', type: 'and' }}
-            path={props.path}
-            type={props.node.type}
-            conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-            conditionOnAdd={conditionConfigs.conditionOnAdd}
-            conditionOnReduce={conditionConfigs.conditionOnReduce}
-          />
+          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
         ),
         children: child.concat(treeData),
         expanded: true,
@@ -110,20 +92,10 @@ export const getCountTreeData = ({
   if (item.node.type === 'and' || item.node.type === 'or') {
     if (type === 'add') {
       const items: ConditionItem[] = [
-        {
-          type: 'and',
-          title: (props: ConditionNodeData) => (
-            <Condition
-              value={{ title: 'and', type: 'and' }}
-              path={props.path}
-              type={props.node.type}
-              conditionOnAdd={conditionConfigs.conditionOnAdd}
-              conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
-              conditionOnReduce={conditionConfigs.conditionOnReduce}
-            />
-          ),
-          children: undefined,
-        },
+        createCondition({
+          patternConfigs,
+          conditionConfigs,
+        }),
       ]
       return insertItems({
         treeData,
@@ -144,19 +116,9 @@ export const getCountTreeData = ({
   } else if (item.node.type === 'normal') {
     if (type === 'add') {
       const items: PatternItem[] = [
-        {
-          type: 'normal',
-          title: (props: PatternNodeData) => (
-            <Pattern
-              value={{ title: patternConfigs.defaultPattern, type: 'normal' }}
-              path={props.path}
-              type="normal"
-              patternOnAdd={patternConfigs.patternOnAdd}
-              patternOnReduce={patternConfigs.patternOnReduce}
-            />
-          ),
-          children: undefined,
-        },
+        createPattern({
+          patternConfigs,
+        }),
       ]
       return insertItems({
         treeData,
