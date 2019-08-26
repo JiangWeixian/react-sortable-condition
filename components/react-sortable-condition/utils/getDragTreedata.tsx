@@ -58,6 +58,8 @@ export const getDrageTreedata = ({
             conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
             conditionOnAdd={conditionConfigs.conditionOnAdd}
             conditionOnReduce={conditionConfigs.conditionOnReduce}
+            onAdd={conditionConfigs.conditionOnAdd}
+            onDelete={conditionConfigs.conditionOnAdd}
           />
         ),
         children: [item],

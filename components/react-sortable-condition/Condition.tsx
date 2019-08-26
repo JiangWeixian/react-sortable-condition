@@ -28,10 +28,16 @@ export const Condition = (props: Props) => {
       return
     }
     props.conditionOnAdd(props.path || [])
+    if (props.onAdd) {
+      props.onAdd(props.path || [])
+    }
   }, [props.path])
   const handleReduceCondition = useCallback(() => {
     if (!props.conditionOnReduce) {
       return
+    }
+    if (props.onDelete) {
+      props.onDelete(props.path || [])
     }
     props.conditionOnReduce(props.path || [])
   }, [props.path])
@@ -58,3 +64,5 @@ export type ConditionProps = ConfigConditionProps
 export const ConfigCondition = (props: ConditionProps) => {
   return <span>{props}</span>
 }
+
+ConfigCondition.displayName = 'Condition'

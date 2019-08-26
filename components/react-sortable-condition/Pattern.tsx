@@ -45,3 +45,5 @@ export type PatternProps = ConfigPatternProps
 export const ConfigPattern = (props: PatternProps) => {
   return <span>{props}</span>
 }
+
+ConfigPattern.displayName = 'Pattern'

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
@@ -14,10 +14,13 @@ import { wrappTreeData } from './utils/wrappTreeData'
 import { getDrageTreedata } from './utils/getDragTreedata'
 import { getTypeChangeTreeData } from './utils/getTypeChangeTreeData'
 import { getCountTreeData } from './utils/getCountTreeData'
+import { extractConditionConfig } from './utils/extractConditionConfig'
+import { extractPatternConfig } from './utils/extractPatternConfig'
 
 export type SortableConditionProps = {
   onDragStateChanged?(value: DragStateData): void
   onMoveNode?(value: MoveStateData): void
+  children?: React.ReactNode
 }
 
 const data: ConditionTreeItem[] = [
@@ -41,15 +44,29 @@ const data: ConditionTreeItem[] = [
 ]
 
 export const SortableCondition = (props: SortableConditionProps) => {
-  const conditionConfigs = {
+  const customConditionConfigs = useMemo(() => {
+    return extractConditionConfig(props.children)
+  }, [props.children])
+  const defaultConditionConfigs = {
     conditionTypeOnChange: handleConditionTypeChange,
     conditionOnAdd: handleConditionAdd,
     conditionOnReduce: handleConditionReduce,
   }
-  const patternConfigs = {
+  const conditionConfigs = {
+    ...customConditionConfigs,
+    ...defaultConditionConfigs,
+  }
+  const customPatternConfigs = useMemo(() => {
+    return extractPatternConfig(props.children)
+  }, [props.children])
+  const defaultPatternConfigs = {
     patternOnAdd: handlePatternAdd,
     patternOnReduce: handlePatternReduce,
     defaultPattern: 'this is a default Pattern',
+  }
+  const patternConfigs = {
+    ...customPatternConfigs,
+    ...defaultPatternConfigs,
   }
   const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
     wrappTreeData({

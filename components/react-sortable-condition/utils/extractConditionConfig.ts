@@ -1,19 +1,23 @@
 import React from 'react'
 
-import { ConditionTreeItem } from '../typings/index'
+import { ConfigConditionProps } from '../typings'
 
-const defaultData: ConditionTreeItem[] = []
+const defaultConfig: ConfigConditionProps = {}
 
-export const extractConditionConfig = (children: React.ReactChildren): ConditionTreeItem[] => {
-  const data = defaultData
-  React.Children.map(children, child => {
-    if (React.isValidElement<ConditionTreeItem>(child)) {
+export const extractConditionConfig = (children?: React.ReactNode): ConfigConditionProps => {
+  const config = defaultConfig
+  if (!children) {
+    return config
+  }
+  React.Children.forEach(children, child => {
+    if (React.isValidElement<ConfigConditionProps>(child)) {
       const props = child.props
-      return {
-        type: props.type,
-        title: props.title,
+      const name = (child.type as any).displayName
+      if (name && name === 'Condition') {
+        config.onAdd = props.onAdd
+        config.onDelete = props.onDelete
       }
     }
   })
-  return data
+  return config
 }

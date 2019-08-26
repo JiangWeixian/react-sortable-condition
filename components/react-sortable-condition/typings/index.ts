@@ -60,8 +60,8 @@ export type CountCallback = (path: NextPath) => void
 
 export type ConfigConditionProps = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
-  onAdd?: Function
-  onDelete?: Function
+  onAdd?: CountCallback
+  onDelete?: CountCallback
 }
 
 export type ConditionConfigs = ConfigConditionProps & {
@@ -72,9 +72,10 @@ export type ConditionConfigs = ConfigConditionProps & {
 
 export type ConfigPatternProps = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
-  onAdd?: Function
-  onDelete?: Function
+  onAdd?: CountCallback
+  onDelete?: CountCallback
   defaultPattern: React.ReactNode
+  children?: React.ReactNode
 }
 
 export type PatternConfigs = ConfigPatternProps & {

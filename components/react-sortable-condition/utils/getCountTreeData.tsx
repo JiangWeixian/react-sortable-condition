@@ -75,6 +75,8 @@ export const getCountTreeData = ({
             conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
             conditionOnAdd={conditionConfigs.conditionOnAdd}
             conditionOnReduce={conditionConfigs.conditionOnReduce}
+            onAdd={conditionConfigs.onAdd}
+            onDelete={conditionConfigs.onDelete}
           />
         ),
         expanded: true,
@@ -91,6 +93,8 @@ export const getCountTreeData = ({
             conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
             conditionOnAdd={conditionConfigs.conditionOnAdd}
             conditionOnReduce={conditionConfigs.conditionOnReduce}
+            onAdd={conditionConfigs.onAdd}
+            onDelete={conditionConfigs.onDelete}
           />
         ),
         children: child.concat(treeData),
@@ -120,6 +124,8 @@ export const getCountTreeData = ({
               conditionOnAdd={conditionConfigs.conditionOnAdd}
               conditionTypeOnChange={conditionConfigs.conditionTypeOnChange}
               conditionOnReduce={conditionConfigs.conditionOnReduce}
+              onAdd={conditionConfigs.onAdd}
+              onDelete={conditionConfigs.onDelete}
             />
           ),
           children: undefined,
