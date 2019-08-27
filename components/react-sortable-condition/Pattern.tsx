@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
@@ -17,34 +17,46 @@ type Props<T = any> = {
 export const Pattern = (props: Props) => {
   const configs = useContext(ConfigContext).pattern
   const globalConfigs = useContext(ConfigContext).global
-  const { treeData, dispatch } = useContext(DataContext)
-  const handleAddPattern = useCallback(() => {
-    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs } })
+  const { dispatch } = useContext(DataContext)
+  const handleAddPattern = () => {
+    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
     if (configs.onAdd) {
-      configs.onAdd(props.path || [])
+      configs.onAdd(props.node, props.path || [])
     }
-  }, [props.path, configs.onAdd, dispatch, globalConfigs])
-  const handleDeletePattern = useCallback(() => {
-    dispatch({ type: 'DELETE', payload: { path: props.path || [], globalConfigs } })
+  }
+  const handleDeletePattern = () => {
+    dispatch({
+      type: 'DELETE',
+      payload: { path: props.path || [], globalConfigs, node: props.node },
+    })
     if (configs.onDelete) {
-      configs.onDelete(props.path || [])
+      configs.onDelete(props.node, props.path || [])
     }
-  }, [props.path, configs.onDelete, dispatch, globalConfigs])
-  const handleConvert = useCallback(() => {
-    dispatch({ type: 'CONVERT', payload: { path: props.path || [], globalConfigs } })
-  }, [props.path, dispatch, globalConfigs])
+  }
+  const handleConvert = () => {
+    dispatch({
+      type: 'CONVERT',
+      payload: { path: props.path || [], globalConfigs, node: props.node },
+    })
+    if (configs.onConvert) {
+      configs.onConvert(props.node, props.path || [])
+    }
+  }
   const PatterComponent =
     configs.component && React.isValidElement(configs.component)
       ? React.cloneElement(configs.component, {
           patterns: props.patterns,
           onChange: ({ patterns }: { patterns: any }) => {
-            dispatch({ type: 'CHANGE_PATTERN', payload: { path: props.path || [], patterns } })
+            dispatch({
+              type: 'CHANGE_PATTERN',
+              payload: { path: props.path || [], patterns, node: props.node },
+            })
           },
         })
       : 'this is pattern'
   return (
     <div data-role="pattern-item" className={cx(styles.pattern, styles.item, configs.className)}>
-      <div data-role="content" onClick={configs.onClick} className={styles.content}>
+      <div data-role="content" className={styles.content}>
         <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>

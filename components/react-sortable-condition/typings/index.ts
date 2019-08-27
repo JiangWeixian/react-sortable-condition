@@ -74,9 +74,15 @@ export type ConditionType = 'and' | 'or'
 
 export type NormalType = 'normal'
 
-export type ConditionTypeChangeCallback = (path: NextPath, value: { type: ConditionType }) => void
-export type ConvertCallback = (path: NextPath) => void
-export type CountCallback = (path: NextPath) => void
+export type ConditionTypeChangeCallback<T> = (
+  node: ConditionItem<T>,
+  path: NextPath,
+  value: { type: ConditionType },
+) => void
+export type ConditionConvertCallback<T> = (node: ConditionItem<T>, path: NextPath) => void
+export type PatternConvertCallback<T> = (node: PatternItem<T>, path: NextPath) => void
+export type PatternCountCallback<T = any> = (node: PatternItem<T>, path: NextPath) => void
+export type ConditionCallback<T = any> = (node: ConditionItem<T>, path: NextPath) => void
 export type PatternChangeCallback<T> = (path: NextPath, value: { patterns?: T }) => void
 export type IconSets = {
   addIcon?: React.ReactNode | null
@@ -84,22 +90,21 @@ export type IconSets = {
   convertIcon?: React.ReactNode | null
 }
 
-export type CustomConditionConfigs = {
-  onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
-  onAdd?: CountCallback
-  onDelete?: CountCallback
-  onType?: ConditionTypeChangeCallback
+export type CustomConditionConfigs<T = any> = {
+  onAdd?: ConditionCallback<T>
+  onDelete?: ConditionCallback<T>
+  onType?: ConditionTypeChangeCallback<T>
+  onConvert?: ConditionConvertCallback<T>
   className?: string
 } & IconSets
 
 export type ConditionConfigs = CustomConditionConfigs
 
-export type CustomPatternConfigs = {
-  onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
-  onAdd?: CountCallback
-  onDelete?: CountCallback
+export type CustomPatternConfigs<T = any> = {
+  onAdd?: PatternCountCallback<T>
+  onDelete?: PatternCountCallback<T>
+  onConvert?: PatternConvertCallback<T>
   children?: React.ReactNode
-  onChange?: PatternChangeCallback<any>
   className?: string
 } & IconSets
 
@@ -119,8 +124,17 @@ export type Configs = {
 
 export type Action<T = any> =
   | { type: 'RESET'; payload: ConditionTreeItem[] }
-  | { type: 'CHANGE_TYPE'; payload: { type: ConditionType; path: NextPath } }
-  | { type: 'ADD'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
-  | { type: 'DELETE'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
-  | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T } }
-  | { type: 'CONVERT'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
+  | { type: 'CHANGE_TYPE'; payload: { type: ConditionType; path: NextPath; node: ConditionItem } }
+  | {
+      type: 'ADD'
+      payload: { path: NextPath; node: ConditionTreeItem; globalConfigs: GlobalConfigs }
+    }
+  | {
+      type: 'DELETE'
+      payload: { path: NextPath; node: ConditionTreeItem; globalConfigs: GlobalConfigs }
+    }
+  | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T; node: PatternItem } }
+  | {
+      type: 'CONVERT'
+      payload: { path: NextPath; globalConfigs: GlobalConfigs; node: ConditionTreeItem }
+    }

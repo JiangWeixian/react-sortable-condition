@@ -1,20 +1,17 @@
 import { ConditionTreeItem, NextPath, ConditionType } from '../typings'
-import { getNodeAtPath, changeNodeAtPath } from 'react-sortable-tree'
+import { changeNodeAtPath } from 'react-sortable-tree'
 
 export const getTypeChangeTreeData = ({
   treeData = [],
   path = [],
   value = { type: 'and' },
+  item,
 }: {
   treeData: ConditionTreeItem[]
   path: NextPath
+  item?: ConditionTreeItem
   value: { type: ConditionType }
 }) => {
-  const item = getNodeAtPath({
-    treeData,
-    path,
-    getNodeKey: data => data.treeIndex,
-  })
   if (!item) {
     return treeData
   }
@@ -23,7 +20,7 @@ export const getTypeChangeTreeData = ({
     path,
     getNodeKey: data => data.treeIndex,
     newNode: {
-      ...item.node,
+      ...item,
       ...value,
     },
   }) as ConditionTreeItem[]

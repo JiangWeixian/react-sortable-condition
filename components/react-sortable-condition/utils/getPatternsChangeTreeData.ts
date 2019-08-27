@@ -1,22 +1,19 @@
 import { ConditionTreeItem, NextPath } from '../typings'
-import { getNodeAtPath, changeNodeAtPath } from 'react-sortable-tree'
+import { changeNodeAtPath } from 'react-sortable-tree'
 
 export const getPatternsChangeTreeData = ({
   treeData = [],
   path = [],
   value = { patterns: undefined },
+  item,
 }: {
   treeData: ConditionTreeItem[]
   path: NextPath
   value: {
     patterns?: any
   }
+  item?: ConditionTreeItem
 }) => {
-  const item = getNodeAtPath({
-    treeData,
-    path,
-    getNodeKey: data => data.treeIndex,
-  })
   if (!item) {
     return treeData
   }
@@ -25,7 +22,7 @@ export const getPatternsChangeTreeData = ({
     path,
     getNodeKey: data => data.treeIndex,
     newNode: {
-      ...item.node,
+      ...item,
       ...value,
     },
   }) as ConditionTreeItem[]

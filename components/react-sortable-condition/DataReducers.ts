@@ -16,12 +16,14 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
         treeData: state,
         path: action.payload.path,
         value: { type: action.payload.type },
+        item: action.payload.node,
       })
     case 'ADD':
       return getCountTreeData({
         treeData: state,
         path: action.payload.path,
         globalConfigs: action.payload.globalConfigs,
+        item: action.payload.node,
       })
     case 'DELETE':
       return getCountTreeData({
@@ -29,18 +31,21 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
         path: action.payload.path,
         globalConfigs: action.payload.globalConfigs,
         type: 'delete',
+        item: action.payload.node,
       })
     case 'CHANGE_PATTERN':
       return getPatternsChangeTreeData({
         treeData: state,
         path: action.payload.path,
         value: { patterns: action.payload.patterns },
+        item: action.payload.node,
       })
     case 'CONVERT':
       return getConvertTreedata({
         treeData: state,
         path: action.payload.path,
         globalConfigs: action.payload.globalConfigs,
+        item: action.payload.node,
       })
     default:
       return state

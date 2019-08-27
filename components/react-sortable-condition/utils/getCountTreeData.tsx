@@ -7,7 +7,7 @@ import {
   PatternItem,
   GlobalConfigs,
 } from '../typings'
-import { getNodeAtPath, removeNodeAtPath } from 'react-sortable-tree'
+import { removeNodeAtPath } from 'react-sortable-tree'
 import { insertItems } from './insertItems'
 import { Condition } from '../Condition'
 import { createPattern, createCondition } from './factory'
@@ -37,10 +37,12 @@ export const getCountTreeData = ({
   treeData = [],
   globalConfigs = {},
   type = 'add',
+  item,
 }: {
   path: NextPath
   treeData: ConditionTreeItem[]
   globalConfigs: GlobalConfigs
+  item?: ConditionTreeItem
   type?: 'add' | 'delete'
 }) => {
   if (isForbiddenCount({ path, treeData, type })) {
@@ -61,16 +63,11 @@ export const getCountTreeData = ({
       },
     ] as ConditionTreeItem[]
   }
-  const item = getNodeAtPath({
-    treeData,
-    path,
-    getNodeKey: data => data.treeIndex,
-  })
   if (!item) {
     return treeData
   }
   // handle condition
-  if (item.node.type === 'and' || item.node.type === 'or') {
+  if (item.type === 'and' || item.type === 'or') {
     if (type === 'add') {
       const items: ConditionItem[] = [createCondition({})]
       const nextTreeData = insertItems({
@@ -93,7 +90,7 @@ export const getCountTreeData = ({
       }) as ConditionTreeItem[]
     }
     // handle pattern
-  } else if (item.node.type === 'normal') {
+  } else if (item.type === 'normal') {
     if (type === 'add') {
       const items: PatternItem[] = [createPattern({})]
       return insertItems({
