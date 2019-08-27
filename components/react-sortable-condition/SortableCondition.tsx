@@ -136,7 +136,6 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         treeData: value.treeData,
         siblingItems: value.nextParentNode ? value.nextParentNode.children : [],
         path: value.nextPath,
-        conditionConfigs,
       })
       if (props.onMoveNode) {
         props.onMoveNode({
@@ -158,9 +157,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     [props.onChange],
   )
   return (
-    <ConfigProvider
-      configs={{ global: globalConfigs, pattern: patternConfigs, condition: conditionConfigs }}
-    >
+    <ConfigProvider configs={{ pattern: patternConfigs, condition: conditionConfigs }}>
       <SortableTree
         onDragStateChanged={props.onDragState}
         onMoveNode={handleMoveNode}

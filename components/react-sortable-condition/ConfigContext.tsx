@@ -1,19 +1,18 @@
 import React from 'react'
 import { Configs } from './typings'
 
-const defaultConfigs: Configs = {
+const defaultConfigs: Omit<Configs, 'global'> = {
   pattern: {
     component: 'this is a pattern',
   },
   condition: {},
-  global: {},
 }
 
-export const ConfigContext = React.createContext<Configs>(defaultConfigs)
+export const ConfigContext = React.createContext<Omit<Configs, 'global'>>(defaultConfigs)
 
 type Props = {
   children?: React.ReactNode
-  configs?: Configs
+  configs?: Omit<Configs, 'global'>
 }
 
 export const ConfigProvider = ({ configs = defaultConfigs, children }: Props) => {
