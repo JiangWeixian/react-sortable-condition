@@ -2,11 +2,9 @@ import React from 'react'
 import {
   NextPath,
   ConditionTreeItem,
-  ConditionConfigs,
   ConditionNodeData,
   ConditionItem,
   PatternItem,
-  PatternConfigs,
   GlobalConfigs,
 } from '../typings'
 import { getNodeAtPath, removeNodeAtPath } from 'react-sortable-tree'
@@ -37,14 +35,11 @@ const isForbiddenCount = ({
 export const getCountTreeData = ({
   path = [],
   treeData = [],
-  conditionConfigs = {},
   globalConfigs = {},
   type = 'add',
 }: {
   path: NextPath
   treeData: ConditionTreeItem[]
-  conditionConfigs?: ConditionConfigs
-  patternConfigs: PatternConfigs
   globalConfigs: GlobalConfigs
   type?: 'add' | 'reduce'
 }) => {
@@ -58,9 +53,7 @@ export const getCountTreeData = ({
     return [
       {
         type: 'and',
-        title: (props: ConditionNodeData) => (
-          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
-        ),
+        title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
         children: child.concat(treeData),
         expanded: true,
       },

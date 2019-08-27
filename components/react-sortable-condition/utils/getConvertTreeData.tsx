@@ -1,13 +1,6 @@
 import React from 'react'
 
-import {
-  ConditionTreeItem,
-  NextPath,
-  ConditionNodeData,
-  ConditionConfigs,
-  PatternConfigs,
-  GlobalConfigs,
-} from '../typings'
+import { ConditionTreeItem, NextPath, ConditionNodeData, GlobalConfigs } from '../typings'
 import { changeNodeAtPath, getNodeAtPath } from 'react-sortable-tree'
 import { Condition } from '../Condition'
 import { insertItems } from './insertItems'
@@ -35,13 +28,10 @@ const isForbiddenConvert = (parentItem?: ConditionTreeItem | null) => {
 export const getConvertTreedata = ({
   treeData = [],
   path = [],
-  conditionConfigs = {},
   globalConfigs = {},
 }: {
   treeData?: ConditionTreeItem[]
   path?: NextPath
-  conditionConfigs: ConditionConfigs
-  patternConfigs: PatternConfigs
   globalConfigs: GlobalConfigs
 }): ConditionTreeItem[] => {
   const parentItem = getParentItem(treeData, path)
@@ -64,9 +54,7 @@ export const getConvertTreedata = ({
       getNodeKey: data => data.treeIndex,
       newNode: {
         type: 'and',
-        title: (props: ConditionNodeData) => (
-          <Condition {...conditionConfigs} type={props.node.type} path={props.path} />
-        ),
+        title: (props: ConditionNodeData) => <Condition type={props.node.type} path={props.path} />,
         children: [
           createPattern({
             expanded: false,

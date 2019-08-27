@@ -82,8 +82,6 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       const nextTreeData = getCountTreeData({
         treeData: prevTreeData,
         path,
-        conditionConfigs,
-        patternConfigs,
         globalConfigs,
       })
       return nextTreeData
@@ -95,7 +93,6 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         treeData: prevTreeData,
         path,
         type: 'reduce',
-        patternConfigs,
         globalConfigs,
       })
       return nextTreeData
@@ -116,8 +113,6 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       const nextTreeData = getConvertTreedata({
         treeData: prevTreeData,
         path,
-        conditionConfigs,
-        patternConfigs,
         globalConfigs,
       })
       return nextTreeData
