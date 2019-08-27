@@ -7,18 +7,18 @@ import { createPattern } from './factory'
 
 const defaultTrees: ConditionTreeItem[] = []
 
-export const wrappTreeData = ({ value = [] }: { value: DataItem[] }): ConditionTreeItem[] => {
+export const wrappTreeData = (treeData: DataItem[] = []): ConditionTreeItem[] => {
   const trees = defaultTrees
-  if (!value) {
+  if (!treeData) {
     return trees
   }
-  return value.map(item => {
+  return treeData.map(item => {
     if (item.type === 'and' || item.type === 'or') {
       return {
         title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
         type: item.type,
         expanded: item.expanded,
-        children: item.children ? wrappTreeData({ value: item.children }) : [],
+        children: item.children ? wrappTreeData(item.children) : [],
       }
     } else if (item.type === 'normal') {
       return createPattern({

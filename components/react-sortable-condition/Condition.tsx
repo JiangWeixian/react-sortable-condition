@@ -14,18 +14,15 @@ export type Props = {
 
 export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
-  const treeData = useContext(DataContext)
-  console.log(treeData)
+  const { treeData, dispatch } = useContext(DataContext)
+  console.log(treeData, dispatch)
   const handleChangeConditionType = useCallback(() => {
-    if (!configs.conditionTypeOnChange) {
-      return
-    }
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
-    configs.conditionTypeOnChange(props.path || [], { type: nextType })
+    dispatch({ type: 'CHANGE_TYPE', payload: { path: props.path || [], type: nextType } })
     if (configs.onType) {
       configs.onType(props.path || [], { type: nextType })
     }
-  }, [props.type || 'and', props.path, configs.conditionTypeOnChange, configs.onType])
+  }, [props.type || 'and', props.path, dispatch, configs.onType])
   const handleAddCondition = useCallback(() => {
     if (!configs.conditionOnAdd) {
       return

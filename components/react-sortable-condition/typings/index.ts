@@ -129,3 +129,7 @@ export type Configs = {
   pattern: PatternConfigs
   condition: ConditionConfigs
 }
+
+export type Action =
+  | { type: 'RESET'; payload: ConditionTreeItem[] }
+  | { type: 'CHANGE_TYPE'; payload: { type: ConditionType; path: NextPath } }

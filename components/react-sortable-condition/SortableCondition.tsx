@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
@@ -12,9 +12,7 @@ import {
   DataItem,
 } from './typings'
 import styles from './style/SortableCondition.styl'
-import { wrappTreeData } from './utils/wrappTreeData'
 import { getDrageTreedata } from './utils/getDragTreedata'
-import { getTypeChangeTreeData } from './utils/getTypeChangeTreeData'
 import { getCountTreeData } from './utils/getCountTreeData'
 import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
@@ -22,6 +20,7 @@ import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
 import { getConvertTreedata } from './utils/getConvertTreeData'
 import { ConfigProvider } from './ConfigContext'
 import { DataProvider } from './DataContext'
+import { useTreeData } from './DataReducers'
 
 export type SortableConditionProps<T> = {
   onDragState?(value: DragStateData<T>): void
@@ -38,7 +37,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     return extractConditionConfig(props.children)
   }, [props.children])
   const defaultConditionConfigs = {
-    conditionTypeOnChange: handleConditionTypeChange,
+    conditionTypeOnChange: () => console.log('conditionTypechaneg'),
     conditionOnAdd: handleAdd,
     conditionOnDelete: handleDelete,
     conditionOnConvert: handleConvert,
@@ -63,68 +62,54 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const globalConfigs = {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
-  const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
-    wrappTreeData({
-      value: props.dataSource || [],
-    }),
-  )
-  function handleConditionTypeChange(path: NextPath, value: { type: ConditionType }) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getTypeChangeTreeData({
-        treeData: prevTreeData,
-        path,
-        value,
-      })
-      return nextTreeData
-    })
-  }
+  const { treeData, dispatch } = useTreeData({ initialState: props.dataSource || [] })
   function handleAdd(path: NextPath) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getCountTreeData({
-        treeData: prevTreeData,
-        path,
-        globalConfigs,
-      })
-      return nextTreeData
-    })
+    // setTreeData(prevTreeData => {
+    //   const nextTreeData = getCountTreeData({
+    //     treeData: prevTreeData,
+    //     path,
+    //     globalConfigs,
+    //   })
+    //   return nextTreeData
+    // })
   }
   function handleDelete(path: NextPath) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getCountTreeData({
-        treeData: prevTreeData,
-        path,
-        type: 'reduce',
-        globalConfigs,
-      })
-      return nextTreeData
-    })
+    // setTreeData(prevTreeData => {
+    //   const nextTreeData = getCountTreeData({
+    //     treeData: prevTreeData,
+    //     path,
+    //     type: 'reduce',
+    //     globalConfigs,
+    //   })
+    //   return nextTreeData
+    // })
   }
   function handlePatternChange(path: NextPath, value: { patterns: any }) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getPatternsChangeTreeData({
-        treeData: prevTreeData,
-        path,
-        value,
-      })
-      return nextTreeData
-    })
+    // setTreeData(prevTreeData => {
+    //   const nextTreeData = getPatternsChangeTreeData({
+    //     treeData: prevTreeData,
+    //     path,
+    //     value,
+    //   })
+    //   return nextTreeData
+    // })
   }
   function handleConvert(path: NextPath) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getConvertTreedata({
-        treeData: prevTreeData,
-        path,
-        globalConfigs,
-      })
-      return nextTreeData
-    })
+    // setTreeData(prevTreeData => {
+    //   const nextTreeData = getConvertTreedata({
+    //     treeData: prevTreeData,
+    //     path,
+    //     globalConfigs,
+    //   })
+    //   return nextTreeData
+    // })
   }
   const handleVisibleChange = useCallback(
     (value: VisibilityStateData) => {
       if (props.onVisible) {
         props.onVisible(value)
       }
-      setTreeData(value.treeData)
+      dispatch({ type: 'RESET', payload: value.treeData })
     },
     [props.onVisible],
   )
@@ -144,7 +129,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
           treeData: nextTreeData,
         })
       }
-      setTreeData(nextTreeData)
+      dispatch({ type: 'RESET', payload: nextTreeData })
     },
     [props.onMoveNode, treeData],
   )
@@ -159,7 +144,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   )
   return (
     <ConfigProvider configs={{ pattern: patternConfigs, condition: conditionConfigs }}>
-      <DataProvider store={treeData}>
+      <DataProvider store={{ treeData, dispatch }}>
         <SortableTree
           onDragStateChanged={props.onDragState}
           onMoveNode={handleMoveNode}

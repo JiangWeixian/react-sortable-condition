@@ -1,14 +1,13 @@
 import React from 'react'
-import { ConditionTreeItem } from './typings'
+import { ConditionTreeItem, Action } from './typings'
 
-export const DataContext = React.createContext<ConditionTreeItem[]>([])
+type Value = {
+  treeData: ConditionTreeItem[]
+  dispatch: React.Dispatch<Action>
+}
 
-export const DataProvider = ({
-  children,
-  store,
-}: {
-  children?: React.ReactNode
-  store: ConditionTreeItem[]
-}) => {
+export const DataContext = React.createContext<Value>({ treeData: [], dispatch: () => undefined })
+
+export const DataProvider = ({ children, store }: { children?: React.ReactNode; store: Value }) => {
   return <DataContext.Provider value={store}>{children}</DataContext.Provider>
 }
