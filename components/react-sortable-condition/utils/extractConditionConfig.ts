@@ -20,6 +20,7 @@ export const extractConditionConfig = (children?: React.ReactNode): CustomCondit
         config.className = props.className
         config.addIcon = props.addIcon
         config.deleteIcon = props.deleteIcon
+        config.convertIcon = props.convertIcon
       }
     }
   })

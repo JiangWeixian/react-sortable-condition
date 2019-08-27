@@ -22,6 +22,7 @@ export const extractPatternConfig = (children?: React.ReactNode): PatternConfigs
         config.className = props.className
         config.addIcon = props.addIcon
         config.deleteIcon = props.deleteIcon
+        config.convertIcon = props.convertIcon
       }
     }
   })
