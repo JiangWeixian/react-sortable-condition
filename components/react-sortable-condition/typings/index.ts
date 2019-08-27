@@ -83,7 +83,7 @@ export type IconSets = {
   deleteIcon?: React.ReactNode | null
 }
 
-export type ConfigConditionProps = {
+export type CustomConditionConfigs = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
   onAdd?: CountCallback
   onDelete?: CountCallback
@@ -91,14 +91,16 @@ export type ConfigConditionProps = {
   className?: string
 } & IconSets
 
-export type ConditionConfigs = ConfigConditionProps & {
+export type DefaultConditionConfigs = {
   conditionTypeOnChange?: ConditionTypeChangeCallback
   conditionOnAdd?: CountCallback
   conditionOnDelete?: CountCallback
   conditionOnConvert?: ConvertCallback
 }
 
-export type ConfigPatternProps = {
+export type ConditionConfigs = CustomConditionConfigs & DefaultConditionConfigs
+
+export type CustomPatternConfigs = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
   onAdd?: CountCallback
   onDelete?: CountCallback
@@ -107,13 +109,15 @@ export type ConfigPatternProps = {
   className?: string
 } & IconSets
 
-export type PatternConfigs = ConfigPatternProps & {
+export type DefaultPatternConfigs = {
   patternOnAdd?: CountCallback
   patternOnDelete?: CountCallback
   patternOnChange?: PatternChangeCallback<any>
   patternOnConvert?: ConvertCallback
   component: React.ReactNode
 }
+
+export type PatternConfigs = CustomPatternConfigs & DefaultPatternConfigs
 
 export type GlobalConfigs = {
   maxDepth?: number

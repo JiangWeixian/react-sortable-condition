@@ -2,10 +2,10 @@ import React, { useCallback } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
-import { ConfigPatternProps, NextPath, PatternConfigs, NormalType } from './typings'
+import { NextPath, PatternConfigs, NormalType, CustomPatternConfigs } from './typings'
 import styles from './style/SortableCondition.styl'
 
-type Props<T = any> = Omit<PatternConfigs, 'defaultPattern'> & {
+type Props<T = any> = PatternConfigs & {
   path?: NextPath
   type: NormalType
   patterns?: T
@@ -72,7 +72,7 @@ export const Pattern = (props: Props) => {
   )
 }
 
-export type PatternProps = ConfigPatternProps
+export type PatternProps = CustomPatternConfigs
 
 export const ConfigPattern = (props: PatternProps) => {
   return <span>{props}</span>

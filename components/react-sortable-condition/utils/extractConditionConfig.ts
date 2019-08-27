@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { ConfigConditionProps } from '../typings'
+import { CustomConditionConfigs } from '../typings'
 
-const defaultConfig: ConfigConditionProps = {}
+const defaultConfig: CustomConditionConfigs = {}
 
-export const extractConditionConfig = (children?: React.ReactNode): ConfigConditionProps => {
+export const extractConditionConfig = (children?: React.ReactNode): CustomConditionConfigs => {
   const config = defaultConfig
   if (!children) {
     return config
   }
   React.Children.forEach(children, child => {
-    if (React.isValidElement<ConfigConditionProps>(child)) {
+    if (React.isValidElement<CustomConditionConfigs>(child)) {
       const props = child.props
       const name = (child.type as any).displayName
       if (name && name === 'Condition') {

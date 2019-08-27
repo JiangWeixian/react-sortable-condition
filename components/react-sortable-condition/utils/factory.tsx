@@ -5,7 +5,6 @@ import {
   PatternConfigs,
   PatternNodeData,
   ConditionItem,
-  ConditionConfigs,
   ConditionNodeData,
   ConditionType,
 } from '../typings'
@@ -38,12 +37,10 @@ export const createPattern = ({
 }
 
 export const createCondition = ({
-  conditionConfigs = {},
   type = 'and',
   expanded = false,
   patternConfigs,
 }: {
-  conditionConfigs?: ConditionConfigs
   type?: ConditionType
   expanded?: boolean
   patternConfigs: PatternConfigs
@@ -51,9 +48,7 @@ export const createCondition = ({
   return {
     type,
     expanded,
-    title: (props: ConditionNodeData) => (
-      <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
-    ),
+    title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
     children: [
       createPattern({
         patternConfigs,

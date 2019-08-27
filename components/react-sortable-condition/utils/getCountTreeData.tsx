@@ -58,7 +58,6 @@ export const getCountTreeData = ({
     const child: ConditionTreeItem[] = [
       createCondition({
         patternConfigs,
-        conditionConfigs,
       }),
     ]
     return [
@@ -86,7 +85,6 @@ export const getCountTreeData = ({
       const items: ConditionItem[] = [
         createCondition({
           patternConfigs,
-          conditionConfigs,
         }),
       ]
       const nextTreeData = insertItems({
