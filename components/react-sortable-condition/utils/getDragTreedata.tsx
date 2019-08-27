@@ -46,7 +46,9 @@ export const getDrageTreedata = ({
       getNodeKey: data => data.treeIndex,
       newNode: {
         type: 'and',
-        title: (props: ConditionNodeData) => <Condition type={props.node.type} path={props.path} />,
+        title: (props: ConditionNodeData) => (
+          <Condition node={props.node} type={props.node.type} path={props.path} />
+        ),
         children: [item],
       },
     }) as ConditionTreeItem[]

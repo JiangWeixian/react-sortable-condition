@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
@@ -17,19 +17,22 @@ export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
   const globalConfigs = useContext(ConfigContext).global
   const { treeData, dispatch } = useContext(DataContext)
-  const handleChangeConditionType = useCallback(() => {
+  const handleChangeConditionType = () => {
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
-    dispatch({ type: 'CHANGE_TYPE', payload: { path: props.path || [], type: nextType } })
+    dispatch({
+      type: 'CHANGE_TYPE',
+      payload: { path: props.path || [], type: nextType, node: props.node },
+    })
     if (configs.onType) {
       configs.onType(props.path || [], { type: nextType })
     }
-  }, [props.type || 'and', props.path, dispatch, configs.onType])
-  const handleAddCondition = useCallback(() => {
+  }
+  const handleAddCondition = () => {
     dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
     if (configs.onAdd) {
       configs.onAdd(props.path || [])
     }
-  }, [props.path, dispatch, configs.onAdd, globalConfigs])
+  }
   const handleDeleteCondition = () => {
     dispatch({
       type: 'DELETE',

@@ -16,6 +16,7 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
         treeData: state,
         path: action.payload.path,
         value: { type: action.payload.type },
+        item: action.payload.node,
       })
     case 'ADD':
       return getCountTreeData({
