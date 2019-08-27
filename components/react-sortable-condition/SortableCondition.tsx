@@ -65,7 +65,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         },
       })
     },
-    [props.onMoveNode, treeData],
+    [props.onMoveNode],
   )
   const handleOnChange = useCallback(
     (value: ConditionTreeItem[]) => {
