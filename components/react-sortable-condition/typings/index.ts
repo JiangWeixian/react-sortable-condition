@@ -127,11 +127,11 @@ export type Action<T = any> =
   | { type: 'CHANGE_TYPE'; payload: { type: ConditionType; path: NextPath; node: ConditionItem } }
   | {
       type: 'ADD'
-      payload: { path: NextPath; node: ConditionTreeItem; globalConfigs: GlobalConfigs }
+      payload: { path: NextPath; node: ConditionTreeItem }
     }
   | {
       type: 'DELETE'
-      payload: { path: NextPath; node: ConditionTreeItem; globalConfigs: GlobalConfigs }
+      payload: { path: NextPath; node: ConditionTreeItem }
     }
   | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T; node: PatternItem } }
   | {

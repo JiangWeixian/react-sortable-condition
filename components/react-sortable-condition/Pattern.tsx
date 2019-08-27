@@ -20,7 +20,7 @@ export const Pattern = (props: Props) => {
   const globalConfigs = useContext(ConfigContext).global
   const { dispatch, treeData } = useContext(DataContext)
   const handleAddPattern = () => {
-    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
+    dispatch({ type: 'ADD', payload: { path: props.path || [], node: props.node } })
     if (configs.onAdd) {
       configs.onAdd(props.node, props.path || [])
     }
@@ -28,7 +28,7 @@ export const Pattern = (props: Props) => {
   const handleDeletePattern = () => {
     dispatch({
       type: 'DELETE',
-      payload: { path: props.path || [], globalConfigs, node: props.node },
+      payload: { path: props.path || [], node: props.node },
     })
     if (configs.onDelete) {
       configs.onDelete(props.node, props.path || [])

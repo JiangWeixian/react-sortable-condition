@@ -29,7 +29,7 @@ export const Condition = (props: Props) => {
     }
   }
   const handleAddCondition = () => {
-    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
+    dispatch({ type: 'ADD', payload: { path: props.path || [], node: props.node } })
     if (configs.onAdd) {
       configs.onAdd(props.node, props.path || [])
     }
@@ -37,7 +37,7 @@ export const Condition = (props: Props) => {
   const handleDeleteCondition = () => {
     dispatch({
       type: 'DELETE',
-      payload: { path: props.path || [], globalConfigs, node: props.node },
+      payload: { path: props.path || [], node: props.node },
     })
     if (configs.onDelete) {
       configs.onDelete(props.node, props.path || [])
