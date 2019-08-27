@@ -6,18 +6,13 @@ import {
   DragStateData,
   MoveStateData,
   ConditionTreeItem,
-  NextPath,
-  ConditionType,
   VisibilityStateData,
   DataItem,
 } from './typings'
 import styles from './style/SortableCondition.styl'
 import { getDrageTreedata } from './utils/getDragTreedata'
-import { getCountTreeData } from './utils/getCountTreeData'
 import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
-import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
-import { getConvertTreedata } from './utils/getConvertTreeData'
 import { ConfigProvider } from './ConfigContext'
 import { DataProvider } from './DataContext'
 import { useTreeData } from './DataReducers'
@@ -40,7 +35,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     conditionTypeOnChange: () => console.log('conditionTypechaneg'),
     conditionOnAdd: () => console.log('add'),
     conditionOnDelete: () => console.log('delete'),
-    conditionOnConvert: handleConvert,
+    conditionOnConvert: () => console.log('convert'),
   }
   const conditionConfigs = {
     ...customConditionConfigs,
@@ -52,8 +47,8 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const defaultPatternConfigs = {
     patternOnAdd: () => console.log('add'),
     patternOnDelete: () => console.log('delete'),
-    patternOnChange: handlePatternChange,
-    patternOnConvert: handleConvert,
+    patternOnChange: () => console.log('pattern change'),
+    patternOnConvert: () => console.log('convert'),
   }
   const patternConfigs = {
     ...customPatternConfigs,
@@ -63,26 +58,6 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
   const { treeData, dispatch } = useTreeData({ initialState: props.dataSource || [] })
-  function handlePatternChange(path: NextPath, value: { patterns: any }) {
-    // setTreeData(prevTreeData => {
-    //   const nextTreeData = getPatternsChangeTreeData({
-    //     treeData: prevTreeData,
-    //     path,
-    //     value,
-    //   })
-    //   return nextTreeData
-    // })
-  }
-  function handleConvert(path: NextPath) {
-    // setTreeData(prevTreeData => {
-    //   const nextTreeData = getConvertTreedata({
-    //     treeData: prevTreeData,
-    //     path,
-    //     globalConfigs,
-    //   })
-    //   return nextTreeData
-    // })
-  }
   const handleVisibleChange = useCallback(
     (value: VisibilityStateData) => {
       if (props.onVisible) {

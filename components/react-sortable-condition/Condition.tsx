@@ -16,7 +16,6 @@ export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
   const globalConfigs = useContext(ConfigContext).global
   const { treeData, dispatch } = useContext(DataContext)
-  console.log(treeData, dispatch)
   const handleChangeConditionType = useCallback(() => {
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
     dispatch({ type: 'CHANGE_TYPE', payload: { path: props.path || [], type: nextType } })
@@ -37,11 +36,8 @@ export const Condition = (props: Props) => {
     }
   }, [props.path, dispatch, configs.onDelete, globalConfigs])
   const handleConvertCondition = useCallback(() => {
-    if (!configs.conditionOnConvert) {
-      return
-    }
-    configs.conditionOnConvert(props.path || [])
-  }, [props.path, configs.conditionOnConvert])
+    dispatch({ type: 'CONVERT', payload: { path: props.path || [], globalConfigs } })
+  }, [props.path, dispatch, globalConfigs])
   const isRoot = props.path && props.path.length === 1 && props.path[0] === 0
   return (
     <div
