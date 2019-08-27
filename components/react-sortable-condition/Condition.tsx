@@ -57,9 +57,13 @@ export const Condition = (props: Props) => {
         <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
-        {isRoot ? null : (
+        {isRoot || isNull(configs.convertIcon) ? null : (
           <a data-role="convert-btn" className={styles.btn} onClick={handleConvertCondition}>
-            <span className={styles.btn_content}>T</span>
+            {configs.convertIcon ? (
+              configs.convertIcon
+            ) : (
+              <span className={styles.btn_content}>T</span>
+            )}
           </a>
         )}
         {isNull(configs.addIcon) ? null : (

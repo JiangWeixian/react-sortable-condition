@@ -55,9 +55,15 @@ export const Pattern = (props: Props) => {
         <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
-        <a data-role="convert-btn" className={styles.btn} onClick={handleConvert}>
-          <span className={styles.btn_content}>T</span>
-        </a>
+        {isNull(configs.convertIcon) ? null : (
+          <a data-role="convert-btn" className={styles.btn} onClick={handleConvert}>
+            {configs.convertIcon ? (
+              configs.convertIcon
+            ) : (
+              <span className={styles.btn_content}>T</span>
+            )}
+          </a>
+        )}
         {isNull(configs.addIcon) ? null : (
           <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
             {configs.addIcon ? configs.addIcon : <span className={styles.btn_content}>+</span>}

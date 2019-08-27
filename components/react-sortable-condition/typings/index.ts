@@ -81,6 +81,7 @@ export type PatternChangeCallback<T> = (path: NextPath, value: { patterns?: T })
 export type IconSets = {
   addIcon?: React.ReactNode | null
   deleteIcon?: React.ReactNode | null
+  convertIcon?: React.ReactNode | null
 }
 
 export type CustomConditionConfigs = {
