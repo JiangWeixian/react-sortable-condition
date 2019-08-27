@@ -6,6 +6,7 @@ import { NextPath, ConditionType, CustomConditionConfigs, ConditionItem } from '
 import { ConfigContext } from './ConfigContext'
 import styles from './style/SortableCondition.styl'
 import { DataContext } from './DataContext'
+import { isForbiddenConvert, isForbiddenCount } from './utils/rules'
 
 export type Props = {
   type?: ConditionType
@@ -16,7 +17,7 @@ export type Props = {
 export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
   const globalConfigs = useContext(ConfigContext).global
-  const { dispatch } = useContext(DataContext)
+  const { treeData, dispatch } = useContext(DataContext)
   const handleChangeConditionType = () => {
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
     dispatch({
@@ -28,7 +29,7 @@ export const Condition = (props: Props) => {
     }
   }
   const handleAddCondition = () => {
-    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
+    dispatch({ type: 'ADD', payload: { path: props.path || [], node: props.node } })
     if (configs.onAdd) {
       configs.onAdd(props.node, props.path || [])
     }
@@ -36,7 +37,7 @@ export const Condition = (props: Props) => {
   const handleDeleteCondition = () => {
     dispatch({
       type: 'DELETE',
-      payload: { path: props.path || [], globalConfigs, node: props.node },
+      payload: { path: props.path || [], node: props.node },
     })
     if (configs.onDelete) {
       configs.onDelete(props.node, props.path || [])
@@ -45,13 +46,17 @@ export const Condition = (props: Props) => {
   const handleConvertCondition = () => {
     dispatch({
       type: 'CONVERT',
-      payload: { path: props.path || [], globalConfigs, node: props.node },
+      payload: { path: props.path || [], node: props.node },
     })
     if (configs.onConvert) {
       configs.onConvert(props.node, props.path || [])
     }
   }
-  const isRoot = props.path && props.path.length === 1 && props.path[0] === 0
+  const isNoConvertIcon =
+    isForbiddenConvert({ treeData, path: props.path, globalConfigs }) || isNull(configs.convertIcon)
+  const countStatus = isForbiddenCount({ treeData, path: props.path, globalConfigs })
+  const isNoAddIcon = countStatus.add || isNull(configs.addIcon)
+  const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
     <div
       data-role="condition-item"
@@ -61,7 +66,7 @@ export const Condition = (props: Props) => {
         <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
-        {isRoot || isNull(configs.convertIcon) ? null : (
+        {isNoConvertIcon ? null : (
           <a data-role="convert-btn" className={styles.btn} onClick={handleConvertCondition}>
             {configs.convertIcon ? (
               configs.convertIcon
@@ -70,12 +75,12 @@ export const Condition = (props: Props) => {
             )}
           </a>
         )}
-        {isNull(configs.addIcon) ? null : (
+        {isNoAddIcon ? null : (
           <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
             {configs.addIcon ? configs.addIcon : <span className={styles.btn_content}>+</span>}
           </a>
         )}
-        {isNull(configs.deleteIcon) || isRoot ? null : (
+        {isNoDeleteIcon ? null : (
           <a data-role="delete-btn" className={styles.btn} onClick={handleDeleteCondition}>
             {configs.deleteIcon ? (
               configs.deleteIcon

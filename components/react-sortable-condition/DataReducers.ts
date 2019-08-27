@@ -22,14 +22,12 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
       return getCountTreeData({
         treeData: state,
         path: action.payload.path,
-        globalConfigs: action.payload.globalConfigs,
         item: action.payload.node,
       })
     case 'DELETE':
       return getCountTreeData({
         treeData: state,
         path: action.payload.path,
-        globalConfigs: action.payload.globalConfigs,
         type: 'delete',
         item: action.payload.node,
       })
@@ -44,7 +42,6 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
       return getConvertTreedata({
         treeData: state,
         path: action.payload.path,
-        globalConfigs: action.payload.globalConfigs,
         item: action.payload.node,
       })
     default:

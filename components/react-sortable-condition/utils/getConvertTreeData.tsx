@@ -1,45 +1,22 @@
 import React from 'react'
 
-import { ConditionTreeItem, NextPath, ConditionNodeData, GlobalConfigs } from '../typings'
+import { ConditionTreeItem, NextPath, ConditionNodeData } from '../typings'
 import { changeNodeAtPath } from 'react-sortable-tree'
 import { Condition } from '../Condition'
 import { insertItems } from './insertItems'
 import { getParentItem } from './getParentItem'
 import { createPattern } from './factory'
-import { isMaxDepthForbidden } from './isGlobalForbidden'
-
-/**
- * convert action is after drag. silibingitems will only be
- * - all normal
- * - all condition
- * is only work in parentItem.singleChildren
- * @param param parentItem
- */
-const isForbiddenConvert = (parentItem?: ConditionTreeItem | null) => {
-  if (!parentItem) {
-    return true
-  }
-  if (parentItem.children && parentItem.children.length !== 1) {
-    return true
-  }
-  return false
-}
 
 export const getConvertTreedata = ({
   treeData = [],
   path = [],
-  globalConfigs = {},
   item,
 }: {
   treeData?: ConditionTreeItem[]
   path?: NextPath
-  globalConfigs: GlobalConfigs
   item?: ConditionTreeItem
 }): ConditionTreeItem[] => {
   const parentItem = getParentItem(treeData, path)
-  if (isForbiddenConvert(parentItem)) {
-    return treeData
-  }
   if (!item) {
     return treeData
   }
@@ -60,9 +37,6 @@ export const getConvertTreedata = ({
         ],
       },
     }) as ConditionTreeItem[]
-    if (isMaxDepthForbidden(nextTreeData, globalConfigs.maxDepth)) {
-      return treeData
-    }
     return nextTreeData
   }
   if (item.type === 'and' || item.type === 'or') {
