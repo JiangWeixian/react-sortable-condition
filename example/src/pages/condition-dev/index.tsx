@@ -33,7 +33,7 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 }
 
 const Condition = () => {
-  const { treeData } = useTreeData({ initialTreeData: data })
+  const { treeData, dispatch } = useTreeData({ initialTreeData: data })
   return (
     <div style={{ height: '400px' }}>
       <SortableCondition
@@ -50,7 +50,9 @@ const Condition = () => {
           // addIcon={<Icon type="plus-circle" />}
           // deleteIcon={<Icon type="close-circle" />}
         />
-        <SortableCondition.Pattern>
+        <SortableCondition.Pattern
+          onAdd={(node, path) => dispatch({ type: 'ADD', payload: { node, path } })}
+        >
           <TestPattern />
         </SortableCondition.Pattern>
       </SortableCondition>
