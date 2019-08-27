@@ -63,6 +63,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         payload: {
           item: value.node,
           parentItem: value.nextParentNode,
+          prevPath: value.prevPath,
           treeData: value.treeData,
           siblingItems: value.nextParentNode ? value.nextParentNode.children : [],
           path: value.nextPath,

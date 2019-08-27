@@ -54,6 +54,7 @@ export type MoveStateData<T = any> = {
   treeData: ConditionTreeItem<T>[]
   node: ConditionTreeItem<T>
   nextPath: number[]
+  prevPath: number[]
 } & NodeData &
   FullTree &
   OnMovePreviousAndNextLocation
@@ -146,6 +147,7 @@ export type Action<T = any> =
       type: 'MOVE'
       payload: {
         item: ConditionTreeItem<T>
+        prevPath?: NextPath
         parentItem: ConditionTreeItem<T> | null
         treeData?: ConditionTreeItem<T>[]
         siblingItems?: ConditionTreeItem<T>[]
