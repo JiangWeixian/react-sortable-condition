@@ -16,6 +16,8 @@ import { extractPatternConfig } from './utils/extractPatternConfig'
 import { ConfigProvider } from './ConfigContext'
 import { DataProvider } from './DataContext'
 import { useTreeData } from './DataReducers'
+import { ConfigCondition } from './Condition'
+import { ConfigPattern } from './Pattern'
 
 export type SortableConditionProps<T> = {
   onDragState?(value: DragStateData<T>): void
@@ -93,4 +95,9 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       </DataProvider>
     </ConfigProvider>
   )
+}
+
+export namespace SortableCondition {
+  Condition: ConfigCondition
+  Pattern: ConfigPattern
 }

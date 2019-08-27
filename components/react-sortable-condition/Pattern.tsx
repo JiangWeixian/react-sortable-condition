@@ -94,9 +94,9 @@ export const Pattern = (props: Props) => {
   )
 }
 
-export type PatternProps = CustomPatternConfigs
+export type PatternProps<T> = CustomPatternConfigs<T>
 
-export const ConfigPattern = (props: PatternProps) => {
+export function ConfigPattern<T>(props: PatternProps<T>) {
   return <span>{props}</span>
 }
 
