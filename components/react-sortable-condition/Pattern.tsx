@@ -37,9 +37,7 @@ export const Pattern = (props: Props) => {
       ? React.cloneElement(configs.component, {
           patterns: props.patterns,
           onChange: ({ patterns }: { patterns: any }) => {
-            if (configs.patternOnChange) {
-              configs.patternOnChange(props.path || [], { patterns })
-            }
+            dispatch({ type: 'CHANGE_PATTERN', payload: { path: props.path || [], patterns } })
           },
         })
       : 'this is pattern'

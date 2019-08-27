@@ -28,32 +28,12 @@ export type SortableConditionProps<T> = {
 }
 
 export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
-  const customConditionConfigs = useMemo(() => {
+  const conditionConfigs = useMemo(() => {
     return extractConditionConfig(props.children)
   }, [props.children])
-  const defaultConditionConfigs = {
-    conditionTypeOnChange: () => console.log('conditionTypechaneg'),
-    conditionOnAdd: () => console.log('add'),
-    conditionOnDelete: () => console.log('delete'),
-    conditionOnConvert: () => console.log('convert'),
-  }
-  const conditionConfigs = {
-    ...customConditionConfigs,
-    ...defaultConditionConfigs,
-  }
-  const customPatternConfigs = useMemo(() => {
+  const patternConfigs = useMemo(() => {
     return extractPatternConfig(props.children)
   }, [props.children])
-  const defaultPatternConfigs = {
-    patternOnAdd: () => console.log('add'),
-    patternOnDelete: () => console.log('delete'),
-    patternOnChange: () => console.log('pattern change'),
-    patternOnConvert: () => console.log('convert'),
-  }
-  const patternConfigs = {
-    ...customPatternConfigs,
-    ...defaultPatternConfigs,
-  }
   const globalConfigs = {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
