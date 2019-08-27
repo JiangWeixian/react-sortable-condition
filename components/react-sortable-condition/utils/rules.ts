@@ -20,7 +20,7 @@ export const isMaxDepthForbidden = (
     return false
   }
   const currentDepth = getDepth(root.node, 0)
-  return path.length >= currentDepth && currentDepth >= maxDepth
+  return path.length > currentDepth && currentDepth >= maxDepth
 }
 
 export const isForbiddenConvert = ({
