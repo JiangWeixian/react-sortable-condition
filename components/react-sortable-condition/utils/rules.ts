@@ -1,7 +1,6 @@
 import { ConditionTreeItem, NextPath, GlobalConfigs } from '../typings'
 import { getParentItem } from './getParentItem'
 
-import memoize from 'lodash.memoize'
 import { getNodeAtPath, getDepth } from 'react-sortable-tree'
 
 export const isMaxDepthForbidden = (
@@ -24,34 +23,60 @@ export const isMaxDepthForbidden = (
   return path.length >= currentDepth && currentDepth >= maxDepth
 }
 
-export const isForbiddenConvert = memoize(
-  ({
-    treeData = [],
-    path = [],
-    globalConfigs,
-  }: {
-    treeData?: ConditionTreeItem[]
-    path?: NextPath
-    globalConfigs: GlobalConfigs
-  }) => {
-    const isRoot = path && path.length === 1 && path[0] === 0
-    // can't convert root
-    if (isRoot) {
-      return true
-    }
-    const parentItem = getParentItem(treeData, path)
-    // can't convert item.children > 1
-    if (parentItem && parentItem.children && parentItem.children.length !== 1) {
-      return true
-    }
-    // cant convert depper than maxDepath
+export const isForbiddenConvert = ({
+  treeData = [],
+  path = [],
+  globalConfigs,
+}: {
+  treeData?: ConditionTreeItem[]
+  path?: NextPath
+  globalConfigs: GlobalConfigs
+}) => {
+  const isRoot = path && path.length === 1 && path[0] === 0
+  // can't convert root
+  if (isRoot) {
+    return true
+  }
+  const parentItem = getParentItem(treeData, path)
+  // can't convert item.children > 1
+  if (parentItem && parentItem.children && parentItem.children.length !== 1) {
+    return true
+  }
+  // cant convert depper than maxDepath
+  if (
+    globalConfigs.maxDepth &&
+    globalConfigs.maxDepth > 0 &&
+    isMaxDepthForbidden(treeData, globalConfigs.maxDepth - 1, path)
+  ) {
+    return true
+  }
+  return false
+}
+
+export const isForbiddenCount = ({
+  path = [],
+  treeData = [],
+  globalConfigs,
+}: {
+  path?: NextPath
+  treeData: ConditionTreeItem[]
+  globalConfigs: GlobalConfigs
+}) => {
+  // can't delete root
+  if ((path && path.length === 1 && path[0] === 0) || treeData.length === 0) {
+    // only add icon in root will improve depth
+    // cant add node make treeData depper than maxDepath
     if (
       globalConfigs.maxDepth &&
       globalConfigs.maxDepth > 0 &&
       isMaxDepthForbidden(treeData, globalConfigs.maxDepth - 1, path)
     ) {
-      return true
+      return { add: true, delete: true }
     }
-    return false
-  },
-)
+    return { add: false, delete: true }
+  }
+  const parentItem = getParentItem(treeData, path)
+  // children can't less than 1
+  const forbiddenDelete = parentItem && parentItem.children && parentItem.children.length <= 1
+  return { add: false, delete: forbiddenDelete }
+}

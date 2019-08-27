@@ -5,49 +5,24 @@ import {
   ConditionNodeData,
   ConditionItem,
   PatternItem,
-  GlobalConfigs,
 } from '../typings'
 import { removeNodeAtPath } from 'react-sortable-tree'
 import { insertItems } from './insertItems'
 import { Condition } from '../Condition'
 import { createPattern, createCondition } from './factory'
 import { getParentItem } from './getParentItem'
-import { isMaxDepthForbidden } from './isGlobalForbidden'
-
-const isForbiddenCount = ({
-  path = [],
-  type = 'add',
-  treeData,
-}: {
-  path: NextPath
-  type: 'add' | 'delete'
-  treeData: ConditionTreeItem[]
-}) => {
-  if (path.length === 0 || treeData.length === 0) {
-    return true
-  }
-  if (path.length <= 1 && type === 'delete') {
-    return true
-  }
-  return false
-}
 
 export const getCountTreeData = ({
   path = [],
   treeData = [],
-  globalConfigs = {},
   type = 'add',
   item,
 }: {
   path: NextPath
   treeData: ConditionTreeItem[]
-  globalConfigs: GlobalConfigs
   item?: ConditionTreeItem
   type?: 'add' | 'delete'
 }) => {
-  if (isForbiddenCount({ path, treeData, type })) {
-    return treeData
-  }
   const parentItem = getParentItem(treeData, path)
   // handle click root item
   if (!parentItem) {
@@ -78,9 +53,6 @@ export const getCountTreeData = ({
         siblingItems: parentItem.children,
         offset: -1,
       })
-      if (isMaxDepthForbidden(nextTreeData, globalConfigs.maxDepth)) {
-        return treeData
-      }
       return nextTreeData
     } else {
       return removeNodeAtPath({

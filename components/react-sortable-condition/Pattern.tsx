@@ -6,7 +6,7 @@ import { NextPath, NormalType, CustomPatternConfigs, PatternItem } from './typin
 import styles from './style/SortableCondition.styl'
 import { ConfigContext } from './ConfigContext'
 import { DataContext } from './DataContext'
-import { isForbiddenConvert } from './utils/rules'
+import { isForbiddenConvert, isForbiddenCount } from './utils/rules'
 
 type Props<T = any> = {
   path?: NextPath
@@ -57,6 +57,9 @@ export const Pattern = (props: Props) => {
       : 'this is pattern'
   const isNoConvertIcon =
     isForbiddenConvert({ treeData, path: props.path, globalConfigs }) || isNull(configs.convertIcon)
+  const countStatus = isForbiddenCount({ treeData, path: props.path, globalConfigs })
+  const isNoAddIcon = countStatus.add || isNull(configs.addIcon)
+  const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
     <div data-role="pattern-item" className={cx(styles.pattern, styles.item, configs.className)}>
       <div data-role="content" className={styles.content}>
@@ -72,12 +75,12 @@ export const Pattern = (props: Props) => {
             )}
           </a>
         )}
-        {isNull(configs.addIcon) ? null : (
+        {isNoAddIcon ? null : (
           <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
             {configs.addIcon ? configs.addIcon : <span className={styles.btn_content}>+</span>}
           </a>
         )}
-        {isNull(configs.deleteIcon) ? null : (
+        {isNoDeleteIcon ? null : (
           <a data-role="delete-btn" className={styles.btn} onClick={handleDeletePattern}>
             {configs.deleteIcon ? (
               configs.deleteIcon

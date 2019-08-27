@@ -6,7 +6,7 @@ import { NextPath, ConditionType, CustomConditionConfigs, ConditionItem } from '
 import { ConfigContext } from './ConfigContext'
 import styles from './style/SortableCondition.styl'
 import { DataContext } from './DataContext'
-import { isForbiddenConvert } from './utils/rules'
+import { isForbiddenConvert, isForbiddenCount } from './utils/rules'
 
 export type Props = {
   type?: ConditionType
@@ -54,6 +54,9 @@ export const Condition = (props: Props) => {
   }
   const isNoConvertIcon =
     isForbiddenConvert({ treeData, path: props.path, globalConfigs }) || isNull(configs.convertIcon)
+  const countStatus = isForbiddenCount({ treeData, path: props.path, globalConfigs })
+  const isNoAddIcon = countStatus.add || isNull(configs.addIcon)
+  const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
     <div
       data-role="condition-item"
@@ -72,12 +75,12 @@ export const Condition = (props: Props) => {
             )}
           </a>
         )}
-        {isNull(configs.addIcon) ? null : (
+        {isNoAddIcon ? null : (
           <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
             {configs.addIcon ? configs.addIcon : <span className={styles.btn_content}>+</span>}
           </a>
         )}
-        {isNull(configs.deleteIcon) ? null : (
+        {isNoDeleteIcon ? null : (
           <a data-role="delete-btn" className={styles.btn} onClick={handleDeleteCondition}>
             {configs.deleteIcon ? (
               configs.deleteIcon
