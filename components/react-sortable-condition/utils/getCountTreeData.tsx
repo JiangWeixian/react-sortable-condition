@@ -40,7 +40,6 @@ export const getCountTreeData = ({
   conditionConfigs = {},
   globalConfigs = {},
   type = 'add',
-  patternConfigs,
 }: {
   path: NextPath
   treeData: ConditionTreeItem[]
@@ -55,11 +54,7 @@ export const getCountTreeData = ({
   const parentItem = getParentItem(treeData, path)
   // handle click root item
   if (!parentItem) {
-    const child: ConditionTreeItem[] = [
-      createCondition({
-        patternConfigs,
-      }),
-    ]
+    const child: ConditionTreeItem[] = [createCondition({})]
     return [
       {
         type: 'and',
@@ -82,11 +77,7 @@ export const getCountTreeData = ({
   // handle condition
   if (item.node.type === 'and' || item.node.type === 'or') {
     if (type === 'add') {
-      const items: ConditionItem[] = [
-        createCondition({
-          patternConfigs,
-        }),
-      ]
+      const items: ConditionItem[] = [createCondition({})]
       const nextTreeData = insertItems({
         treeData,
         path,
@@ -109,11 +100,7 @@ export const getCountTreeData = ({
     // handle pattern
   } else if (item.node.type === 'normal') {
     if (type === 'add') {
-      const items: PatternItem[] = [
-        createPattern({
-          patternConfigs,
-        }),
-      ]
+      const items: PatternItem[] = [createPattern({})]
       return insertItems({
         treeData,
         path,

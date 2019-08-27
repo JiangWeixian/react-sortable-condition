@@ -2,7 +2,6 @@ import React from 'react'
 
 import {
   PatternItem,
-  PatternConfigs,
   PatternNodeData,
   ConditionItem,
   ConditionNodeData,
@@ -13,10 +12,8 @@ import { Condition } from '../Condition'
 
 export const createPattern = ({
   patterns = undefined,
-  patternConfigs,
   expanded = false,
 }: {
-  patternConfigs: PatternConfigs
   patterns?: any
   expanded?: boolean
 }): PatternItem => {
@@ -26,12 +23,7 @@ export const createPattern = ({
     expanded,
     patterns,
     title: (props: PatternNodeData) => (
-      <Pattern
-        {...patternConfigs}
-        path={props.path}
-        type={props.node.type}
-        patterns={props.node.patterns}
-      />
+      <Pattern path={props.path} type={props.node.type} patterns={props.node.patterns} />
     ),
   }
 }
@@ -39,20 +31,14 @@ export const createPattern = ({
 export const createCondition = ({
   type = 'and',
   expanded = false,
-  patternConfigs,
 }: {
   type?: ConditionType
   expanded?: boolean
-  patternConfigs: PatternConfigs
 }): ConditionItem<any> => {
   return {
     type,
     expanded,
     title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
-    children: [
-      createPattern({
-        patternConfigs,
-      }),
-    ],
+    children: [createPattern({})],
   }
 }

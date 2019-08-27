@@ -37,7 +37,6 @@ export const getConvertTreedata = ({
   path = [],
   conditionConfigs = {},
   globalConfigs = {},
-  patternConfigs,
 }: {
   treeData?: ConditionTreeItem[]
   path?: NextPath
@@ -71,7 +70,6 @@ export const getConvertTreedata = ({
         children: [
           createPattern({
             expanded: false,
-            patternConfigs,
           }),
         ],
       },

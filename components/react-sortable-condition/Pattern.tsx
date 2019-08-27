@@ -1,70 +1,75 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
-import { NextPath, PatternConfigs, NormalType, CustomPatternConfigs } from './typings'
+import { NextPath, NormalType, CustomPatternConfigs } from './typings'
 import styles from './style/SortableCondition.styl'
+import { ConfigContext } from './ConfigContext'
 
-type Props<T = any> = PatternConfigs & {
+type Props<T = any> = {
   path?: NextPath
   type: NormalType
   patterns?: T
 }
 
 export const Pattern = (props: Props) => {
+  const configs = useContext(ConfigContext).pattern
   const handleAddPattern = useCallback(() => {
-    if (!props.patternOnAdd) {
+    if (!configs.patternOnAdd) {
       return
     }
-    props.patternOnAdd(props.path || [])
-    if (props.onAdd) {
-      props.onAdd(props.path || [])
+    configs.patternOnAdd(props.path || [])
+    if (configs.onAdd) {
+      configs.onAdd(props.path || [])
     }
-  }, [props.path])
+  }, [props.path, configs.patternOnAdd])
   const handleDeletePattern = useCallback(() => {
-    if (!props.patternOnDelete) {
+    if (!configs.patternOnDelete) {
       return
     }
-    props.patternOnDelete(props.path || [])
-    if (props.onDelete) {
-      props.onDelete(props.path || [])
+    configs.patternOnDelete(props.path || [])
+    if (configs.onDelete) {
+      configs.onDelete(props.path || [])
     }
-  }, [props.path])
+  }, [props.path, configs.patternOnDelete])
   const handleConvert = useCallback(() => {
-    if (!props.patternOnConvert) {
+    if (!configs.patternOnConvert) {
       return
     }
-    console.log('convert')
-    props.patternOnConvert(props.path || [])
-  }, [props.path])
+    configs.patternOnConvert(props.path || [])
+  }, [props.path, configs.patternOnConvert])
   const PatterComponent =
-    props.component && React.isValidElement(props.component)
-      ? React.cloneElement(props.component, {
+    configs.component && React.isValidElement(configs.component)
+      ? React.cloneElement(configs.component, {
           patterns: props.patterns,
           onChange: ({ patterns }: { patterns: any }) => {
-            if (props.patternOnChange) {
-              props.patternOnChange(props.path || [], { patterns })
+            if (configs.patternOnChange) {
+              configs.patternOnChange(props.path || [], { patterns })
             }
           },
         })
       : 'this is pattern'
   return (
-    <div data-role="pattern-item" className={cx(styles.pattern, styles.item, props.className)}>
-      <div data-role="content" onClick={props.onClick} className={styles.content}>
+    <div data-role="pattern-item" className={cx(styles.pattern, styles.item, configs.className)}>
+      <div data-role="content" onClick={configs.onClick} className={styles.content}>
         <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
         <a data-role="convert-btn" className={styles.btn} onClick={handleConvert}>
           <span className={styles.btn_content}>T</span>
         </a>
-        {isNull(props.addIcon) ? null : (
+        {isNull(configs.addIcon) ? null : (
           <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
-            {props.addIcon ? props.addIcon : <span className={styles.btn_content}>+</span>}
+            {configs.addIcon ? configs.addIcon : <span className={styles.btn_content}>+</span>}
           </a>
         )}
-        {isNull(props.deleteIcon) ? null : (
+        {isNull(configs.deleteIcon) ? null : (
           <a data-role="delete-btn" className={styles.btn} onClick={handleDeletePattern}>
-            {props.deleteIcon ? props.deleteIcon : <span className={styles.btn_content}>-</span>}
+            {configs.deleteIcon ? (
+              configs.deleteIcon
+            ) : (
+              <span className={styles.btn_content}>-</span>
+            )}
           </a>
         )}
       </div>
