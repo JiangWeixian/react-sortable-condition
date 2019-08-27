@@ -21,6 +21,7 @@ import { extractPatternConfig } from './utils/extractPatternConfig'
 import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
 import { getConvertTreedata } from './utils/getConvertTreeData'
 import { ConfigProvider } from './ConfigContext'
+import { DataProvider } from './DataContext'
 
 export type SortableConditionProps<T> = {
   onDragState?(value: DragStateData<T>): void
@@ -158,15 +159,17 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   )
   return (
     <ConfigProvider configs={{ pattern: patternConfigs, condition: conditionConfigs }}>
-      <SortableTree
-        onDragStateChanged={props.onDragState}
-        onMoveNode={handleMoveNode}
-        treeData={treeData}
-        onVisibilityToggle={handleVisibleChange}
-        onChange={handleOnChange}
-        className={styles.sortableCondition}
-        maxDepth={props.maxDepth ? props.maxDepth + 1 : props.maxDepth}
-      />
+      <DataProvider store={treeData}>
+        <SortableTree
+          onDragStateChanged={props.onDragState}
+          onMoveNode={handleMoveNode}
+          treeData={treeData}
+          onVisibilityToggle={handleVisibleChange}
+          onChange={handleOnChange}
+          className={styles.sortableCondition}
+          maxDepth={props.maxDepth ? props.maxDepth + 1 : props.maxDepth}
+        />
+      </DataProvider>
     </ConfigProvider>
   )
 }

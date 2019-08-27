@@ -5,6 +5,7 @@ import isNull from 'lodash.isnull'
 import { NextPath, ConditionType, CustomConditionConfigs } from './typings'
 import { ConfigContext } from './ConfigContext'
 import styles from './style/SortableCondition.styl'
+import { DataContext } from './DataContext'
 
 export type Props = {
   type?: ConditionType
@@ -13,6 +14,8 @@ export type Props = {
 
 export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
+  const treeData = useContext(DataContext)
+  console.log(treeData)
   const handleChangeConditionType = useCallback(() => {
     if (!configs.conditionTypeOnChange) {
       return
