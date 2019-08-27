@@ -128,7 +128,7 @@ export type Action<T = any> =
       type: 'DELETE'
       payload: { path: NextPath; node: ConditionTreeItem; globalConfigs: GlobalConfigs }
     }
-  | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T } }
+  | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T; node: PatternItem<T> } }
   | {
       type: 'CONVERT'
       payload: { path: NextPath; globalConfigs: GlobalConfigs; node: ConditionTreeItem }

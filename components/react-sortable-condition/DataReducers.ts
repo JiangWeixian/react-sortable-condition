@@ -37,6 +37,7 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
         treeData: state,
         path: action.payload.path,
         value: { patterns: action.payload.patterns },
+        item: action.payload.node,
       })
     case 'CONVERT':
       return getConvertTreedata({
