@@ -6,6 +6,7 @@ import { getTypeChangeTreeData } from './utils/getTypeChangeTreeData'
 import { getCountTreeData } from './utils/getCountTreeData'
 import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
 import { getConvertTreedata } from './utils/getConvertTreeData'
+import { getDragTreedata } from './utils/getDragTreedata'
 
 const DataReducer = (state: ConditionTreeItem[] = [], action: Action): ConditionTreeItem[] => {
   switch (action.type) {
@@ -43,6 +44,13 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
         treeData: state,
         path: action.payload.path,
         item: action.payload.node,
+      })
+    case 'CHANGE_VISIABLE':
+      return action.payload
+    case 'MOVE':
+      return getDragTreedata({
+        ...action.payload,
+        prevTreeData: state,
       })
     default:
       return state

@@ -18,7 +18,7 @@ const isForbiddenDrag = (parentItem: ConditionTreeItem<any> | null): boolean => 
   return false
 }
 
-export const getDrageTreedata = ({
+export const getDragTreedata = ({
   item,
   parentItem,
   prevTreeData = [],

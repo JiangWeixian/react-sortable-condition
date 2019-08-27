@@ -10,7 +10,6 @@ import {
   DataItem,
 } from './typings'
 import styles from './style/SortableCondition.styl'
-import { getDrageTreedata } from './utils/getDragTreedata'
 import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
 import { ConfigProvider } from './ConfigContext'
@@ -46,27 +45,25 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       if (props.onVisible) {
         props.onVisible(value)
       }
-      dispatch({ type: 'RESET', payload: value.treeData })
+      dispatch({ type: 'CHANGE_VISIABLE', payload: value.treeData })
     },
     [props.onVisible],
   )
   const handleMoveNode = useCallback(
     (value: MoveStateData) => {
-      const nextTreeData = getDrageTreedata({
-        item: value.node,
-        parentItem: value.nextParentNode,
-        prevTreeData: treeData,
-        treeData: value.treeData,
-        siblingItems: value.nextParentNode ? value.nextParentNode.children : [],
-        path: value.nextPath,
-      })
       if (props.onMoveNode) {
-        props.onMoveNode({
-          ...value,
-          treeData: nextTreeData,
-        })
+        props.onMoveNode(value)
       }
-      dispatch({ type: 'RESET', payload: nextTreeData })
+      dispatch({
+        type: 'MOVE',
+        payload: {
+          item: value.node,
+          parentItem: value.nextParentNode,
+          treeData: value.treeData,
+          siblingItems: value.nextParentNode ? value.nextParentNode.children : [],
+          path: value.nextPath,
+        },
+      })
     },
     [props.onMoveNode, treeData],
   )
