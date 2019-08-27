@@ -38,8 +38,8 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   }, [props.children])
   const defaultConditionConfigs = {
     conditionTypeOnChange: () => console.log('conditionTypechaneg'),
-    conditionOnAdd: handleAdd,
-    conditionOnDelete: handleDelete,
+    conditionOnAdd: () => console.log('add'),
+    conditionOnDelete: () => console.log('delete'),
     conditionOnConvert: handleConvert,
   }
   const conditionConfigs = {
@@ -50,8 +50,8 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     return extractPatternConfig(props.children)
   }, [props.children])
   const defaultPatternConfigs = {
-    patternOnAdd: handleAdd,
-    patternOnDelete: handleDelete,
+    patternOnAdd: () => console.log('add'),
+    patternOnDelete: () => console.log('delete'),
     patternOnChange: handlePatternChange,
     patternOnConvert: handleConvert,
   }
@@ -63,27 +63,6 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
   const { treeData, dispatch } = useTreeData({ initialState: props.dataSource || [] })
-  function handleAdd(path: NextPath) {
-    // setTreeData(prevTreeData => {
-    //   const nextTreeData = getCountTreeData({
-    //     treeData: prevTreeData,
-    //     path,
-    //     globalConfigs,
-    //   })
-    //   return nextTreeData
-    // })
-  }
-  function handleDelete(path: NextPath) {
-    // setTreeData(prevTreeData => {
-    //   const nextTreeData = getCountTreeData({
-    //     treeData: prevTreeData,
-    //     path,
-    //     type: 'reduce',
-    //     globalConfigs,
-    //   })
-    //   return nextTreeData
-    // })
-  }
   function handlePatternChange(path: NextPath, value: { patterns: any }) {
     // setTreeData(prevTreeData => {
     //   const nextTreeData = getPatternsChangeTreeData({
@@ -143,7 +122,9 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     [props.onChange],
   )
   return (
-    <ConfigProvider configs={{ pattern: patternConfigs, condition: conditionConfigs }}>
+    <ConfigProvider
+      configs={{ pattern: patternConfigs, condition: conditionConfigs, global: globalConfigs }}
+    >
       <DataProvider store={{ treeData, dispatch }}>
         <SortableTree
           onDragStateChanged={props.onDragState}

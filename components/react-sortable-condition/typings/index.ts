@@ -133,3 +133,5 @@ export type Configs = {
 export type Action =
   | { type: 'RESET'; payload: ConditionTreeItem[] }
   | { type: 'CHANGE_TYPE'; payload: { type: ConditionType; path: NextPath } }
+  | { type: 'ADD'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
+  | { type: 'DELETE'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }

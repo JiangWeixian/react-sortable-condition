@@ -14,6 +14,7 @@ export type Props = {
 
 export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
+  const globalConfigs = useContext(ConfigContext).global
   const { treeData, dispatch } = useContext(DataContext)
   console.log(treeData, dispatch)
   const handleChangeConditionType = useCallback(() => {
@@ -24,23 +25,17 @@ export const Condition = (props: Props) => {
     }
   }, [props.type || 'and', props.path, dispatch, configs.onType])
   const handleAddCondition = useCallback(() => {
-    if (!configs.conditionOnAdd) {
-      return
-    }
-    configs.conditionOnAdd(props.path || [])
+    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs } })
     if (configs.onAdd) {
       configs.onAdd(props.path || [])
     }
-  }, [props.path, configs.conditionOnAdd, configs.onAdd])
+  }, [props.path, dispatch, configs.onAdd, globalConfigs])
   const handleDeleteCondition = useCallback(() => {
-    if (!configs.conditionOnDelete) {
-      return
-    }
+    dispatch({ type: 'DELETE', payload: { path: props.path || [], globalConfigs } })
     if (configs.onDelete) {
       configs.onDelete(props.path || [])
     }
-    configs.conditionOnDelete(props.path || [])
-  }, [props.path, configs.conditionOnDelete, configs.onDelete])
+  }, [props.path, dispatch, configs.onDelete, globalConfigs])
   const handleConvertCondition = useCallback(() => {
     if (!configs.conditionOnConvert) {
       return
