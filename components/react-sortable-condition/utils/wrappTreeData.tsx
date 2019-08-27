@@ -7,7 +7,7 @@ import { createPattern } from './factory'
 
 const defaultTrees: ConditionTreeItem[] = []
 
-export const wrappTreeData = (treeData: DataItem[] = []): ConditionTreeItem[] => {
+export function wrappTreeData<T>(treeData: DataItem<T>[] = []): ConditionTreeItem<T>[] {
   const trees = defaultTrees
   if (!treeData) {
     return trees

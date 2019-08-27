@@ -6,6 +6,7 @@ import { getTypeChangeTreeData } from './utils/getTypeChangeTreeData'
 import { getCountTreeData } from './utils/getCountTreeData'
 import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
 import { getConvertTreedata } from './utils/getConvertTreeData'
+import { getDragTreedata } from './utils/getDragTreedata'
 
 const DataReducer = (state: ConditionTreeItem[] = [], action: Action): ConditionTreeItem[] => {
   switch (action.type) {
@@ -44,16 +45,36 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
         path: action.payload.path,
         item: action.payload.node,
       })
+    case 'CHANGE_VISIABLE':
+      return action.payload
+    case 'MOVE':
+      return getDragTreedata({
+        ...action.payload,
+        prevTreeData: state,
+      })
     default:
       return state
   }
 }
 
-export const useTreeData = ({ initialState = [] }: { initialState?: DataItem[] }) => {
-  const wrappedTreeData = wrappTreeData(initialState)
+export const useTreeData = <T = any>({
+  initialTreeData,
+  controlled = false,
+  treeData = [],
+}: {
+  initialTreeData?: DataItem<T>[]
+  treeData?: ConditionTreeItem[]
+  controlled?: boolean
+}) => {
+  const wrappedTreeData = initialTreeData ? wrappTreeData(initialTreeData) : treeData
   const [state, dispatch] = useReducer(DataReducer, wrappedTreeData)
+  const _dispatch = controlled
+    ? (..._arg: any[]) => {
+        // do nothing
+      }
+    : dispatch
   return {
-    treeData: state,
-    dispatch,
+    treeData: state as ConditionTreeItem<T>[],
+    dispatch: _dispatch as React.Dispatch<Action<T>>,
   }
 }

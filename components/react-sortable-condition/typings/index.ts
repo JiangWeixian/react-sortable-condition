@@ -54,6 +54,7 @@ export type MoveStateData<T = any> = {
   treeData: ConditionTreeItem<T>[]
   node: ConditionTreeItem<T>
   nextPath: number[]
+  prevPath: number[]
 } & NodeData &
   FullTree &
   OnMovePreviousAndNextLocation
@@ -123,18 +124,33 @@ export type Configs = {
 }
 
 export type Action<T = any> =
-  | { type: 'RESET'; payload: ConditionTreeItem[] }
-  | { type: 'CHANGE_TYPE'; payload: { type: ConditionType; path: NextPath; node: ConditionItem } }
+  | { type: 'RESET'; payload: ConditionTreeItem<T>[] }
+  | {
+      type: 'CHANGE_TYPE'
+      payload: { type: ConditionType; path: NextPath; node: ConditionItem<T> }
+    }
   | {
       type: 'ADD'
-      payload: { path: NextPath; node: ConditionTreeItem }
+      payload: { path: NextPath; node: ConditionTreeItem<T> }
     }
   | {
       type: 'DELETE'
-      payload: { path: NextPath; node: ConditionTreeItem }
+      payload: { path: NextPath; node: ConditionTreeItem<T> }
     }
-  | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T; node: PatternItem } }
+  | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T; node: PatternItem<T> } }
   | {
       type: 'CONVERT'
-      payload: { path: NextPath; node: ConditionTreeItem }
+      payload: { path: NextPath; node: ConditionTreeItem<T> }
+    }
+  | { type: 'CHANGE_VISIABLE'; payload: ConditionTreeItem<T>[] }
+  | {
+      type: 'MOVE'
+      payload: {
+        item: ConditionTreeItem<T>
+        prevPath?: NextPath
+        parentItem: ConditionTreeItem<T> | null
+        treeData?: ConditionTreeItem<T>[]
+        siblingItems?: ConditionTreeItem<T>[]
+        path?: NextPath
+      }
     }

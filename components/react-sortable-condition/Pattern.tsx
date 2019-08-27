@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
@@ -56,8 +56,15 @@ export const Pattern = (props: Props) => {
         })
       : 'this is pattern'
   const isNoConvertIcon =
-    isForbiddenConvert({ treeData, path: props.path, globalConfigs }) || isNull(configs.convertIcon)
-  const countStatus = isForbiddenCount({ treeData, path: props.path, globalConfigs })
+    useMemo(() => isForbiddenConvert({ treeData, path: props.path, globalConfigs }), [
+      treeData,
+      props.path,
+      globalConfigs,
+    ]) || isNull(configs.convertIcon)
+  const countStatus = useMemo(
+    () => isForbiddenCount({ treeData, path: props.path, globalConfigs }),
+    [treeData, props.path, globalConfigs],
+  )
   const isNoAddIcon = countStatus.add || isNull(configs.addIcon)
   const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
@@ -94,9 +101,9 @@ export const Pattern = (props: Props) => {
   )
 }
 
-export type PatternProps = CustomPatternConfigs
+export type PatternProps<T> = CustomPatternConfigs<T>
 
-export const ConfigPattern = (props: PatternProps) => {
+export function ConfigPattern<T = any>(props: PatternProps<T>) {
   return <span>{props}</span>
 }
 
