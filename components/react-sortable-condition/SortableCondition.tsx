@@ -40,7 +40,8 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
   const { treeData, dispatch } = useTreeData({
-    initialTreeData: props.defaultDataSource || [],
+    initialTreeData: props.defaultDataSource,
+    treeData: props.dataSource,
     controlled: !!props.dataSource,
   })
   const handleVisibleChange = useCallback(

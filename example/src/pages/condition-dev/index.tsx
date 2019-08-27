@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SortableCondition, { useTreeData } from '../../../../components'
+import SortableCondition from '../../../../components'
 import { DataItem } from '../../../../components/react-sortable-condition/typings'
 
 const data: DataItem[] = [
@@ -33,11 +33,10 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 }
 
 const Condition = () => {
-  const { treeData, dispatch } = useTreeData({ initialTreeData: data })
   return (
     <div style={{ height: '400px' }}>
       <SortableCondition
-        dataSource={treeData}
+        defaultDataSource={data}
         onChange={v => console.log('change', v)}
         onDragState={v => console.log('drag', v)}
         onVisible={v => console.log('visible', v)}
@@ -50,9 +49,7 @@ const Condition = () => {
           // addIcon={<Icon type="plus-circle" />}
           // deleteIcon={<Icon type="close-circle" />}
         />
-        <SortableCondition.Pattern
-          onAdd={(node, path) => dispatch({ type: 'ADD', payload: { node, path } })}
-        >
+        <SortableCondition.Pattern>
           <TestPattern />
         </SortableCondition.Pattern>
       </SortableCondition>
