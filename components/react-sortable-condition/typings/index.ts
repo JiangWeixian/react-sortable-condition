@@ -92,14 +92,7 @@ export type CustomConditionConfigs = {
   className?: string
 } & IconSets
 
-export type DefaultConditionConfigs = {
-  conditionTypeOnChange?: ConditionTypeChangeCallback
-  conditionOnAdd?: CountCallback
-  conditionOnDelete?: CountCallback
-  conditionOnConvert?: ConvertCallback
-}
-
-export type ConditionConfigs = CustomConditionConfigs & DefaultConditionConfigs
+export type ConditionConfigs = CustomConditionConfigs
 
 export type CustomPatternConfigs = {
   onClick?(event: React.MouseEvent<HTMLDivElement, MouseEvent>): void
@@ -110,15 +103,9 @@ export type CustomPatternConfigs = {
   className?: string
 } & IconSets
 
-export type DefaultPatternConfigs = {
-  patternOnAdd?: CountCallback
-  patternOnDelete?: CountCallback
-  patternOnChange?: PatternChangeCallback<any>
-  patternOnConvert?: ConvertCallback
+export type PatternConfigs = CustomPatternConfigs & {
   component: React.ReactNode
 }
-
-export type PatternConfigs = CustomPatternConfigs & DefaultPatternConfigs
 
 export type GlobalConfigs = {
   maxDepth?: number
@@ -129,3 +116,11 @@ export type Configs = {
   pattern: PatternConfigs
   condition: ConditionConfigs
 }
+
+export type Action<T = any> =
+  | { type: 'RESET'; payload: ConditionTreeItem[] }
+  | { type: 'CHANGE_TYPE'; payload: { type: ConditionType; path: NextPath } }
+  | { type: 'ADD'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
+  | { type: 'DELETE'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
+  | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T } }
+  | { type: 'CONVERT'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }

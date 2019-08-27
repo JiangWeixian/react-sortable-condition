@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo } from 'react'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
@@ -6,21 +6,16 @@ import {
   DragStateData,
   MoveStateData,
   ConditionTreeItem,
-  NextPath,
-  ConditionType,
   VisibilityStateData,
   DataItem,
 } from './typings'
 import styles from './style/SortableCondition.styl'
-import { wrappTreeData } from './utils/wrappTreeData'
 import { getDrageTreedata } from './utils/getDragTreedata'
-import { getTypeChangeTreeData } from './utils/getTypeChangeTreeData'
-import { getCountTreeData } from './utils/getCountTreeData'
 import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
-import { getPatternsChangeTreeData } from './utils/getPatternsChangeTreeData'
-import { getConvertTreedata } from './utils/getConvertTreeData'
 import { ConfigProvider } from './ConfigContext'
+import { DataProvider } from './DataContext'
+import { useTreeData } from './DataReducers'
 
 export type SortableConditionProps<T> = {
   onDragState?(value: DragStateData<T>): void
@@ -33,97 +28,22 @@ export type SortableConditionProps<T> = {
 }
 
 export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
-  const customConditionConfigs = useMemo(() => {
+  const conditionConfigs = useMemo(() => {
     return extractConditionConfig(props.children)
   }, [props.children])
-  const defaultConditionConfigs = {
-    conditionTypeOnChange: handleConditionTypeChange,
-    conditionOnAdd: handleAdd,
-    conditionOnDelete: handleDelete,
-    conditionOnConvert: handleConvert,
-  }
-  const conditionConfigs = {
-    ...customConditionConfigs,
-    ...defaultConditionConfigs,
-  }
-  const customPatternConfigs = useMemo(() => {
+  const patternConfigs = useMemo(() => {
     return extractPatternConfig(props.children)
   }, [props.children])
-  const defaultPatternConfigs = {
-    patternOnAdd: handleAdd,
-    patternOnDelete: handleDelete,
-    patternOnChange: handlePatternChange,
-    patternOnConvert: handleConvert,
-  }
-  const patternConfigs = {
-    ...customPatternConfigs,
-    ...defaultPatternConfigs,
-  }
   const globalConfigs = {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
-  const [treeData, setTreeData] = useState<ConditionTreeItem[]>(
-    wrappTreeData({
-      value: props.dataSource || [],
-    }),
-  )
-  function handleConditionTypeChange(path: NextPath, value: { type: ConditionType }) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getTypeChangeTreeData({
-        treeData: prevTreeData,
-        path,
-        value,
-      })
-      return nextTreeData
-    })
-  }
-  function handleAdd(path: NextPath) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getCountTreeData({
-        treeData: prevTreeData,
-        path,
-        globalConfigs,
-      })
-      return nextTreeData
-    })
-  }
-  function handleDelete(path: NextPath) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getCountTreeData({
-        treeData: prevTreeData,
-        path,
-        type: 'reduce',
-        globalConfigs,
-      })
-      return nextTreeData
-    })
-  }
-  function handlePatternChange(path: NextPath, value: { patterns: any }) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getPatternsChangeTreeData({
-        treeData: prevTreeData,
-        path,
-        value,
-      })
-      return nextTreeData
-    })
-  }
-  function handleConvert(path: NextPath) {
-    setTreeData(prevTreeData => {
-      const nextTreeData = getConvertTreedata({
-        treeData: prevTreeData,
-        path,
-        globalConfigs,
-      })
-      return nextTreeData
-    })
-  }
+  const { treeData, dispatch } = useTreeData({ initialState: props.dataSource || [] })
   const handleVisibleChange = useCallback(
     (value: VisibilityStateData) => {
       if (props.onVisible) {
         props.onVisible(value)
       }
-      setTreeData(value.treeData)
+      dispatch({ type: 'RESET', payload: value.treeData })
     },
     [props.onVisible],
   )
@@ -143,7 +63,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
           treeData: nextTreeData,
         })
       }
-      setTreeData(nextTreeData)
+      dispatch({ type: 'RESET', payload: nextTreeData })
     },
     [props.onMoveNode, treeData],
   )
@@ -157,16 +77,20 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     [props.onChange],
   )
   return (
-    <ConfigProvider configs={{ pattern: patternConfigs, condition: conditionConfigs }}>
-      <SortableTree
-        onDragStateChanged={props.onDragState}
-        onMoveNode={handleMoveNode}
-        treeData={treeData}
-        onVisibilityToggle={handleVisibleChange}
-        onChange={handleOnChange}
-        className={styles.sortableCondition}
-        maxDepth={props.maxDepth ? props.maxDepth + 1 : props.maxDepth}
-      />
+    <ConfigProvider
+      configs={{ pattern: patternConfigs, condition: conditionConfigs, global: globalConfigs }}
+    >
+      <DataProvider store={{ treeData, dispatch }}>
+        <SortableTree
+          onDragStateChanged={props.onDragState}
+          onMoveNode={handleMoveNode}
+          treeData={treeData}
+          onVisibilityToggle={handleVisibleChange}
+          onChange={handleOnChange}
+          className={styles.sortableCondition}
+          maxDepth={props.maxDepth ? props.maxDepth + 1 : props.maxDepth}
+        />
+      </DataProvider>
     </ConfigProvider>
   )
 }

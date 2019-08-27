@@ -2,51 +2,43 @@ import React, { useCallback, useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
-import { NextPath, ConditionType, CustomConditionConfigs } from './typings'
+import { NextPath, ConditionType, CustomConditionConfigs, ConditionItem } from './typings'
 import { ConfigContext } from './ConfigContext'
 import styles from './style/SortableCondition.styl'
+import { DataContext } from './DataContext'
 
 export type Props = {
   type?: ConditionType
   path?: NextPath
+  node: ConditionItem
 }
 
 export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
+  const globalConfigs = useContext(ConfigContext).global
+  const { treeData, dispatch } = useContext(DataContext)
   const handleChangeConditionType = useCallback(() => {
-    if (!configs.conditionTypeOnChange) {
-      return
-    }
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
-    configs.conditionTypeOnChange(props.path || [], { type: nextType })
+    dispatch({ type: 'CHANGE_TYPE', payload: { path: props.path || [], type: nextType } })
     if (configs.onType) {
       configs.onType(props.path || [], { type: nextType })
     }
-  }, [props.type || 'and', props.path, configs.conditionTypeOnChange, configs.onType])
+  }, [props.type || 'and', props.path, dispatch, configs.onType])
   const handleAddCondition = useCallback(() => {
-    if (!configs.conditionOnAdd) {
-      return
-    }
-    configs.conditionOnAdd(props.path || [])
+    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs } })
     if (configs.onAdd) {
       configs.onAdd(props.path || [])
     }
-  }, [props.path, configs.conditionOnAdd, configs.onAdd])
+  }, [props.path, dispatch, configs.onAdd, globalConfigs])
   const handleDeleteCondition = useCallback(() => {
-    if (!configs.conditionOnDelete) {
-      return
-    }
+    dispatch({ type: 'DELETE', payload: { path: props.path || [], globalConfigs } })
     if (configs.onDelete) {
       configs.onDelete(props.path || [])
     }
-    configs.conditionOnDelete(props.path || [])
-  }, [props.path, configs.conditionOnDelete, configs.onDelete])
+  }, [props.path, dispatch, configs.onDelete, globalConfigs])
   const handleConvertCondition = useCallback(() => {
-    if (!configs.conditionOnConvert) {
-      return
-    }
-    configs.conditionOnConvert(props.path || [])
-  }, [props.path, configs.conditionOnConvert])
+    dispatch({ type: 'CONVERT', payload: { path: props.path || [], globalConfigs } })
+  }, [props.path, dispatch, globalConfigs])
   const isRoot = props.path && props.path.length === 1 && props.path[0] === 0
   return (
     <div

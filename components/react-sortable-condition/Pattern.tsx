@@ -2,50 +2,43 @@ import React, { useCallback, useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
-import { NextPath, NormalType, CustomPatternConfigs } from './typings'
+import { NextPath, NormalType, CustomPatternConfigs, PatternItem } from './typings'
 import styles from './style/SortableCondition.styl'
 import { ConfigContext } from './ConfigContext'
+import { DataContext } from './DataContext'
 
 type Props<T = any> = {
   path?: NextPath
   type: NormalType
+  node: PatternItem
   patterns?: T
 }
 
 export const Pattern = (props: Props) => {
   const configs = useContext(ConfigContext).pattern
+  const globalConfigs = useContext(ConfigContext).global
+  const { treeData, dispatch } = useContext(DataContext)
   const handleAddPattern = useCallback(() => {
-    if (!configs.patternOnAdd) {
-      return
-    }
-    configs.patternOnAdd(props.path || [])
+    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs } })
     if (configs.onAdd) {
       configs.onAdd(props.path || [])
     }
-  }, [props.path, configs.patternOnAdd])
+  }, [props.path, configs.onAdd, dispatch, globalConfigs])
   const handleDeletePattern = useCallback(() => {
-    if (!configs.patternOnDelete) {
-      return
-    }
-    configs.patternOnDelete(props.path || [])
+    dispatch({ type: 'DELETE', payload: { path: props.path || [], globalConfigs } })
     if (configs.onDelete) {
       configs.onDelete(props.path || [])
     }
-  }, [props.path, configs.patternOnDelete])
+  }, [props.path, configs.onDelete, dispatch, globalConfigs])
   const handleConvert = useCallback(() => {
-    if (!configs.patternOnConvert) {
-      return
-    }
-    configs.patternOnConvert(props.path || [])
-  }, [props.path, configs.patternOnConvert])
+    dispatch({ type: 'CONVERT', payload: { path: props.path || [], globalConfigs } })
+  }, [props.path, dispatch, globalConfigs])
   const PatterComponent =
     configs.component && React.isValidElement(configs.component)
       ? React.cloneElement(configs.component, {
           patterns: props.patterns,
           onChange: ({ patterns }: { patterns: any }) => {
-            if (configs.patternOnChange) {
-              configs.patternOnChange(props.path || [], { patterns })
-            }
+            dispatch({ type: 'CHANGE_PATTERN', payload: { path: props.path || [], patterns } })
           },
         })
       : 'this is pattern'

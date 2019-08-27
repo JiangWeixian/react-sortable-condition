@@ -23,7 +23,12 @@ export const createPattern = ({
     expanded,
     patterns,
     title: (props: PatternNodeData) => (
-      <Pattern path={props.path} type={props.node.type} patterns={props.node.patterns} />
+      <Pattern
+        node={props.node}
+        path={props.path}
+        type={props.node.type}
+        patterns={props.node.patterns}
+      />
     ),
   }
 }
@@ -38,7 +43,9 @@ export const createCondition = ({
   return {
     type,
     expanded,
-    title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
+    title: (props: ConditionNodeData) => (
+      <Condition node={props.node} path={props.path} type={props.node.type} />
+    ),
     children: [createPattern({})],
   }
 }

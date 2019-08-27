@@ -20,13 +20,13 @@ const isForbiddenCount = ({
   treeData,
 }: {
   path: NextPath
-  type: 'add' | 'reduce'
+  type: 'add' | 'delete'
   treeData: ConditionTreeItem[]
 }) => {
   if (path.length === 0 || treeData.length === 0) {
     return true
   }
-  if (path.length <= 1 && type === 'reduce') {
+  if (path.length <= 1 && type === 'delete') {
     return true
   }
   return false
@@ -41,7 +41,7 @@ export const getCountTreeData = ({
   path: NextPath
   treeData: ConditionTreeItem[]
   globalConfigs: GlobalConfigs
-  type?: 'add' | 'reduce'
+  type?: 'add' | 'delete'
 }) => {
   if (isForbiddenCount({ path, treeData, type })) {
     return treeData
@@ -53,7 +53,9 @@ export const getCountTreeData = ({
     return [
       {
         type: 'and',
-        title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
+        title: (props: ConditionNodeData) => (
+          <Condition node={props.node} path={props.path} type={props.node.type} />
+        ),
         children: child.concat(treeData),
         expanded: true,
       },
