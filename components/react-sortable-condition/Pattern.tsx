@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
-import { NextPath, NormalType, CustomPatternConfigs } from './typings'
+import { NextPath, NormalType, CustomPatternConfigs, PatternItem } from './typings'
 import styles from './style/SortableCondition.styl'
 import { ConfigContext } from './ConfigContext'
 import { DataContext } from './DataContext'
@@ -10,6 +10,7 @@ import { DataContext } from './DataContext'
 type Props<T = any> = {
   path?: NextPath
   type: NormalType
+  node: PatternItem
   patterns?: T
 }
 

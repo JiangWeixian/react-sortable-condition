@@ -53,7 +53,9 @@ export const getCountTreeData = ({
     return [
       {
         type: 'and',
-        title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
+        title: (props: ConditionNodeData) => (
+          <Condition node={props.node} path={props.path} type={props.node.type} />
+        ),
         children: child.concat(treeData),
         expanded: true,
       },

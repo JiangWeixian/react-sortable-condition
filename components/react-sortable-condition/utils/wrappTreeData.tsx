@@ -15,7 +15,9 @@ export const wrappTreeData = (treeData: DataItem[] = []): ConditionTreeItem[] =>
   return treeData.map(item => {
     if (item.type === 'and' || item.type === 'or') {
       return {
-        title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
+        title: (props: ConditionNodeData) => (
+          <Condition node={props.node} path={props.path} type={props.node.type} />
+        ),
         type: item.type,
         expanded: item.expanded,
         children: item.children ? wrappTreeData(item.children) : [],

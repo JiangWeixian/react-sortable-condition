@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
-import { NextPath, ConditionType, CustomConditionConfigs } from './typings'
+import { NextPath, ConditionType, CustomConditionConfigs, ConditionItem } from './typings'
 import { ConfigContext } from './ConfigContext'
 import styles from './style/SortableCondition.styl'
 import { DataContext } from './DataContext'
@@ -10,6 +10,7 @@ import { DataContext } from './DataContext'
 export type Props = {
   type?: ConditionType
   path?: NextPath
+  node: ConditionItem
 }
 
 export const Condition = (props: Props) => {
