@@ -15,7 +15,7 @@ import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
 import { ConfigProvider } from './ConfigContext'
 import { DataProvider } from './DataContext'
-import { useTreeData } from './DataReducers'
+import { useTreeData } from './useTreeData'
 import { ConfigCondition } from './Condition'
 import { ConfigPattern } from './Pattern'
 
@@ -25,7 +25,8 @@ export type SortableConditionProps<T> = {
   onVisible?(value: VisibilityStateData<T>): void
   onChange?(value: ConditionTreeItem<T>[]): void
   children?: React.ReactNode
-  dataSource: DataItem<T>[]
+  dataSource?: ConditionTreeItem<T>[]
+  defaultDataSource?: DataItem<T>[]
   maxDepth?: number
 }
 
@@ -39,7 +40,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const globalConfigs = {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
-  const { treeData, dispatch } = useTreeData({ initialState: props.dataSource || [] })
+  const { treeData, dispatch } = useTreeData({ initialTreeData: props.defaultDataSource || [] })
   const handleVisibleChange = useCallback(
     (value: VisibilityStateData) => {
       if (props.onVisible) {
@@ -86,7 +87,7 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         <SortableTree
           onDragStateChanged={props.onDragState}
           onMoveNode={handleMoveNode}
-          treeData={treeData}
+          treeData={props.dataSource || treeData}
           onVisibilityToggle={handleVisibleChange}
           onChange={handleOnChange}
           className={styles.sortableCondition}
@@ -98,6 +99,6 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
 }
 
 export namespace SortableCondition {
-  Condition: ConfigCondition
-  Pattern: ConfigPattern
+  export const Condition = ConfigCondition
+  export const Pattern = ConfigPattern
 }

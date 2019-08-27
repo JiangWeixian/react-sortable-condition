@@ -1,9 +1,10 @@
 import React from 'react'
 
-import SortableCondition from '../../../../components/react-sortable-condition/index'
+import SortableCondition from '../../../../components/react-sortable-condition'
 import { ConfigCondition } from '../../../../components/react-sortable-condition/Condition'
 import { ConfigPattern } from '../../../../components/react-sortable-condition/Pattern'
 import { DataItem } from '../../../../components/react-sortable-condition/typings'
+import { useTreeData } from '../../../../components/react-sortable-condition/useTreeData'
 
 const data: DataItem[] = [
   {
@@ -35,19 +36,19 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 }
 
 const Condition = () => {
+  const { treeData } = useTreeData({ initialTreeData: data })
   return (
     <div style={{ height: '400px' }}>
       <SortableCondition
-        dataSource={data}
+        dataSource={treeData}
         onChange={v => console.log('change', v)}
         onDragState={v => console.log('drag', v)}
         onVisible={v => console.log('visible', v)}
         onMoveNode={v => console.log('move', v)}
         maxDepth={3}
       >
-        <ConfigCondition
+        <SortableCondition.Condition
           onAdd={() => console.log('add')}
-          onClick={() => 'click'}
           onDelete={() => console.log('delelte')}
           // addIcon={<Icon type="plus-circle" />}
           // deleteIcon={<Icon type="close-circle" />}

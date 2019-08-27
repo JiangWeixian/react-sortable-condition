@@ -103,7 +103,7 @@ export const Condition = (props: Props) => {
 
 export type ConditionProps<T> = CustomConditionConfigs<T>
 
-export function ConfigCondition<T>(props: ConditionProps<T>) {
+export function ConfigCondition<T = any>(props: ConditionProps<T>) {
   return <span>{props}</span>
 }
 
