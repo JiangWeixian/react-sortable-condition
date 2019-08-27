@@ -37,7 +37,7 @@ export const Pattern = (props: Props) => {
   const handleConvert = () => {
     dispatch({
       type: 'CONVERT',
-      payload: { path: props.path || [], globalConfigs, node: props.node },
+      payload: { path: props.path || [], node: props.node },
     })
     if (configs.onConvert) {
       configs.onConvert(props.node, props.path || [])
