@@ -16,7 +16,7 @@ export type Props = {
 export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
   const globalConfigs = useContext(ConfigContext).global
-  const { treeData, dispatch } = useContext(DataContext)
+  const { dispatch } = useContext(DataContext)
   const handleChangeConditionType = () => {
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
     dispatch({
@@ -24,13 +24,13 @@ export const Condition = (props: Props) => {
       payload: { path: props.path || [], type: nextType, node: props.node },
     })
     if (configs.onType) {
-      configs.onType(props.path || [], { type: nextType })
+      configs.onType(props.node, props.path || [], { type: nextType })
     }
   }
   const handleAddCondition = () => {
     dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
     if (configs.onAdd) {
-      configs.onAdd(props.path || [])
+      configs.onAdd(props.node, props.path || [])
     }
   }
   const handleDeleteCondition = () => {
@@ -39,7 +39,7 @@ export const Condition = (props: Props) => {
       payload: { path: props.path || [], globalConfigs, node: props.node },
     })
     if (configs.onDelete) {
-      configs.onDelete(props.path || [])
+      configs.onDelete(props.node, props.path || [])
     }
   }
   const handleConvertCondition = () => {
