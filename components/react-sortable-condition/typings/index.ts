@@ -120,7 +120,13 @@ export type Configs = {
 export type Action<T = any> =
   | { type: 'RESET'; payload: ConditionTreeItem[] }
   | { type: 'CHANGE_TYPE'; payload: { type: ConditionType; path: NextPath } }
-  | { type: 'ADD'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
-  | { type: 'DELETE'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
+  | {
+      type: 'ADD'
+      payload: { path: NextPath; node: ConditionTreeItem; globalConfigs: GlobalConfigs }
+    }
+  | {
+      type: 'DELETE'
+      payload: { path: NextPath; node: ConditionTreeItem; globalConfigs: GlobalConfigs }
+    }
   | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T } }
   | { type: 'CONVERT'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }

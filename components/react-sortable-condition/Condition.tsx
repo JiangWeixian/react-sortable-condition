@@ -25,17 +25,20 @@ export const Condition = (props: Props) => {
     }
   }, [props.type || 'and', props.path, dispatch, configs.onType])
   const handleAddCondition = useCallback(() => {
-    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs } })
+    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
     if (configs.onAdd) {
       configs.onAdd(props.path || [])
     }
   }, [props.path, dispatch, configs.onAdd, globalConfigs])
-  const handleDeleteCondition = useCallback(() => {
-    dispatch({ type: 'DELETE', payload: { path: props.path || [], globalConfigs } })
+  const handleDeleteCondition = () => {
+    dispatch({
+      type: 'DELETE',
+      payload: { path: props.path || [], globalConfigs, node: props.node },
+    })
     if (configs.onDelete) {
       configs.onDelete(props.path || [])
     }
-  }, [props.path, dispatch, configs.onDelete, globalConfigs])
+  }
   const handleConvertCondition = useCallback(() => {
     dispatch({ type: 'CONVERT', payload: { path: props.path || [], globalConfigs } })
   }, [props.path, dispatch, globalConfigs])

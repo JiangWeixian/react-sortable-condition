@@ -18,18 +18,21 @@ export const Pattern = (props: Props) => {
   const configs = useContext(ConfigContext).pattern
   const globalConfigs = useContext(ConfigContext).global
   const { treeData, dispatch } = useContext(DataContext)
-  const handleAddPattern = useCallback(() => {
-    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs } })
+  const handleAddPattern = () => {
+    dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
     if (configs.onAdd) {
       configs.onAdd(props.path || [])
     }
-  }, [props.path, configs.onAdd, dispatch, globalConfigs])
-  const handleDeletePattern = useCallback(() => {
-    dispatch({ type: 'DELETE', payload: { path: props.path || [], globalConfigs } })
+  }
+  const handleDeletePattern = () => {
+    dispatch({
+      type: 'DELETE',
+      payload: { path: props.path || [], globalConfigs, node: props.node },
+    })
     if (configs.onDelete) {
       configs.onDelete(props.path || [])
     }
-  }, [props.path, configs.onDelete, dispatch, globalConfigs])
+  }
   const handleConvert = useCallback(() => {
     dispatch({ type: 'CONVERT', payload: { path: props.path || [], globalConfigs } })
   }, [props.path, dispatch, globalConfigs])
