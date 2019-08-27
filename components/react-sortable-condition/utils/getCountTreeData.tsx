@@ -2,11 +2,9 @@ import React from 'react'
 import {
   NextPath,
   ConditionTreeItem,
-  ConditionConfigs,
   ConditionNodeData,
   ConditionItem,
   PatternItem,
-  PatternConfigs,
   GlobalConfigs,
 } from '../typings'
 import { getNodeAtPath, removeNodeAtPath } from 'react-sortable-tree'
@@ -37,15 +35,11 @@ const isForbiddenCount = ({
 export const getCountTreeData = ({
   path = [],
   treeData = [],
-  conditionConfigs = {},
   globalConfigs = {},
   type = 'add',
-  patternConfigs,
 }: {
   path: NextPath
   treeData: ConditionTreeItem[]
-  conditionConfigs?: ConditionConfigs
-  patternConfigs: PatternConfigs
   globalConfigs: GlobalConfigs
   type?: 'add' | 'reduce'
 }) => {
@@ -55,18 +49,11 @@ export const getCountTreeData = ({
   const parentItem = getParentItem(treeData, path)
   // handle click root item
   if (!parentItem) {
-    const child: ConditionTreeItem[] = [
-      createCondition({
-        patternConfigs,
-        conditionConfigs,
-      }),
-    ]
+    const child: ConditionTreeItem[] = [createCondition({})]
     return [
       {
         type: 'and',
-        title: (props: ConditionNodeData) => (
-          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
-        ),
+        title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
         children: child.concat(treeData),
         expanded: true,
       },
@@ -83,12 +70,7 @@ export const getCountTreeData = ({
   // handle condition
   if (item.node.type === 'and' || item.node.type === 'or') {
     if (type === 'add') {
-      const items: ConditionItem[] = [
-        createCondition({
-          patternConfigs,
-          conditionConfigs,
-        }),
-      ]
+      const items: ConditionItem[] = [createCondition({})]
       const nextTreeData = insertItems({
         treeData,
         path,
@@ -111,11 +93,7 @@ export const getCountTreeData = ({
     // handle pattern
   } else if (item.node.type === 'normal') {
     if (type === 'add') {
-      const items: PatternItem[] = [
-        createPattern({
-          patternConfigs,
-        }),
-      ]
+      const items: PatternItem[] = [createPattern({})]
       return insertItems({
         treeData,
         path,

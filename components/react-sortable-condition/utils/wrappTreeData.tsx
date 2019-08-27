@@ -1,27 +1,13 @@
 import React from 'react'
 
-import {
-  ConditionTreeItem,
-  ConditionNodeData,
-  ConditionConfigs,
-  PatternConfigs,
-  DataItem,
-} from '../typings'
+import { ConditionTreeItem, ConditionNodeData, DataItem } from '../typings'
 
 import { Condition } from '../Condition'
 import { createPattern } from './factory'
 
 const defaultTrees: ConditionTreeItem[] = []
 
-export const wrappTreeData = ({
-  value = [],
-  conditionConfigs = {},
-  patternConfigs,
-}: {
-  value: DataItem[]
-  conditionConfigs: ConditionConfigs
-  patternConfigs: PatternConfigs
-}): ConditionTreeItem[] => {
+export const wrappTreeData = ({ value = [] }: { value: DataItem[] }): ConditionTreeItem[] => {
   const trees = defaultTrees
   if (!value) {
     return trees
@@ -29,18 +15,13 @@ export const wrappTreeData = ({
   return value.map(item => {
     if (item.type === 'and' || item.type === 'or') {
       return {
-        title: (props: ConditionNodeData) => (
-          <Condition {...conditionConfigs} path={props.path} type={props.node.type} />
-        ),
+        title: (props: ConditionNodeData) => <Condition path={props.path} type={props.node.type} />,
         type: item.type,
         expanded: item.expanded,
-        children: item.children
-          ? wrappTreeData({ value: item.children, conditionConfigs, patternConfigs })
-          : [],
+        children: item.children ? wrappTreeData({ value: item.children }) : [],
       }
     } else if (item.type === 'normal') {
       return createPattern({
-        patternConfigs,
         expanded: item.expanded,
       })
     }

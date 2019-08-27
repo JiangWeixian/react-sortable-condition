@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { ConfigPatternProps, PatternConfigs } from '../typings'
+import { CustomPatternConfigs, PatternConfigs } from '../typings'
 
 const defaultConfig: PatternConfigs = {
   component: 'this is a pattern',
@@ -12,7 +12,7 @@ export const extractPatternConfig = (children?: React.ReactNode): PatternConfigs
     return config
   }
   React.Children.forEach(children, child => {
-    if (React.isValidElement<ConfigPatternProps>(child)) {
+    if (React.isValidElement<CustomPatternConfigs>(child)) {
       const props = child.props
       const name = (child.type as any).displayName
       if (name && name === 'Pattern') {

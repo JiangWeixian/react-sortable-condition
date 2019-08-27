@@ -1,53 +1,58 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
-import { NextPath, ConditionType, ConfigConditionProps, ConditionConfigs } from './typings'
+import { NextPath, ConditionType, CustomConditionConfigs } from './typings'
+import { ConfigContext } from './ConfigContext'
 import styles from './style/SortableCondition.styl'
 
-export type Props = ConditionConfigs & {
+export type Props = {
   type?: ConditionType
   path?: NextPath
 }
 
 export const Condition = (props: Props) => {
+  const configs = useContext(ConfigContext).condition
   const handleChangeConditionType = useCallback(() => {
-    if (!props.conditionTypeOnChange) {
+    if (!configs.conditionTypeOnChange) {
       return
     }
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
-    props.conditionTypeOnChange(props.path || [], { type: nextType })
-    if (props.onType) {
-      props.onType(props.path || [], { type: nextType })
+    configs.conditionTypeOnChange(props.path || [], { type: nextType })
+    if (configs.onType) {
+      configs.onType(props.path || [], { type: nextType })
     }
-  }, [props.type || 'and', props.path])
+  }, [props.type || 'and', props.path, configs.conditionTypeOnChange, configs.onType])
   const handleAddCondition = useCallback(() => {
-    if (!props.conditionOnAdd) {
+    if (!configs.conditionOnAdd) {
       return
     }
-    props.conditionOnAdd(props.path || [])
-    if (props.onAdd) {
-      props.onAdd(props.path || [])
+    configs.conditionOnAdd(props.path || [])
+    if (configs.onAdd) {
+      configs.onAdd(props.path || [])
     }
-  }, [props.path])
+  }, [props.path, configs.conditionOnAdd, configs.onAdd])
   const handleDeleteCondition = useCallback(() => {
-    if (!props.conditionOnDelete) {
+    if (!configs.conditionOnDelete) {
       return
     }
-    if (props.onDelete) {
-      props.onDelete(props.path || [])
+    if (configs.onDelete) {
+      configs.onDelete(props.path || [])
     }
-    props.conditionOnDelete(props.path || [])
-  }, [props.path])
+    configs.conditionOnDelete(props.path || [])
+  }, [props.path, configs.conditionOnDelete, configs.onDelete])
   const handleConvertCondition = useCallback(() => {
-    if (!props.conditionOnConvert) {
+    if (!configs.conditionOnConvert) {
       return
     }
-    props.conditionOnConvert(props.path || [])
-  }, [props.path])
+    configs.conditionOnConvert(props.path || [])
+  }, [props.path, configs.conditionOnConvert])
   const isRoot = props.path && props.path.length === 1 && props.path[0] === 0
   return (
-    <div data-role="condition-item" className={cx(props.className, styles.item, styles.condition)}>
+    <div
+      data-role="condition-item"
+      className={cx(configs.className, styles.item, styles.condition)}
+    >
       <div data-role="content" onClick={handleChangeConditionType} className={styles.content}>
         <p>{props.type}</p>
       </div>
@@ -57,14 +62,18 @@ export const Condition = (props: Props) => {
             <span className={styles.btn_content}>T</span>
           </a>
         )}
-        {isNull(props.addIcon) ? null : (
+        {isNull(configs.addIcon) ? null : (
           <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
-            {props.addIcon ? props.addIcon : <span className={styles.btn_content}>+</span>}
+            {configs.addIcon ? configs.addIcon : <span className={styles.btn_content}>+</span>}
           </a>
         )}
-        {isNull(props.deleteIcon) || isRoot ? null : (
+        {isNull(configs.deleteIcon) || isRoot ? null : (
           <a data-role="delete-btn" className={styles.btn} onClick={handleDeleteCondition}>
-            {props.deleteIcon ? props.deleteIcon : <span className={styles.btn_content}>-</span>}
+            {configs.deleteIcon ? (
+              configs.deleteIcon
+            ) : (
+              <span className={styles.btn_content}>-</span>
+            )}
           </a>
         )}
       </div>
@@ -72,7 +81,7 @@ export const Condition = (props: Props) => {
   )
 }
 
-export type ConditionProps = ConfigConditionProps
+export type ConditionProps = CustomConditionConfigs
 
 export const ConfigCondition = (props: ConditionProps) => {
   return <span>{props}</span>

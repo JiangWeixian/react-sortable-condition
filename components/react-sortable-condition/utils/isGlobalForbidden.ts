@@ -19,6 +19,5 @@ export const isMaxDepthForbidden = (treeData: ConditionTreeItem[] = [], maxDepth
     return false
   }
   const currentDepth = getDepth(root.node, 0)
-  console.log(currentDepth)
   return currentDepth >= maxDepth
 }
