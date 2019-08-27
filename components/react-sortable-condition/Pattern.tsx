@@ -6,6 +6,7 @@ import { NextPath, NormalType, CustomPatternConfigs, PatternItem } from './typin
 import styles from './style/SortableCondition.styl'
 import { ConfigContext } from './ConfigContext'
 import { DataContext } from './DataContext'
+import { isForbiddenConvert } from './utils/rules'
 
 type Props<T = any> = {
   path?: NextPath
@@ -17,7 +18,7 @@ type Props<T = any> = {
 export const Pattern = (props: Props) => {
   const configs = useContext(ConfigContext).pattern
   const globalConfigs = useContext(ConfigContext).global
-  const { dispatch } = useContext(DataContext)
+  const { dispatch, treeData } = useContext(DataContext)
   const handleAddPattern = () => {
     dispatch({ type: 'ADD', payload: { path: props.path || [], globalConfigs, node: props.node } })
     if (configs.onAdd) {
@@ -54,13 +55,15 @@ export const Pattern = (props: Props) => {
           },
         })
       : 'this is pattern'
+  const isNoConvertIcon =
+    isForbiddenConvert({ treeData, path: props.path, globalConfigs }) || isNull(configs.convertIcon)
   return (
     <div data-role="pattern-item" className={cx(styles.pattern, styles.item, configs.className)}>
       <div data-role="content" className={styles.content}>
         <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
-        {isNull(configs.convertIcon) ? null : (
+        {isNoConvertIcon ? null : (
           <a data-role="convert-btn" className={styles.btn} onClick={handleConvert}>
             {configs.convertIcon ? (
               configs.convertIcon

@@ -6,6 +6,7 @@ import { NextPath, ConditionType, CustomConditionConfigs, ConditionItem } from '
 import { ConfigContext } from './ConfigContext'
 import styles from './style/SortableCondition.styl'
 import { DataContext } from './DataContext'
+import { isForbiddenConvert } from './utils/rules'
 
 export type Props = {
   type?: ConditionType
@@ -16,7 +17,7 @@ export type Props = {
 export const Condition = (props: Props) => {
   const configs = useContext(ConfigContext).condition
   const globalConfigs = useContext(ConfigContext).global
-  const { dispatch } = useContext(DataContext)
+  const { treeData, dispatch } = useContext(DataContext)
   const handleChangeConditionType = () => {
     const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
     dispatch({
@@ -51,7 +52,8 @@ export const Condition = (props: Props) => {
       configs.onConvert(props.node, props.path || [])
     }
   }
-  const isRoot = props.path && props.path.length === 1 && props.path[0] === 0
+  const isNoConvertIcon =
+    isForbiddenConvert({ treeData, path: props.path, globalConfigs }) || isNull(configs.convertIcon)
   return (
     <div
       data-role="condition-item"
@@ -61,7 +63,7 @@ export const Condition = (props: Props) => {
         <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
-        {isRoot || isNull(configs.convertIcon) ? null : (
+        {isNoConvertIcon ? null : (
           <a data-role="convert-btn" className={styles.btn} onClick={handleConvertCondition}>
             {configs.convertIcon ? (
               configs.convertIcon
@@ -75,7 +77,7 @@ export const Condition = (props: Props) => {
             {configs.addIcon ? configs.addIcon : <span className={styles.btn_content}>+</span>}
           </a>
         )}
-        {isNull(configs.deleteIcon) || isRoot ? null : (
+        {isNull(configs.deleteIcon) ? null : (
           <a data-role="delete-btn" className={styles.btn} onClick={handleDeleteCondition}>
             {configs.deleteIcon ? (
               configs.deleteIcon
