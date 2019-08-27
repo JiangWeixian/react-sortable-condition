@@ -3,7 +3,7 @@ import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
 import { NextPath, NormalType, CustomPatternConfigs, PatternItem } from './typings'
-import styles from './style/SortableCondition.styl'
+import styles from './style/SortableCondition.css.json'
 import { ConfigContext } from './ConfigContext'
 import { DataContext } from './DataContext'
 import { isForbiddenConvert, isForbiddenCount } from './utils/rules'
@@ -68,8 +68,8 @@ export const Pattern = (props: Props) => {
   const isNoAddIcon = countStatus.add || isNull(configs.addIcon)
   const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
-    <div data-role="pattern-item" className={cx(styles.pattern, styles.item, configs.className)}>
-      <div data-role="content" className={styles.content}>
+    <div data-role="pattern-item" className={cx(styles.item, configs.className)}>
+      <div data-role="content">
         <p>{PatterComponent}</p>
       </div>
       <div data-role="btns" className={styles.btns}>

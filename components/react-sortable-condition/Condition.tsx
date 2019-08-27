@@ -4,7 +4,7 @@ import isNull from 'lodash.isnull'
 
 import { NextPath, ConditionType, CustomConditionConfigs, ConditionItem } from './typings'
 import { ConfigContext } from './ConfigContext'
-import styles from './style/SortableCondition.styl'
+import styles from './style/SortableCondition.css.json'
 import { DataContext } from './DataContext'
 import { isForbiddenConvert, isForbiddenCount } from './utils/rules'
 
@@ -65,11 +65,8 @@ export const Condition = (props: Props) => {
   const isNoAddIcon = countStatus.add || isNull(configs.addIcon)
   const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
-    <div
-      data-role="condition-item"
-      className={cx(configs.className, styles.item, styles.condition)}
-    >
-      <div data-role="content" onClick={handleChangeConditionType} className={styles.content}>
+    <div data-role="condition-item" className={cx(configs.className, styles.item)}>
+      <div data-role="content" onClick={handleChangeConditionType}>
         <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
