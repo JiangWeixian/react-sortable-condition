@@ -103,6 +103,7 @@ export type ConditionConfigs = CustomConditionConfigs
 export type CustomPatternConfigs<T = any> = {
   onAdd?: PatternCountCallback<T>
   onDelete?: PatternCountCallback<T>
+  onConvert?: PatternConvertCallback<T>
   children?: React.ReactNode
   className?: string
 } & IconSets

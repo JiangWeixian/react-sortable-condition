@@ -47,6 +47,9 @@ export const Condition = (props: Props) => {
       type: 'CONVERT',
       payload: { path: props.path || [], globalConfigs, node: props.node },
     })
+    if (configs.onConvert) {
+      configs.onConvert(props.node, props.path || [])
+    }
   }
   const isRoot = props.path && props.path.length === 1 && props.path[0] === 0
   return (

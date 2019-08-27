@@ -38,6 +38,9 @@ export const Pattern = (props: Props) => {
       type: 'CONVERT',
       payload: { path: props.path || [], globalConfigs, node: props.node },
     })
+    if (configs.onConvert) {
+      configs.onConvert(props.node, props.path || [])
+    }
   }
   const PatterComponent =
     configs.component && React.isValidElement(configs.component)
