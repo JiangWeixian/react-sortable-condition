@@ -39,9 +39,12 @@ export const Condition = (props: Props) => {
       configs.onDelete(props.path || [])
     }
   }
-  const handleConvertCondition = useCallback(() => {
-    dispatch({ type: 'CONVERT', payload: { path: props.path || [], globalConfigs } })
-  }, [props.path, dispatch, globalConfigs])
+  const handleConvertCondition = () => {
+    dispatch({
+      type: 'CONVERT',
+      payload: { path: props.path || [], globalConfigs, node: props.node },
+    })
+  }
   const isRoot = props.path && props.path.length === 1 && props.path[0] === 0
   return (
     <div

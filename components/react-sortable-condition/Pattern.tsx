@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useContext } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
@@ -33,9 +33,12 @@ export const Pattern = (props: Props) => {
       configs.onDelete(props.path || [])
     }
   }
-  const handleConvert = useCallback(() => {
-    dispatch({ type: 'CONVERT', payload: { path: props.path || [], globalConfigs } })
-  }, [props.path, dispatch, globalConfigs])
+  const handleConvert = () => {
+    dispatch({
+      type: 'CONVERT',
+      payload: { path: props.path || [], globalConfigs, node: props.node },
+    })
+  }
   const PatterComponent =
     configs.component && React.isValidElement(configs.component)
       ? React.cloneElement(configs.component, {

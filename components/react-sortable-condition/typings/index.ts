@@ -129,4 +129,7 @@ export type Action<T = any> =
       payload: { path: NextPath; node: ConditionTreeItem; globalConfigs: GlobalConfigs }
     }
   | { type: 'CHANGE_PATTERN'; payload: { path: NextPath; patterns: T } }
-  | { type: 'CONVERT'; payload: { path: NextPath; globalConfigs: GlobalConfigs } }
+  | {
+      type: 'CONVERT'
+      payload: { path: NextPath; globalConfigs: GlobalConfigs; node: ConditionTreeItem }
+    }

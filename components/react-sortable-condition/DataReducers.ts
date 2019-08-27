@@ -43,6 +43,7 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
         treeData: state,
         path: action.payload.path,
         globalConfigs: action.payload.globalConfigs,
+        item: action.payload.node,
       })
     default:
       return state
