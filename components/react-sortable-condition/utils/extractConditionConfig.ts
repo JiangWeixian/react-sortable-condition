@@ -16,6 +16,7 @@ export const extractConditionConfig = (children?: React.ReactNode): CustomCondit
       if (name && name === 'Condition') {
         config.onAdd = props.onAdd
         config.onDelete = props.onDelete
+        config.onConvert = props.onConvert
         config.onType = props.onType
         config.className = props.className
         config.addIcon = props.addIcon
