@@ -7,6 +7,7 @@ import { ConfigContext } from './ConfigContext'
 import styles from './style/SortableCondition.css.json'
 import { DataContext } from './DataContext'
 import { isForbiddenConvert, isForbiddenCount } from './utils/rules'
+import './style/css'
 
 export type Props = {
   type?: ConditionType

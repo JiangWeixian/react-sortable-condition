@@ -7,6 +7,7 @@ import styles from './style/SortableCondition.css.json'
 import { ConfigContext } from './ConfigContext'
 import { DataContext } from './DataContext'
 import { isForbiddenConvert, isForbiddenCount } from './utils/rules'
+import './style/css'
 
 type Props<T = any> = {
   path?: NextPath

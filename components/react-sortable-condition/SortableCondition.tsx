@@ -9,6 +9,7 @@ import {
   VisibilityStateData,
   DataItem,
 } from './typings'
+import './style/css'
 import styles from './style/SortableCondition.css.json'
 import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
