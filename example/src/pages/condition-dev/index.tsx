@@ -1,10 +1,7 @@
 import React from 'react'
 
-import SortableCondition from '../../../../components/react-sortable-condition'
-import { ConfigCondition } from '../../../../components/react-sortable-condition/Condition'
-import { ConfigPattern } from '../../../../components/react-sortable-condition/Pattern'
+import SortableCondition, { useTreeData } from '../../../../components'
 import { DataItem } from '../../../../components/react-sortable-condition/typings'
-import { useTreeData } from '../../../../components/react-sortable-condition/useTreeData'
 
 const data: DataItem[] = [
   {
@@ -53,9 +50,9 @@ const Condition = () => {
           // addIcon={<Icon type="plus-circle" />}
           // deleteIcon={<Icon type="close-circle" />}
         />
-        <ConfigPattern>
+        <SortableCondition.Pattern>
           <TestPattern />
-        </ConfigPattern>
+        </SortableCondition.Pattern>
       </SortableCondition>
     </div>
   )
