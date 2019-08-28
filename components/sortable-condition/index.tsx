@@ -15,7 +15,7 @@ import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
 import { ConfigProvider } from './ConfigContext'
 import { DataProvider } from './DataContext'
-import { useTreeData } from './useTreeData'
+import { useTreeData as useDefaultTreeData } from './useTreeData'
 import { ConfigCondition } from './Condition'
 import { ConfigPattern } from './Pattern'
 
@@ -31,7 +31,7 @@ export type SortableConditionProps<T> = {
   maxDepth?: number
 }
 
-function Core<T = any>(props: SortableConditionProps<T>) {
+function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const conditionConfigs = useMemo(() => {
     return extractConditionConfig(props.children)
   }, [props.children])
@@ -41,7 +41,7 @@ function Core<T = any>(props: SortableConditionProps<T>) {
   const globalConfigs = {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
-  const { treeData, dispatch } = useTreeData({
+  const { treeData, dispatch } = useDefaultTreeData({
     initialTreeData: props.defaultDataSource,
     treeData: props.dataSource,
     controlled: !!props.dataSource,
@@ -102,12 +102,10 @@ function Core<T = any>(props: SortableConditionProps<T>) {
   )
 }
 
-class SortableCondition<T = any> extends React.Component<SortableConditionProps<T>> {
-  static Condition = ConfigCondition
-  static Pattern = ConfigPattern
-  render() {
-    return <Core {...this.props} />
-  }
+namespace SortableCondition {
+  export const Condition = ConfigCondition
+  export const Pattern = ConfigPattern
+  export const useTreeData = useDefaultTreeData
 }
 
 export default SortableCondition
