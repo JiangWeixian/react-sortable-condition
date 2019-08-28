@@ -5,7 +5,7 @@
 
 ### Screenshots
 
-![sortablecondition](./docs/screenshots/react-sortable-condition.gif)
+![sortablecondition](https://github.com/JiangWeixian/react-sortable-condition/blob/master/docs/screenshots/react-sortable-condition.gif)
 
 ### Install
 
@@ -34,8 +34,8 @@
 </SortableCondition>
 ```
 
-- see real demo in [example](./example/src/pages/condition-prod/index.tsx)
-- see how to work with **react-hooks** in [useTreeData-example](./example/src/pages/condition-prod/hooks.tsx)
+- see real demo in [example](https://github.com/JiangWeixian/react-sortable-condition/tree/master/example/src/pages/condition-prod/index.tsx)
+- see how to work with **react-hooks** in [useTreeData-example](https://github.com/JiangWeixian/react-sortable-condition/tree/master/example/src/pages/condition-prod/hook.tsx)
 - see more api in [api-chapter](###api)
 
 **use with umi**, in `.umirc.ts(js)`
