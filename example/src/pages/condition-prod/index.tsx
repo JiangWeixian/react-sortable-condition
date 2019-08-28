@@ -1,5 +1,4 @@
 import React from 'react'
-import { Input } from 'antd'
 
 import { SortableCondition } from 'react-sortable-condition'
 
@@ -33,10 +32,8 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 }
 
 const Condition = () => {
-  console.log(SortableCondition)
   return (
     <div style={{ height: '400px' }}>
-      <Input />
       <SortableCondition
         defaultDataSource={data}
         onChange={v => console.log('change', v)}
@@ -55,14 +52,6 @@ const Condition = () => {
           <TestPattern />
         </SortableCondition.Pattern>
       </SortableCondition>
-      {/* <SortableCondition
-        defaultDataSource={data}
-        onChange={v => console.log('change', v)}
-        onDragState={v => console.log('drag', v)}
-        onVisible={v => console.log('visible', v)}
-        onMoveNode={v => console.log('move', v)}
-        maxDepth={3}
-      /> */}
     </div>
   )
 }
