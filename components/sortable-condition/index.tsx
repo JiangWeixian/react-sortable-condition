@@ -9,7 +9,7 @@ import {
   VisibilityStateData,
   DataItem,
 } from './typings'
-import styles from './style/SortableCondition.styl'
+import styles from './style/SortableCondition.css.json'
 import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
 import { ConfigProvider } from './ConfigContext'
@@ -29,7 +29,7 @@ export type SortableConditionProps<T> = {
   maxDepth?: number
 }
 
-export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
+function Core<T = any>(props: SortableConditionProps<T>) {
   const conditionConfigs = useMemo(() => {
     return extractConditionConfig(props.children)
   }, [props.children])
@@ -100,7 +100,12 @@ export function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   )
 }
 
-export namespace SortableCondition {
-  export const Condition = ConfigCondition
-  export const Pattern = ConfigPattern
+class SortableCondition<T = any> extends React.Component<SortableConditionProps<T>> {
+  static Condition = ConfigCondition
+  static Pattern = ConfigPattern
+  render() {
+    return <Core {...this.props} />
+  }
 }
+
+export default SortableCondition

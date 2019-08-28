@@ -13,7 +13,7 @@
     "antd": "^3.22.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-sortable-condition": "..",
+    "react-sortable-condition": "0.0.3",
     "react-sortable-tree": "^2.6.2"
   },
   "devDependencies": {
