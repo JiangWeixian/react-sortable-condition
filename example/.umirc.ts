@@ -15,7 +15,7 @@ const config: IConfig = {
         dll: false,
 
         routes: {
-          exclude: [/components\//, /condition-dev\//],
+          exclude: [/components\//],
         },
       },
     ],

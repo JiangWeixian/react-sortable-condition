@@ -63,7 +63,6 @@ export const isForbiddenCount = ({
   globalConfigs: GlobalConfigs
 }) => {
   // can't delete root
-  console.log(path, treeData, globalConfigs)
   if ((path && path.length === 1 && path[0] === 0) || treeData.length === 0) {
     // only add icon in root will improve depth
     // cant add node make treeData depper than maxDepath

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react'
+import React, { useCallback, useMemo, useEffect } from 'react'
 import cx from 'classnames'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
@@ -44,7 +44,6 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const { treeData, dispatch } = useDefaultTreeData({
     initialTreeData: props.defaultDataSource,
     treeData: props.dataSource,
-    controlled: !!props.dataSource,
   })
   const handleVisibleChange = useCallback(
     (value: VisibilityStateData) => {
@@ -74,15 +73,12 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     },
     [props.onMoveNode],
   )
-  const handleOnChange = useCallback(
-    (value: ConditionTreeItem[]) => {
-      // do nothing
-      if (props.onChange) {
-        props.onChange(value)
-      }
-    },
-    [props.onChange],
-  )
+  useEffect(() => {
+    // do nothing
+    if (props.onChange) {
+      props.onChange(treeData)
+    }
+  }, [props.onChange, treeData])
   return (
     <ConfigProvider
       configs={{ pattern: patternConfigs, condition: conditionConfigs, global: globalConfigs }}
@@ -93,7 +89,9 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
           onMoveNode={handleMoveNode}
           treeData={props.dataSource || treeData}
           onVisibilityToggle={handleVisibleChange}
-          onChange={handleOnChange}
+          onChange={() => {
+            // do nothing
+          }}
           className={cx(styles.sortableCondition, props.className)}
           maxDepth={props.maxDepth ? props.maxDepth + 1 : props.maxDepth}
         />
