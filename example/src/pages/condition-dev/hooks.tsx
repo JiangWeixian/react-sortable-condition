@@ -33,11 +33,15 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 }
 
 const Condition = () => {
+  const { treeData, dispatch } = SortableCondition.useTreeData({ initialTreeData: data })
   return (
     <div style={{ height: '400px' }}>
       <SortableCondition
-        defaultDataSource={data}
-        onChange={v => console.log('change', v)}
+        dataSource={treeData}
+        onChange={v => {
+          console.log('change', v)
+          dispatch({ type: 'RESET', payload: v })
+        }}
         onDragState={v => console.log('drag', v)}
         onVisible={v => console.log('visible', v)}
         onMoveNode={v => console.log('move', v)}
