@@ -2,31 +2,39 @@ import React, { useContext, useMemo } from 'react'
 import cx from 'classnames'
 import isNull from 'lodash.isnull'
 
-import { NextPath, NormalType, CustomPatternConfigs, PatternItem } from './typings'
-import styles from './style/SortableCondition.css.json'
+import { NextPath, ConditionType, CustomConditionConfigs, ConditionItem } from './typings'
 import { ConfigContext } from './ConfigContext'
+import styles from './style/SortableCondition.css.json'
 import { DataContext } from './DataContext'
 import { isForbiddenConvert, isForbiddenCount } from './utils/rules'
-import './style/css'
 
-type Props<T = any> = {
+export type Props = {
+  type?: ConditionType
   path?: NextPath
-  type: NormalType
-  node: PatternItem
-  patterns?: T
+  node: ConditionItem
 }
 
-export const Pattern = (props: Props) => {
-  const configs = useContext(ConfigContext).pattern
+export const Condition = (props: Props) => {
+  const configs = useContext(ConfigContext).condition
   const globalConfigs = useContext(ConfigContext).global
-  const { dispatch, treeData } = useContext(DataContext)
-  const handleAddPattern = () => {
+  const { treeData, dispatch } = useContext(DataContext)
+  const handleChangeConditionType = () => {
+    const nextType: ConditionType = props.type === 'and' ? 'or' : 'and'
+    dispatch({
+      type: 'CHANGE_TYPE',
+      payload: { path: props.path || [], type: nextType, node: props.node },
+    })
+    if (configs.onType) {
+      configs.onType(props.node, props.path || [], { type: nextType })
+    }
+  }
+  const handleAddCondition = () => {
     dispatch({ type: 'ADD', payload: { path: props.path || [], node: props.node } })
     if (configs.onAdd) {
       configs.onAdd(props.node, props.path || [])
     }
   }
-  const handleDeletePattern = () => {
+  const handleDeleteCondition = () => {
     dispatch({
       type: 'DELETE',
       payload: { path: props.path || [], node: props.node },
@@ -35,7 +43,7 @@ export const Pattern = (props: Props) => {
       configs.onDelete(props.node, props.path || [])
     }
   }
-  const handleConvert = () => {
+  const handleConvertCondition = () => {
     dispatch({
       type: 'CONVERT',
       payload: { path: props.path || [], node: props.node },
@@ -44,18 +52,6 @@ export const Pattern = (props: Props) => {
       configs.onConvert(props.node, props.path || [])
     }
   }
-  const PatterComponent =
-    configs.component && React.isValidElement(configs.component)
-      ? React.cloneElement(configs.component, {
-          patterns: props.patterns,
-          onChange: ({ patterns }: { patterns: any }) => {
-            dispatch({
-              type: 'CHANGE_PATTERN',
-              payload: { path: props.path || [], patterns, node: props.node },
-            })
-          },
-        })
-      : 'this is pattern'
   const isNoConvertIcon =
     useMemo(() => isForbiddenConvert({ treeData, path: props.path, globalConfigs }), [
       treeData,
@@ -69,13 +65,13 @@ export const Pattern = (props: Props) => {
   const isNoAddIcon = countStatus.add || isNull(configs.addIcon)
   const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
-    <div data-role="pattern-item" className={cx(styles.item, configs.className)}>
-      <div data-role="content">
-        <p>{PatterComponent}</p>
+    <div data-role="condition-item" className={cx(configs.className, styles.item)}>
+      <div data-role="content" onClick={handleChangeConditionType}>
+        <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>
         {isNoConvertIcon ? null : (
-          <a data-role="convert-btn" className={styles.btn} onClick={handleConvert}>
+          <a data-role="convert-btn" className={styles.btn} onClick={handleConvertCondition}>
             {configs.convertIcon ? (
               configs.convertIcon
             ) : (
@@ -84,12 +80,12 @@ export const Pattern = (props: Props) => {
           </a>
         )}
         {isNoAddIcon ? null : (
-          <a data-role="add-btn" className={styles.btn} onClick={handleAddPattern}>
+          <a data-role="add-btn" className={styles.btn} onClick={handleAddCondition}>
             {configs.addIcon ? configs.addIcon : <span className={styles.btn_content}>+</span>}
           </a>
         )}
         {isNoDeleteIcon ? null : (
-          <a data-role="delete-btn" className={styles.btn} onClick={handleDeletePattern}>
+          <a data-role="delete-btn" className={styles.btn} onClick={handleDeleteCondition}>
             {configs.deleteIcon ? (
               configs.deleteIcon
             ) : (
@@ -102,10 +98,10 @@ export const Pattern = (props: Props) => {
   )
 }
 
-export type PatternProps<T> = CustomPatternConfigs<T>
+export type ConditionProps<T> = CustomConditionConfigs<T>
 
-export function ConfigPattern<T = any>(props: PatternProps<T>) {
+export function ConfigCondition<T = any>(props: ConditionProps<T>) {
   return <span>{props}</span>
 }
 
-ConfigPattern.displayName = 'Pattern'
+ConfigCondition.displayName = 'Condition'

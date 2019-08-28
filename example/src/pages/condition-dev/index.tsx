@@ -1,4 +1,5 @@
 import React from 'react'
+import { Select } from 'antd'
 
 import SortableCondition from '../../../../components'
 import { DataItem } from '../../../../components/react-sortable-condition/typings'

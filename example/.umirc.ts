@@ -15,8 +15,17 @@ const config: IConfig = {
         dll: false,
 
         routes: {
-          exclude: [/components\//],
+          exclude: [/components\//, /condition-dev\//],
         },
+      },
+    ],
+  ],
+  extraBabelPlugins: [
+    [
+      'import',
+      {
+        libraryName: 'react-sortable-condition',
+        style: 'css',
       },
     ],
   ],
@@ -28,6 +37,7 @@ const config: IConfig = {
     config.resolve.extensions.add('.styl')
     const rule = config.module.rule('stylus').test(/\.styl$/)
     for (let i = 0; i < _use.length; i++) {
+      console.log(use[i])
       rule
         .use(i.toString())
         .loader(_use[i].loader)
