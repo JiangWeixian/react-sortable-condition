@@ -1,7 +1,6 @@
 import React from 'react'
 
 import { SortableCondition } from 'react-sortable-condition'
-import { useTreeData } from 'react-sortable-condition/lib/sortable-condition/useTreeData'
 
 const data: any[] = [
   {
@@ -33,7 +32,7 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 }
 
 const Condition = () => {
-  const { treeData, dispatch } = useTreeData({ initialTreeData: data })
+  const { treeData, dispatch } = SortableCondition.useTreeData({ initialTreeData: data })
   return (
     <div style={{ height: '400px' }}>
       <SortableCondition
