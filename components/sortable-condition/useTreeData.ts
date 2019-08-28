@@ -59,22 +59,15 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
 
 export const useTreeData = <T = any>({
   initialTreeData,
-  controlled = false,
   treeData = [],
 }: {
   initialTreeData?: DataItem<T>[]
   treeData?: ConditionTreeItem[]
-  controlled?: boolean
 }) => {
   const wrappedTreeData = initialTreeData ? wrappTreeData(initialTreeData) : treeData
   const [state, dispatch] = useReducer(DataReducer, wrappedTreeData)
-  const _dispatch = controlled
-    ? (..._arg: any[]) => {
-        // do nothing
-      }
-    : dispatch
   return {
     treeData: state as ConditionTreeItem<T>[],
-    dispatch: _dispatch as React.Dispatch<Action<T>>,
+    dispatch: dispatch,
   }
 }
