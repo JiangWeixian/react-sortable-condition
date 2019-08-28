@@ -1,4 +1,5 @@
 import React, { useCallback, useMemo } from 'react'
+import cx from 'classnames'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
 
@@ -26,6 +27,7 @@ export type SortableConditionProps<T> = {
   children?: React.ReactNode
   dataSource?: ConditionTreeItem<T>[]
   defaultDataSource?: DataItem<T>[]
+  className?: string
   maxDepth?: number
 }
 
@@ -92,7 +94,7 @@ function Core<T = any>(props: SortableConditionProps<T>) {
           treeData={props.dataSource || treeData}
           onVisibilityToggle={handleVisibleChange}
           onChange={handleOnChange}
-          className={styles.sortableCondition}
+          className={cx(styles.sortableCondition, props.className)}
           maxDepth={props.maxDepth ? props.maxDepth + 1 : props.maxDepth}
         />
       </DataProvider>
