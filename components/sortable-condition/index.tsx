@@ -29,6 +29,7 @@ export type SortableConditionProps<T> = {
   defaultDataSource?: DataItem<T>[]
   className?: string
   maxDepth?: number
+  rowHeight?: number
 }
 
 function SortableCondition<T = any>(props: SortableConditionProps<T>) {
@@ -89,6 +90,7 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
           onMoveNode={handleMoveNode}
           treeData={props.dataSource || treeData}
           onVisibilityToggle={handleVisibleChange}
+          rowHeight={props.rowHeight}
           onChange={() => {
             // do nothing
           }}

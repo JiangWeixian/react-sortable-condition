@@ -1,7 +1,9 @@
 import React from 'react'
+import { Input } from 'antd'
 
 import { SortableCondition } from '../../../../components'
 import { DataItem } from '../../../../components/sortable-condition/typings'
+import '../../../../themes/antd.styl'
 
 const data: DataItem[] = [
   {
@@ -35,6 +37,7 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 const Condition = () => {
   return (
     <div style={{ height: '400px' }}>
+      <Input />
       <SortableCondition
         defaultDataSource={data}
         onChange={v => console.log('change', v)}
@@ -42,6 +45,7 @@ const Condition = () => {
         onVisible={v => console.log('visible', v)}
         onMoveNode={v => console.log('move', v)}
         maxDepth={3}
+        rowHeight={100}
       >
         <SortableCondition.Condition
           onAdd={() => console.log('add')}
