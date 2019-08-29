@@ -5,6 +5,7 @@ import {
   FullTree,
   OnMovePreviousAndNextLocation,
   OnVisibilityToggleData,
+  ExtendedNodeData,
 } from 'react-sortable-tree'
 
 export interface ConditionDataItem<T = any> extends TreeItem {
@@ -40,6 +41,11 @@ export interface PatternItem<T = any> extends TreeItem {
 export type ConditionTreeItem<T = any> = ConditionItem<T> | PatternItem<T>
 
 export type Validation = [boolean | undefined, string]
+
+export type CanDragNodeData<T = any> = ExtendedNodeData & {
+  node: ConditionTreeItem<T>
+  parentNode: ConditionItem<T> | null
+}
 
 export type VisibilityStateData<T = any> = OnVisibilityToggleData & {
   treeData: ConditionTreeItem<T>[]

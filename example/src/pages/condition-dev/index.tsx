@@ -37,7 +37,7 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 
 const Condition = () => {
   return (
-    <div style={{ height: '400px' }}>
+    <div style={{ height: '1000px' }}>
       <Input />
       <SortableCondition
         defaultDataSource={data}

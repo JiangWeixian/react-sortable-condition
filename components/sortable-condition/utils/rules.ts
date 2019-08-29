@@ -1,4 +1,4 @@
-import { ConditionTreeItem, NextPath, GlobalConfigs } from '../typings'
+import { ConditionTreeItem, NextPath, GlobalConfigs, CanDragNodeData } from '../typings'
 import { getParentItem } from './getParentItem'
 
 import { getNodeAtPath, getDepth } from 'react-sortable-tree'
@@ -79,4 +79,16 @@ export const isForbiddenCount = ({
   // children can't less than 1
   const forbiddenDelete = parentItem && parentItem.children && parentItem.children.length <= 1
   return { add: false, delete: forbiddenDelete }
+}
+
+export const isCanDrag = (info: CanDragNodeData) => {
+  // only drag item.children > 1
+  if (info.parentNode && info.parentNode.children && info.parentNode.children.length === 1) {
+    return false
+  }
+  return true
+}
+
+export const isCanDrop = (info: any) => {
+  return true
 }

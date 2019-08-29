@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect } from 'react'
+import React, { useCallback, useMemo, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
@@ -19,6 +19,7 @@ import { DataProvider } from './DataContext'
 import { useTreeData as useDefaultTreeData } from './useTreeData'
 import { ConfigCondition } from './Condition'
 import { ConfigPattern } from './Pattern'
+import { isCanDrag } from './utils/rules'
 
 export type SortableConditionProps<T> = {
   onDragState?(value: DragStateData<T>): void
@@ -55,6 +56,8 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     initialTreeData: props.defaultDataSource,
     treeData: props.dataSource,
   })
+  const listRef = useRef()
+  const dragInterval = useRef<NodeJS.Timeout>()
   const handleVisibleChange = useCallback(
     (value: VisibilityStateData) => {
       if (props.onVisible) {
@@ -83,6 +86,23 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     },
     [props.onMoveNode],
   )
+  // bugs fixed refs: https://github.com/frontend-collective/react-sortable-tree/issues/264
+  const handleDragState = (value: DragStateData) => {
+    if (props.onDragState) {
+      props.onDragState(value)
+    }
+    if (listRef.current) {
+      const recompute = () => {
+        ;(listRef.current as any).wrappedInstance.current.recomputeRowHeights()
+      }
+      if (value.isDragging) {
+        dragInterval.current = setInterval(recompute, 250)
+      } else {
+        ;(listRef.current as any).wrappedInstance.current.recomputeRowHeights()
+        dragInterval.current && clearInterval(dragInterval.current)
+      }
+    }
+  }
   useEffect(() => {
     // do nothing
     if (props.onChange) {
@@ -95,11 +115,11 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       if (props.rowHeight) {
         return props.rowHeight
       }
-      if (conditionConfigs.rowHeight && info.node.type !== 'normal') {
-        return conditionConfigs.rowHeight
+      if (info.node.type !== 'normal') {
+        return conditionConfigs.rowHeight || 62
       }
-      if (patternConfigs.rowHeight && info.node.type === 'normal') {
-        return patternConfigs.rowHeight
+      if (info.node.type === 'normal') {
+        return patternConfigs.rowHeight || 62
       }
       return 62
     },
@@ -111,12 +131,20 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     >
       <DataProvider store={{ treeData, dispatch }}>
         <SortableTree
-          onDragStateChanged={props.onDragState}
+          onDragStateChanged={handleDragState}
           onMoveNode={handleMoveNode}
           treeData={props.dataSource || treeData}
           onVisibilityToggle={handleVisibleChange}
           rowHeight={getRowHeight as any}
           scaffoldBlockPxWidth={props.indent}
+          canDrag={isCanDrag}
+          canDrop={v => {
+            return true
+          }}
+          reactVirtualizedListProps={{
+            autoHeight: true,
+            ref: listRef,
+          }}
           style={props.style}
           onChange={() => {
             // do nothing
