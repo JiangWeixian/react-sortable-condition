@@ -88,22 +88,18 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     [props.onMoveNode],
   )
   // bugs fixed refs: https://github.com/frontend-collective/react-sortable-tree/issues/264
-  const handleDragState = (value: DragStateData) => {
-    if (props.onDragState) {
-      props.onDragState(value)
-    }
+  useEffect(() => {
     if (listRef.current) {
       const recompute = () => {
         ;(listRef.current as any).wrappedInstance.current.recomputeRowHeights()
       }
-      if (value.isDragging) {
-        dragInterval.current = setInterval(recompute, 250)
-      } else {
+      dragInterval.current = setInterval(recompute, 250)
+      return () => {
         ;(listRef.current as any).wrappedInstance.current.recomputeRowHeights()
         dragInterval.current && clearInterval(dragInterval.current)
       }
     }
-  }
+  }, [treeData, props.dataSource])
   useEffect(() => {
     // do nothing
     if (props.onChange) {
@@ -132,7 +128,7 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     >
       <DataProvider store={{ treeData, dispatch }}>
         <SortableTree
-          onDragStateChanged={handleDragState}
+          onDragStateChanged={props.onDragState}
           onMoveNode={handleMoveNode}
           treeData={props.dataSource || treeData}
           onVisibilityToggle={handleVisibleChange}
