@@ -42,6 +42,8 @@ export type SortableConditionProps<T> = {
   indent?: number
 }
 
+const defaultRowHeight = 62
+
 function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const conditionConfigs = useMemo(() => {
     return extractConditionConfig(props.children)
@@ -116,12 +118,12 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         return props.rowHeight
       }
       if (info.node.type !== 'normal') {
-        return conditionConfigs.rowHeight || 62
+        return conditionConfigs.rowHeight || defaultRowHeight
       }
       if (info.node.type === 'normal') {
-        return patternConfigs.rowHeight || 62
+        return patternConfigs.rowHeight || defaultRowHeight
       }
-      return 62
+      return defaultRowHeight
     },
     [props.rowHeight, conditionConfigs.rowHeight, patternConfigs.rowHeight],
   )
