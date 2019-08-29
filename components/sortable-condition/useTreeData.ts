@@ -11,7 +11,6 @@ import { getDragTreedata } from './utils/getDragTreedata'
 const DataReducer = (state: ConditionTreeItem[] = [], action: Action): ConditionTreeItem[] => {
   switch (action.type) {
     case 'RESET':
-      console.log('reset', action.payload, state)
       return action.payload
     case 'CHANGE_TYPE':
       return getTypeChangeTreeData({
