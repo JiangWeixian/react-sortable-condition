@@ -19,7 +19,7 @@ import { DataProvider } from './DataContext'
 import { useTreeData as useDefaultTreeData } from './useTreeData'
 import { ConfigCondition } from './Condition'
 import { ConfigPattern } from './Pattern'
-import { isCanDrag } from './utils/rules'
+import { isCanDrag, isCanDrop } from './utils/rules'
 
 export type SortableConditionProps<T> = {
   onDragState?(value: DragStateData<T>): void
@@ -78,8 +78,7 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         type: 'MOVE',
         payload: {
           item: value.node,
-          parentItem: value.nextParentNode,
-          prevPath: value.prevPath,
+          nextParentItem: value.nextParentNode,
           treeData: value.treeData,
           siblingItems: value.nextParentNode ? value.nextParentNode.children : [],
           path: value.nextPath,
@@ -140,9 +139,7 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
           rowHeight={getRowHeight as any}
           scaffoldBlockPxWidth={props.indent}
           canDrag={isCanDrag}
-          canDrop={v => {
-            return true
-          }}
+          canDrop={isCanDrop as any}
           reactVirtualizedListProps={{
             autoHeight: true,
             ref: listRef,
