@@ -29,6 +29,7 @@ export type SortableConditionProps<T> = {
   dataSource?: ConditionTreeItem<T>[]
   defaultDataSource?: DataItem<T>[]
   className?: string
+  style?: React.CSSProperties
   maxDepth?: number
   /**
    * global row height
@@ -116,6 +117,7 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
           onVisibilityToggle={handleVisibleChange}
           rowHeight={getRowHeight as any}
           scaffoldBlockPxWidth={props.indent}
+          style={props.style}
           onChange={() => {
             // do nothing
           }}
