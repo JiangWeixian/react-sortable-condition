@@ -16,7 +16,8 @@
   },
   "files": [
     "es",
-    "lib"
+    "lib",
+    "themes"
   ],
   "typings": "lib/index.d.ts",
   "keywords": [
