@@ -24,6 +24,7 @@ export const extractPatternConfig = (children?: React.ReactNode): PatternConfigs
         config.addIcon = props.addIcon
         config.deleteIcon = props.deleteIcon
         config.convertIcon = props.convertIcon
+        config.rowHeight = props.rowHeight
       }
     }
   })

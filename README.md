@@ -3,9 +3,18 @@
 
 [![npm](https://img.shields.io/npm/v/react-sortable-condition?style=for-the-badge)](https://github.com/JiangWeixian/reactx) [![NPM](https://img.shields.io/npm/l/react-sortable-condition?style=for-the-badge)](https://github.com/JiangWeixian/reactx)
 
+- [react-sortable-condition](#react-sortable-condition)
+    - [Screenshots](#screenshots)
+    - [Install](#install)
+    - [Usage](#usage)
+    - [Data Structure](#data-structure)
+    - [Rules](#rules)
+    - [API](#api)
+    - [Themes](#themes)
+
 ### Screenshots
 
-![sortablecondition](./docs/screenshots/react-sortable-condition.gif)
+![sortablecondition](https://github.com/JiangWeixian/react-sortable-condition/blob/master/docs/screenshots/react-sortable-condition.gif)
 
 ### Install
 
@@ -34,8 +43,8 @@
 </SortableCondition>
 ```
 
-- see real demo in [example](./example/src/pages/condition-prod/index.tsx)
-- see how to work with **react-hooks** in [useTreeData-example](./example/src/pages/condition-prod/hooks.tsx)
+- see real demo in [example](https://github.com/JiangWeixian/react-sortable-condition/tree/master/example/src/pages/condition-prod/index.tsx)
+- see how to work with **react-hooks** in [useTreeData-example](https://github.com/JiangWeixian/react-sortable-condition/tree/master/example/src/pages/condition-prod/hook.tsx)
 - see more api in [api-chapter](###api)
 
 **use with umi**, in `.umirc.ts(js)`
@@ -104,17 +113,18 @@ plugins: [
 
 **Props of Sortablecondition**
 
-| Props<T>          | Usage                                                         | Typo                                  | Default |
-| :---------------- | :------------------------------------------------------------ | :------------------------------------ | :------ |
-| onDragState       | trigger when drag start and end                               | (value: DragStateData<T>): void       |         |
-| onMoveNode        | trigger when moved node                                       | (value: MoveStateData<T>): void       |         |
-| onVisible         | trigger when expaned node                                     | (value: VisibilityStateData<T>): void |         |
-| onChange          | trigger by treeData change behaviours                         | (value: ConditionTreeItem<T>[]): void |         |
-| children          | <Condition /> or <Pattern />                                  |                                       |         |
-| dataSource        | set fullcontrol datasource, generate by **useTreeData hooks** | ConditionTreeItem<T>[]                |         |
-| defaultDataSource | set un-fullcontrol initial datasource                         | DataItem<T>[]                         | []      |
-| maxDepth          | set max-depth of sortable-condition                           | number                                | 3       |
-| className         | set classname of SortableCondition                            | string                                |         |
+| Props<T>          | Usage                                                               | Typo                                  | Default |
+| :---------------- | :------------------------------------------------------------------ | :------------------------------------ | :------ |
+| onDragState       | trigger when drag start and end                                     | (value: DragStateData<T>): void       |         |
+| onMoveNode        | trigger when moved node                                             | (value: MoveStateData<T>): void       |         |
+| onVisible         | trigger when expaned node                                           | (value: VisibilityStateData<T>): void |         |
+| onChange          | trigger by treeData change behaviours                               | (value: ConditionTreeItem<T>[]): void |         |
+| children          | `<Condition />` or `<Pattern />`                                    |                                       |         |
+| dataSource        | set fullcontrol datasource, generate by **useTreeData hooks**       | ConditionTreeItem<T>[]                |         |
+| defaultDataSource | set un-fullcontrol initial datasource                               | DataItem<T>[]                         | []      |
+| maxDepth          | set max-depth of sortable-condition                                 | number                                | 3       |
+| className         | set classname of SortableCondition                                  | string                                |         |
+| rowHeight         | set node rowheight, will overwrite condition and pattern row height | number                                | 62      |
 
 **Props of Sortablecondition.Condition**
 
@@ -125,6 +135,8 @@ plugins: [
 | onType    | trigger when change condition node type             | (node: ConditionItem<T>, path: NextPath) => void |         |
 | onConvert | trigger when convert condition node to pattern node | (node: ConditionItem<T>, path: NextPath) => void |         |
 | className | set classname of Condition                          | string                                           |         |
+| rowHeight | set condition rowheight                             | number                                           | 62      |
+| indent    | set width between line and node                     | number                                           | 44      |
 
 **Props of Sortablecondition.Pattern**
 
@@ -136,6 +148,7 @@ plugins: [
 | onConvert | trigger when convert pattern node to condition node | (node: PatternItem<T>, path: NextPath) => void |                     |
 | className | set classname of Pattern                            | string                                         |                     |
 | children  | set render pattern in Pattern                       | React.ReactNode                                | 'this is a pattern' |
+| rowHeight | set pattern rowheight                               | number                                         | 62                  |
 
 **Note:** Pattern.children see like below, `TestPattern` will get `patterns` from `treeData`
 
@@ -158,7 +171,11 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 | :-------------- | :--------------- | :------------ | :------ |
 | initialTreeData | initial treedata | DataItem<T>[] |         |
 
-| Return<T>       | Useage           | Typo          | Defalut |
-| :-------------- | :--------------- | :------------ | :------ |
-| treeData | datasouce of <SortableCondition /> | ConditionTreeData<T>[] |         |
-| dispatch | the way of how to change treeData, see dispatch [params](./components/sortable-condition/typings/index.tsx) | React.Dispatch |         |
+| Return<T> | Useage                                                                                                                                                                                               | Typo                   | Defalut |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------- | :------ |
+| treeData  | datasouce of `<SortableCondition />`                                                                                                                                                                 | ConditionTreeData<T>[] |         |
+| dispatch  | the way of how to change treeData, see dispatch [params]([./components/sortable-condition/typings/index.tsx](https://github.com/JiangWeixian/react-sortable-condition/blob/themes/themes/antd.styl)) | React.Dispatch         |         |
+
+### Themes
+
+- [antd](https://github.com/JiangWeixian/react-sortable-condition/blob/master/themes/antd.styl) - just import this files

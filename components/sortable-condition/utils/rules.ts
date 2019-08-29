@@ -1,7 +1,14 @@
-import { ConditionTreeItem, NextPath, GlobalConfigs } from '../typings'
+import {
+  ConditionTreeItem,
+  NextPath,
+  GlobalConfigs,
+  CanDragNodeData,
+  CanDropNodeData,
+} from '../typings'
 import { getParentItem } from './getParentItem'
 
 import { getNodeAtPath, getDepth } from 'react-sortable-tree'
+import { isAllNormalItems } from './isAllNormalItems'
 
 export const isMaxDepthForbidden = (
   treeData: ConditionTreeItem[] = [],
@@ -79,4 +86,24 @@ export const isForbiddenCount = ({
   // children can't less than 1
   const forbiddenDelete = parentItem && parentItem.children && parentItem.children.length <= 1
   return { add: false, delete: forbiddenDelete }
+}
+
+export const isCanDrag = (info: CanDragNodeData) => {
+  // only drag item.children > 1
+  if (info.parentNode && info.parentNode.children && info.parentNode.children.length === 1) {
+    return false
+  }
+  return true
+}
+
+export const isCanDrop = (data: CanDropNodeData) => {
+  // can't drop node into parentitem
+  if (data.nextParent && data.nextParent.type === 'normal') {
+    return false
+  }
+  // can't spread condition.all-condition-chidlren
+  if (data.node.type !== 'normal' && data.node.children && !isAllNormalItems(data.node.children)) {
+    return false
+  }
+  return true
 }

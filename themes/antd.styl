@@ -1,0 +1,53 @@
+:global
+  .SortableCondition_sortableCondition
+    // reset font-family 
+    font-family -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'
+    color rgba(0,0,0,0.65)
+    [data-role='content']
+      font-weight 400
+      p
+        padding 0px
+        margin 0px
+    .rst__expandButton:focus
+    .rst__collapseButton:focus
+      box-shadow 0 0 0 2px rgba(0, 0, 0, 0.15)
+    .rst__expandButton:hover:not(:active)
+    .rst__collapseButton:hover:not(:active)
+      background-size auto
+      width 14px 
+      height 14px
+    .rst__expandButton
+    .rst__collapseButton
+      width 14px
+      height 14px
+      border-radius 0px
+      box-shadow 0 0 0 2px rgba(0, 0, 0, 0.15)
+      color rgba(0, 0, 0, 0.15)
+      border-color rgba(0, 0, 0, 0.15)
+      outline-color rgb(217, 217, 217)
+    .rst__lineChildren::after
+    .rst__lineBlock::after
+    .rst__lineBlock::before
+      background-color rgba(0, 0, 0, 0.15)
+    // antd
+    .rst__moveHandle
+    .rst__rowContents
+      box-shadow 0 2px 8px rgba(0, 0, 0, 0.15)
+      border-color rgb(217, 217, 217)
+
+    [data-role='btns']
+      transition opacity 0.15s cubic-bezier(0.645, 0.045, 0.355, 1)
+
+    .SortableCondition_btn_content
+      width 21px
+      height 21px
+      border: 2px solid rgba(0, 0, 0, 0.15)
+      border-radius 0px
+      display flex
+      align-items center
+      justify-content center
+      // antd
+      color rgba(0,0,0,0.45)
+      font-weight 400
+      // box-shadow 0 2px 8px rgba(0, 0, 0, 0.15)
+    

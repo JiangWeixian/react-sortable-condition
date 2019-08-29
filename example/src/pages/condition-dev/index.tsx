@@ -1,7 +1,10 @@
 import React from 'react'
+import { Input } from 'antd'
 
 import { SortableCondition } from '../../../../components'
 import { DataItem } from '../../../../components/sortable-condition/typings'
+import '../../../../themes/antd.styl'
+import { PatternSelector } from '@/components/PatternSelectors'
 
 const data: DataItem[] = [
   {
@@ -29,12 +32,13 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
       onChange({ patterns: 2 })
     }
   }
-  return <span onClick={handleClick}>1</span>
+  return <PatternSelector />
 }
 
 const Condition = () => {
   return (
-    <div style={{ height: '400px' }}>
+    <div style={{ height: '1000px' }}>
+      <Input />
       <SortableCondition
         defaultDataSource={data}
         onChange={v => console.log('change', v)}
@@ -49,7 +53,7 @@ const Condition = () => {
           // addIcon={<Icon type="plus-circle" />}
           // deleteIcon={<Icon type="close-circle" />}
         />
-        <SortableCondition.Pattern>
+        <SortableCondition.Pattern rowHeight={120}>
           <TestPattern />
         </SortableCondition.Pattern>
       </SortableCondition>

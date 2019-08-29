@@ -13,6 +13,7 @@
     "promise-must-complete": false,
     "no-use-before-declare": false,
     "no-namespace": false,
+    "no-console": true,
     "jsx-key": false
   }
 }

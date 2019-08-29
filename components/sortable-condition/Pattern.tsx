@@ -69,9 +69,7 @@ export const Pattern = (props: Props) => {
   const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
     <div data-role="pattern-item" className={cx(styles.item, configs.className)}>
-      <div data-role="content">
-        <p>{PatterComponent}</p>
-      </div>
+      <div data-role="content">{PatterComponent}</div>
       <div data-role="btns" className={styles.btns}>
         {isNoConvertIcon ? null : (
           <a data-role="convert-btn" className={styles.btn} onClick={handleConvert}>

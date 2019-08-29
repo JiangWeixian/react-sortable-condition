@@ -48,10 +48,7 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
     case 'CHANGE_VISIABLE':
       return action.payload
     case 'MOVE':
-      return getDragTreedata({
-        ...action.payload,
-        prevTreeData: state,
-      })
+      return getDragTreedata(action.payload)
     default:
       return state
   }
