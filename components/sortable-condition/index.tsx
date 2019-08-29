@@ -9,6 +9,7 @@ import {
   ConditionTreeItem,
   VisibilityStateData,
   DataItem,
+  RowInfo,
 } from './typings'
 import styles from './style/SortableCondition.css.json'
 import { extractConditionConfig } from './utils/extractConditionConfig'
@@ -80,6 +81,22 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       props.onChange(treeData)
     }
   }, [props.onChange, treeData])
+  // get row height
+  const getRowHeight = useCallback(
+    (info: RowInfo) => {
+      if (props.rowHeight) {
+        return props.rowHeight
+      }
+      if (conditionConfigs.rowHeight && info.node.type !== 'normal') {
+        return conditionConfigs.rowHeight
+      }
+      if (patternConfigs.rowHeight && info.node.type === 'normal') {
+        return patternConfigs.rowHeight
+      }
+      return 62
+    },
+    [props.rowHeight, conditionConfigs.rowHeight, patternConfigs.rowHeight],
+  )
   return (
     <ConfigProvider
       configs={{ pattern: patternConfigs, condition: conditionConfigs, global: globalConfigs }}
@@ -90,7 +107,7 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
           onMoveNode={handleMoveNode}
           treeData={props.dataSource || treeData}
           onVisibilityToggle={handleVisibleChange}
-          rowHeight={props.rowHeight}
+          rowHeight={getRowHeight as any}
           onChange={() => {
             // do nothing
           }}

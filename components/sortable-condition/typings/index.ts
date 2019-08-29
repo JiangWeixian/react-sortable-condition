@@ -97,6 +97,7 @@ export type CustomConditionConfigs<T = any> = {
   onType?: ConditionTypeChangeCallback<T>
   onConvert?: ConditionConvertCallback<T>
   className?: string
+  rowHeight?: number
 } & IconSets
 
 export type ConditionConfigs = CustomConditionConfigs
@@ -107,6 +108,7 @@ export type CustomPatternConfigs<T = any> = {
   onConvert?: PatternConvertCallback<T>
   children?: React.ReactNode
   className?: string
+  rowHeight?: number
 } & IconSets
 
 export type PatternConfigs = CustomPatternConfigs & {
@@ -121,6 +123,13 @@ export type Configs = {
   global: GlobalConfigs
   pattern: PatternConfigs
   condition: ConditionConfigs
+}
+
+export type RowInfo = {
+  index: number
+  node: ConditionTreeItem
+  path: NextPath
+  treeIndex: number
 }
 
 export type Action<T = any> =

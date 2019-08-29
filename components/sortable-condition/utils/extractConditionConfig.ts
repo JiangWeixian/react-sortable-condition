@@ -22,6 +22,7 @@ export const extractConditionConfig = (children?: React.ReactNode): CustomCondit
         config.addIcon = props.addIcon
         config.deleteIcon = props.deleteIcon
         config.convertIcon = props.convertIcon
+        config.rowHeight = props.rowHeight
       }
     }
   })
