@@ -3,6 +3,15 @@
 
 [![npm](https://img.shields.io/npm/v/react-sortable-condition?style=for-the-badge)](https://github.com/JiangWeixian/reactx) [![NPM](https://img.shields.io/npm/l/react-sortable-condition?style=for-the-badge)](https://github.com/JiangWeixian/reactx)
 
+- [react-sortable-condition](#react-sortable-condition)
+    - [Screenshots](#screenshots)
+    - [Install](#install)
+    - [Usage](#usage)
+    - [Data Structure](#data-structure)
+    - [Rules](#rules)
+    - [API](#api)
+    - [Themes](#themes)
+
 ### Screenshots
 
 ![sortablecondition](https://github.com/JiangWeixian/react-sortable-condition/blob/master/docs/screenshots/react-sortable-condition.gif)
@@ -162,7 +171,11 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 | :-------------- | :--------------- | :------------ | :------ |
 | initialTreeData | initial treedata | DataItem<T>[] |         |
 
-| Return<T> | Useage                                                                                                      | Typo                   | Defalut |
-| :-------- | :---------------------------------------------------------------------------------------------------------- | :--------------------- | :------ |
-| treeData  | datasouce of `<SortableCondition />`                                                                        | ConditionTreeData<T>[] |         |
-| dispatch  | the way of how to change treeData, see dispatch [params](./components/sortable-condition/typings/index.tsx) | React.Dispatch         |         |
+| Return<T> | Useage                                                                                                                                                                                               | Typo                   | Defalut |
+| :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------- | :------ |
+| treeData  | datasouce of `<SortableCondition />`                                                                                                                                                                 | ConditionTreeData<T>[] |         |
+| dispatch  | the way of how to change treeData, see dispatch [params]([./components/sortable-condition/typings/index.tsx](https://github.com/JiangWeixian/react-sortable-condition/blob/themes/themes/antd.styl)) | React.Dispatch         |         |
+
+### Themes
+
+- [antd](https://github.com/JiangWeixian/react-sortable-condition/blob/master/themes/antd.styl) - just import this files
