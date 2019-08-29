@@ -13,6 +13,9 @@
 .SortableCondition_item:hover .SortableCondition_btns {
   opacity: 1;
 }
+.SortableCondition_content {
+  width: 100%;
+}
 .SortableCondition_btns {
   position: absolute;
   right: 0px;

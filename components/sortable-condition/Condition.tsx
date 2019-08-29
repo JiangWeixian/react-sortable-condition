@@ -66,7 +66,7 @@ export const Condition = (props: Props) => {
   const isNoDeleteIcon = countStatus.delete || isNull(configs.deleteIcon)
   return (
     <div data-role="condition-item" className={cx(configs.className, styles.item)}>
-      <div data-role="content" onClick={handleChangeConditionType}>
+      <div data-role="content" className={styles.content} onClick={handleChangeConditionType}>
         <p>{props.type}</p>
       </div>
       <div data-role="btns" className={styles.btns}>

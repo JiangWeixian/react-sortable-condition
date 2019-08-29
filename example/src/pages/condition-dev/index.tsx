@@ -45,7 +45,6 @@ const Condition = () => {
         onVisible={v => console.log('visible', v)}
         onMoveNode={v => console.log('move', v)}
         maxDepth={3}
-        rowHeight={100}
       >
         <SortableCondition.Condition
           onAdd={() => console.log('add')}
