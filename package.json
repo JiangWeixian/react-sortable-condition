@@ -1,6 +1,6 @@
 {
   "name": "react-sortable-condition",
-  "version": "0.1.0",
+  "version": "0.2.2",
   "description": "a sortable condition tree",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -16,7 +16,8 @@
   },
   "files": [
     "es",
-    "lib"
+    "lib",
+    "themes"
   ],
   "typings": "lib/index.d.ts",
   "keywords": [

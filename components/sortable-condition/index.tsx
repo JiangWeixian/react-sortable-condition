@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useEffect } from 'react'
+import React, { useCallback, useMemo, useEffect, useRef } from 'react'
 import cx from 'classnames'
 import SortableTree from 'react-sortable-tree'
 import 'react-sortable-tree/style.css' // This only needs to be imported once in your app
@@ -9,6 +9,7 @@ import {
   ConditionTreeItem,
   VisibilityStateData,
   DataItem,
+  RowInfo,
 } from './typings'
 import styles from './style/SortableCondition.css.json'
 import { extractConditionConfig } from './utils/extractConditionConfig'
@@ -18,6 +19,7 @@ import { DataProvider } from './DataContext'
 import { useTreeData as useDefaultTreeData } from './useTreeData'
 import { ConfigCondition } from './Condition'
 import { ConfigPattern } from './Pattern'
+import { isCanDrag, isCanDrop } from './utils/rules'
 
 export type SortableConditionProps<T> = {
   onDragState?(value: DragStateData<T>): void
@@ -28,8 +30,19 @@ export type SortableConditionProps<T> = {
   dataSource?: ConditionTreeItem<T>[]
   defaultDataSource?: DataItem<T>[]
   className?: string
+  style?: React.CSSProperties
   maxDepth?: number
+  /**
+   * global row height
+   */
+  rowHeight?: number
+  /**
+   * width of line between item
+   */
+  indent?: number
 }
+
+const defaultRowHeight = 62
 
 function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const conditionConfigs = useMemo(() => {
@@ -45,6 +58,8 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     initialTreeData: props.defaultDataSource,
     treeData: props.dataSource,
   })
+  const listRef = useRef()
+  const dragInterval = useRef<NodeJS.Timeout>()
   const handleVisibleChange = useCallback(
     (value: VisibilityStateData) => {
       if (props.onVisible) {
@@ -63,8 +78,7 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
         type: 'MOVE',
         payload: {
           item: value.node,
-          parentItem: value.nextParentNode,
-          prevPath: value.prevPath,
+          nextParentItem: value.nextParentNode,
           treeData: value.treeData,
           siblingItems: value.nextParentNode ? value.nextParentNode.children : [],
           path: value.nextPath,
@@ -73,12 +87,41 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     },
     [props.onMoveNode],
   )
+  // bugs fixed refs: https://github.com/frontend-collective/react-sortable-tree/issues/264
+  useEffect(() => {
+    if (listRef.current) {
+      const recompute = () => {
+        ;(listRef.current as any).wrappedInstance.current.recomputeRowHeights()
+      }
+      dragInterval.current = setInterval(recompute, 250)
+      return () => {
+        ;(listRef.current as any).wrappedInstance.current.recomputeRowHeights()
+        dragInterval.current && clearInterval(dragInterval.current)
+      }
+    }
+  }, [treeData, props.dataSource])
   useEffect(() => {
     // do nothing
     if (props.onChange) {
       props.onChange(treeData)
     }
   }, [props.onChange, treeData])
+  // get row height
+  const getRowHeight = useCallback(
+    (info: RowInfo) => {
+      if (props.rowHeight) {
+        return props.rowHeight
+      }
+      if (info.node.type !== 'normal') {
+        return conditionConfigs.rowHeight || defaultRowHeight
+      }
+      if (info.node.type === 'normal') {
+        return patternConfigs.rowHeight || defaultRowHeight
+      }
+      return defaultRowHeight
+    },
+    [props.rowHeight, conditionConfigs.rowHeight, patternConfigs.rowHeight],
+  )
   return (
     <ConfigProvider
       configs={{ pattern: patternConfigs, condition: conditionConfigs, global: globalConfigs }}
@@ -89,6 +132,15 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
           onMoveNode={handleMoveNode}
           treeData={props.dataSource || treeData}
           onVisibilityToggle={handleVisibleChange}
+          rowHeight={getRowHeight as any}
+          scaffoldBlockPxWidth={props.indent}
+          canDrag={isCanDrag}
+          canDrop={isCanDrop as any}
+          reactVirtualizedListProps={{
+            autoHeight: true,
+            ref: listRef,
+          }}
+          style={props.style}
           onChange={() => {
             // do nothing
           }}

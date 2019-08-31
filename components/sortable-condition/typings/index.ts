@@ -5,6 +5,8 @@ import {
   FullTree,
   OnMovePreviousAndNextLocation,
   OnVisibilityToggleData,
+  ExtendedNodeData,
+  OnDragPreviousAndNextLocation,
 } from 'react-sortable-tree'
 
 export interface ConditionDataItem<T = any> extends TreeItem {
@@ -40,6 +42,19 @@ export interface PatternItem<T = any> extends TreeItem {
 export type ConditionTreeItem<T = any> = ConditionItem<T> | PatternItem<T>
 
 export type Validation = [boolean | undefined, string]
+
+export type CanDragNodeData<T = any> = ExtendedNodeData & {
+  node: ConditionTreeItem<T>
+  parentNode: ConditionItem<T> | null
+}
+
+export type CanDropNodeData<T = any> = OnDragPreviousAndNextLocation & {
+  prevParent: ConditionItem<T> | null
+  nextParent: ConditionTreeItem<T> | null
+  prevPath: NextPath
+  nextPath: NextPath
+  node: ConditionTreeItem
+}
 
 export type VisibilityStateData<T = any> = OnVisibilityToggleData & {
   treeData: ConditionTreeItem<T>[]
@@ -97,6 +112,7 @@ export type CustomConditionConfigs<T = any> = {
   onType?: ConditionTypeChangeCallback<T>
   onConvert?: ConditionConvertCallback<T>
   className?: string
+  rowHeight?: number
 } & IconSets
 
 export type ConditionConfigs = CustomConditionConfigs
@@ -107,6 +123,7 @@ export type CustomPatternConfigs<T = any> = {
   onConvert?: PatternConvertCallback<T>
   children?: React.ReactNode
   className?: string
+  rowHeight?: number
 } & IconSets
 
 export type PatternConfigs = CustomPatternConfigs & {
@@ -121,6 +138,13 @@ export type Configs = {
   global: GlobalConfigs
   pattern: PatternConfigs
   condition: ConditionConfigs
+}
+
+export type RowInfo = {
+  index: number
+  node: ConditionTreeItem
+  path: NextPath
+  treeIndex: number
 }
 
 export type Action<T = any> =
@@ -147,8 +171,7 @@ export type Action<T = any> =
       type: 'MOVE'
       payload: {
         item: ConditionTreeItem<T>
-        prevPath?: NextPath
-        parentItem: ConditionTreeItem<T> | null
+        nextParentItem: ConditionTreeItem<T> | null
         treeData?: ConditionTreeItem<T>[]
         siblingItems?: ConditionTreeItem<T>[]
         path?: NextPath

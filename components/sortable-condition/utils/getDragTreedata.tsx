@@ -6,48 +6,20 @@ import { Condition } from '../Condition'
 import { isAllNormalItems } from './isAllNormalItems'
 import { isAllConditionItems } from './isAllConditionItems'
 import { insertItems } from './insertItems'
-import { getParentItem } from './getParentItem'
-
-const isForbiddenDrag = (
-  parentItem: ConditionTreeItem<any> | null,
-  prevTreeData: ConditionTreeItem[],
-  prevPath: NextPath = [],
-): boolean => {
-  if (!parentItem) {
-    return true
-  }
-  // normal item children must be empty
-  if (parentItem.type === 'normal') {
-    return true
-  }
-  // item.children should >= 1
-  const prevParentItem = getParentItem(prevTreeData, prevPath)
-  if (prevParentItem && prevParentItem.children && prevParentItem.children.length === 1) {
-    return true
-  }
-  return false
-}
 
 export const getDragTreedata = ({
   item,
-  parentItem,
-  prevTreeData = [],
+  nextParentItem,
   treeData = [],
   siblingItems = [],
   path = [],
-  prevPath = [],
 }: {
   item: ConditionTreeItem
-  parentItem: ConditionTreeItem | null
-  prevPath?: NextPath
-  prevTreeData: ConditionTreeItem[]
+  nextParentItem: ConditionTreeItem | null
   treeData?: ConditionTreeItem[]
   siblingItems?: ConditionTreeItem[]
   path?: NextPath
 }): ConditionTreeItem[] => {
-  if (isForbiddenDrag(parentItem, prevTreeData, prevPath)) {
-    return prevTreeData
-  }
   if (item.type === 'normal') {
     if (isAllNormalItems(siblingItems)) {
       return treeData
@@ -69,18 +41,16 @@ export const getDragTreedata = ({
     if (isAllConditionItems(siblingItems)) {
       return treeData
     }
-    if (!isAllNormalItems(item.children)) {
-      return prevTreeData
-    }
-    if (!parentItem) {
+    if (!nextParentItem) {
       return treeData
     }
+    // spreed condition.children
     return insertItems({
       treeData,
       path,
       siblingItems,
       items: item.children,
-      parentItem,
+      parentItem: nextParentItem,
       needReplaced: true,
     })
   }

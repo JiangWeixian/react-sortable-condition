@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { SortableCondition } from 'react-sortable-condition'
+import 'react-sortable-condition/themes/antd.styl'
 
 const data: any[] = [
   {
