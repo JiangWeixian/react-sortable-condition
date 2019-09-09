@@ -23,7 +23,6 @@ export const getCountTreeData = ({
   item?: ConditionTreeItem
   type?: 'add' | 'delete'
 }) => {
-  console.log(treeData, path, item, type)
   const parentItem = getParentItem(treeData, path)
   // handle click root item
   if (!parentItem) {

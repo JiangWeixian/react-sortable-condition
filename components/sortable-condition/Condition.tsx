@@ -15,7 +15,6 @@ export type Props = {
 }
 
 export const Condition = (props: Props) => {
-  console.log('Condition', props)
   const configs = useContext(ConfigContext).condition
   const globalConfigs = useContext(ConfigContext).global
   const { treeData, dispatch } = useContext(DataContext)
