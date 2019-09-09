@@ -14,6 +14,7 @@ export const isMaxDepthForbidden = (
   treeData: ConditionTreeItem[] = [],
   maxDepth?: number,
   path: NextPath = [],
+  actionType: 'convert' | 'count' = 'count',
 ) => {
   if (!maxDepth) {
     return false
@@ -27,7 +28,9 @@ export const isMaxDepthForbidden = (
     return false
   }
   const currentDepth = getDepth(root.node, 0)
-  return path.length > currentDepth && currentDepth >= maxDepth
+  return actionType === 'convert'
+    ? path.length > currentDepth && currentDepth >= maxDepth
+    : currentDepth >= maxDepth
 }
 
 export const isForbiddenConvert = ({
@@ -53,7 +56,7 @@ export const isForbiddenConvert = ({
   if (
     globalConfigs.maxDepth &&
     globalConfigs.maxDepth > 0 &&
-    isMaxDepthForbidden(treeData, globalConfigs.maxDepth - 1, path)
+    isMaxDepthForbidden(treeData, globalConfigs.maxDepth - 1, path, 'convert')
   ) {
     return true
   }
