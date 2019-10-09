@@ -100,7 +100,7 @@
 
 **Props of Sortablecondition.Condition**
 
-| Props<T>  | Useage                                              | Typo                                             | Default |
+| Props<T>  | Usage                                              | Typo                                             | Default |
 | :-------- | :-------------------------------------------------- | :----------------------------------------------- | :------ |
 | onAdd     | trigger when add condition node                     | (node: ConditionItem<T>, path: NextPath) => void |         |
 | onDelete  | trigger when delete condition node                  | (node: ConditionItem<T>, path: NextPath) => void |         |
@@ -112,7 +112,7 @@
 
 **Props of Sortablecondition.Pattern**
 
-| Props<T>  | Useage                                              | Typo                                           | Default             |
+| Props<T>  | Usage                                              | Typo                                           | Default             |
 | :-------- | :-------------------------------------------------- | :--------------------------------------------- | :------------------ |
 | onAdd     | trigger when add pattern node                       | (node: PatternItem<T>, path: NextPath) => void |                     |
 | onDelete  | trigger when delete pattern node                    | (node: PatternItem<T>, path: NextPath) => void |                     |
@@ -137,13 +137,13 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
 }
 ```
 
-**Useage of useTreeData hooks**
+**Usage of useTreeData hooks**
 
-| Params<T>       | Useage           | Typo          | Defalut |
+| Params<T>       | Usage           | Typo          | Defalut |
 | :-------------- | :--------------- | :------------ | :------ |
 | initialTreeData | initial treedata | DataItem<T>[] |         |
 
-| Return<T> | Useage                                                                                                                                                                                               | Typo                   | Defalut |
+| Return<T> | Usage                                                                                                                                                                                               | Typo                   | Defalut |
 | :-------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------- | :------ |
 | treeData  | datasouce of `<SortableCondition />`                                                                                                                                                                 | ConditionTreeData<T>[] |         |
 | dispatch  | the way of how to change treeData, see dispatch [params]([./components/sortable-condition/typings/index.tsx](https://github.com/JiangWeixian/react-sortable-condition/blob/themes/themes/antd.styl)) | React.Dispatch         |         |
