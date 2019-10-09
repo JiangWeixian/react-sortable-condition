@@ -12,6 +12,7 @@ import {
   RowInfo,
 } from './typings'
 import styles from './style/SortableCondition.css.json'
+import './style/SortableCondition.css'
 import { extractConditionConfig } from './utils/extractConditionConfig'
 import { extractPatternConfig } from './utils/extractPatternConfig'
 import { ConfigProvider } from './ConfigContext'
