@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { SortableCondition } from '../../../../components'
-import { DataItem } from '../../../../components/sortable-condition/typings'
+import SortableCondition from '../../../../components'
+import { DataItem } from '../../../../components/typings'
 
 const data: DataItem[] = [
   {
