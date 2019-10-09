@@ -55,9 +55,13 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
   const globalConfigs = {
     maxDepth: props.maxDepth ? props.maxDepth + 1 : props.maxDepth,
   }
+  /**
+   * props.dataSource mirror
+   */
   const { treeData, dispatch } = useDefaultTreeData({
     initialTreeData: props.defaultDataSource,
     treeData: props.dataSource,
+    onChange: props.onChange,
   })
   const listRef = useRef()
   const dragInterval = useRef<NodeJS.Timeout>()
@@ -101,12 +105,6 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
       }
     }
   }, [treeData, props.dataSource])
-  useEffect(() => {
-    // do nothing
-    if (props.onChange) {
-      props.onChange(treeData)
-    }
-  }, [props.onChange, treeData])
   // get row height
   const getRowHeight = useCallback(
     (info: RowInfo) => {
@@ -127,7 +125,7 @@ function SortableCondition<T = any>(props: SortableConditionProps<T>) {
     <ConfigProvider
       configs={{ pattern: patternConfigs, condition: conditionConfigs, global: globalConfigs }}
     >
-      <DataProvider store={{ treeData, dispatch }}>
+      <DataProvider store={{ treeData: props.dataSource || treeData, dispatch }}>
         <SortableTree
           onDragStateChanged={props.onDragState}
           onMoveNode={handleMoveNode}
