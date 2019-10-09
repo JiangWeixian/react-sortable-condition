@@ -20,15 +20,6 @@ const config: IConfig = {
       },
     ],
   ],
-  extraBabelPlugins: [
-    [
-      'import',
-      {
-        libraryName: 'react-sortable-condition',
-        style: 'css',
-      },
-    ],
-  ],
   chainWebpack(config) {
     config.node.set('module', 'empty')
     config.module.rule('exclude').exclude.add(/\.styl/)

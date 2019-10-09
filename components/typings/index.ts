@@ -149,6 +149,7 @@ export type RowInfo = {
 
 export type Action<T = any> =
   | { type: 'RESET'; payload: ConditionTreeItem<T>[] }
+  | { type: 'INIT'; payload: DataItem<T>[] }
   | {
       type: 'CHANGE_TYPE'
       payload: { type: ConditionType; path: NextPath; node: ConditionItem<T> }

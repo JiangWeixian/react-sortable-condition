@@ -47,34 +47,6 @@
 - see how to work with **react-hooks** in [useTreeData-example](https://github.com/JiangWeixian/react-sortable-condition/tree/master/example/src/pages/condition-prod/hook.tsx)
 - see more api in [api-chapter](###api)
 
-**use with umi**, in `.umirc.ts(js)`
-
-```js
-extraBabelPlugins: [
-  [
-    'import',
-    {
-      libraryName: 'react-sortable-condition',
-      style: 'css',
-    },
-  ],
-],
-```
-
-**use with babel-plugin-import**, `in .babelrc`
-
-```js
-plugins: [
-  [
-    'import',
-    {
-      libraryName: 'react-sortable-condition',
-      style: 'css',
-    },
-  ],
-]
-```
-
 ### Data Structure
 
 **condition data structure**

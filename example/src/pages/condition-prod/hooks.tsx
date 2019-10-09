@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { SortableCondition } from 'react-sortable-condition'
+import SortableCondition from 'react-sortable-condition'
 
 const data: any[] = [
   {
