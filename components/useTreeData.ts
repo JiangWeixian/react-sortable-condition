@@ -10,6 +10,8 @@ import { getDragTreedata } from './utils/getDragTreedata'
 
 const DataReducer = (state: ConditionTreeItem[] = [], action: Action): ConditionTreeItem[] => {
   switch (action.type) {
+    case 'INIT':
+      return wrappTreeData(action.payload)
     case 'RESET':
       return action.payload
     case 'CHANGE_TYPE':
@@ -54,17 +56,39 @@ const DataReducer = (state: ConditionTreeItem[] = [], action: Action): Condition
   }
 }
 
+const defaultTreeData: ConditionTreeItem[] = []
+
 export const useTreeData = <T = any>({
   initialTreeData,
-  treeData = [],
+  treeData,
+  onChange,
 }: {
   initialTreeData?: DataItem<T>[]
   treeData?: ConditionTreeItem[]
+  onChange?(value?: ConditionTreeItem[]): void
 }) => {
-  const wrappedTreeData = initialTreeData ? wrappTreeData(initialTreeData) : treeData
+  const wrappedTreeData = initialTreeData
+    ? wrappTreeData(initialTreeData)
+    : treeData || defaultTreeData
   const [state, dispatch] = useReducer(DataReducer, wrappedTreeData)
+  /**
+   * 实际上在`full control mode`下。并且使用`useTreeData`作为数据管理.
+   * `treeData`变化并不会引起`useReducer`重新计算, 自然不会改变`state`.
+   * `<Condition /> and <Pattern />`中使用还是第一次初始化的数据
+   * - `data change`需要通过onChange方法
+   * - 改变的`action`由`dispatch`发起, 数据计算方式保存在`DataReducer`中
+   */
+  const finalDispatch = (({ type, payload }: { type: any; payload: any }) => {
+    if (treeData) {
+      if (onChange) {
+        onChange(DataReducer(treeData, { type, payload }))
+      }
+    } else {
+      dispatch({ type, payload })
+    }
+  }) as React.Dispatch<Action<T>>
   return {
     treeData: state as ConditionTreeItem<T>[],
-    dispatch: dispatch,
+    dispatch: finalDispatch,
   }
 }

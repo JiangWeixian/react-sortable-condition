@@ -1,8 +1,8 @@
 import React from 'react'
 import { Input } from 'antd'
 
-import { SortableCondition } from '../../../../components'
-import { DataItem } from '../../../../components/sortable-condition/typings'
+import SortableCondition from '../../../../components'
+import { DataItem } from '../../../../components/typings'
 import '../../../../themes/antd.styl'
 import { PatternSelector } from '@/components/PatternSelectors'
 
