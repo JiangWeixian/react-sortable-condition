@@ -7,17 +7,7 @@ const data: DataItem[] = [
   {
     type: 'and',
     expanded: true,
-    children: [
-      {
-        type: 'and',
-        children: [{ type: 'normal', patterns: { a: 2 } }],
-      },
-      {
-        type: 'and',
-        expanded: true,
-        children: [{ type: 'normal', patterns: { a: 2 } }, { type: 'normal', patterns: { a: 2 } }],
-      },
-    ],
+    children: [{ type: 'normal', patterns: { a: 2 } }, { type: 'normal', patterns: { a: 2 } }],
   },
 ]
 
@@ -29,7 +19,7 @@ const TestPattern = ({ patterns, onChange }: { patterns?: any; onChange?: Functi
       onChange({ patterns: 2 })
     }
   }
-  return <span onClick={handleClick}>1</span>
+  return <span onClick={handleClick}>{typeof patterns === 'number' ? patterns : 1}</span>
 }
 
 const Condition = () => {
